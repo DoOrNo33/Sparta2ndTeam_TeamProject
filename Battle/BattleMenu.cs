@@ -33,7 +33,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             {
                 currentEnemy.Clear();
                 defeatCount = 0;            // 적 쓰러뜨림 초기화
-                int enemyCount = random.Next(1, 1); //(1, 5)
+                int enemyCount = random.Next(1, 5); //(1, 5)
 
                 for (int i = 1; i <= enemyCount; i++)
                 {

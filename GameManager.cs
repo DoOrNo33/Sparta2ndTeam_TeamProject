@@ -35,88 +35,86 @@ namespace Sparta2ndTeam_TeamProject
         {
             // 스타트 하면서 생성할 클래스 모음 - 아이템, 캐릭터
 
-            // 병합할 때 지우기
-            player = new Player("Jack", 1, 1, 10, 5, 100, 1500);
 
         }
-        //public void SaveData()
-        //{
-        //    Console.Clear();
-        //    Console.ForegroundColor = ConsoleColor.Cyan;
-        //    Console.WriteLine("=============================================================================");
-        //    Console.WriteLine("                         플레이어 데이터 저장 중...!                         ");
-        //    Console.WriteLine("=============================================================================");
-        //    Console.ResetColor();
-        //    Thread.Sleep(300);
+        public void SaveData()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("=============================================================================");
+            Console.WriteLine("                         플레이어 데이터 저장 중...!                         ");
+            Console.WriteLine("=============================================================================");
+            Console.ResetColor();
+            Thread.Sleep(300);
 
-        //    string playerDataName = "playerStatData.json";
-        //    // 데이터 경로 저장. (C드라이브, Documents)
-        //    string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        //    string playerDataPath = Path.Combine(path, playerDataName);
+            string playerDataName = "playerStatData.json";
+            // 데이터 경로 저장. (C드라이브, Documents)
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string playerDataPath = Path.Combine(path, playerDataName);
 
-        //    string playerJson = JsonConvert.SerializeObject(player, Formatting.Indented);
+            string playerJson = JsonConvert.SerializeObject(player, Formatting.Indented);
 
-        //    File.WriteAllText(playerDataPath, playerJson);
+            File.WriteAllText(playerDataPath, playerJson);
 
-        //    Console.WriteLine("=============================================================================");
-        //    Console.WriteLine("                플레이어 데이터를 성공적으로 저장하였습니다!                 ");
-        //    Console.WriteLine("=============================================================================");
-        //    Console.ReadKey();
+            Console.WriteLine("=============================================================================");
+            Console.WriteLine("                플레이어 데이터를 성공적으로 저장하였습니다!                 ");
+            Console.WriteLine("=============================================================================");
+            Console.ReadKey();
 
-        //}
-        //public void LoadData()
-        //{
-        //    Console.Clear();
-        //    string playerDataName = "playerStatData.json";
+        }
+        public void LoadData()
+        {
+            Console.Clear();
+            string playerDataName = "playerStatData.json";
 
-        //    // C 드라이브 - MyDocuments 폴더
-        //    string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        //    string playerDataPath = Path.Combine(path, playerDataName);
+            // C 드라이브 - MyDocuments 폴더
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string playerDataPath = Path.Combine(path, playerDataName);
 
-        //    if (File.Exists(playerDataPath)) // 데이터 존재
-        //    {
-        //        string playerJson = File.ReadAllText(playerDataPath);
-        //        player = JsonConvert.DeserializeObject<Player>(playerJson);
-        //        Console.ForegroundColor = ConsoleColor.Yellow;
+            if (File.Exists(playerDataPath)) // 데이터 존재
+            {
+                string playerJson = File.ReadAllText(playerDataPath);
+                player = JsonConvert.DeserializeObject<Player>(playerJson);
+                Console.ForegroundColor = ConsoleColor.Yellow;
 
-        //        Console.WriteLine("=============================================================================");
-        //        Console.WriteLine("                 플레이어 데이터를 성공적으로 불러왔습니다!                  ");
-        //        Console.WriteLine("=============================================================================");
-        //        Console.ReadKey();
+                Console.WriteLine("=============================================================================");
+                Console.WriteLine("                 플레이어 데이터를 성공적으로 불러왔습니다!                  ");
+                Console.WriteLine("=============================================================================");
+                Console.ReadKey();
 
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("=============================================================================");
-        //        Console.WriteLine("                     저장된 플레이어 데이터가 없습니다.                      ");
-        //        Console.WriteLine("=============================================================================");
-        //        Console.WriteLine("                     생성할 캐릭터의 이름을 정해주세요.                      ");
-        //        Console.WriteLine("=============================================================================");
+            }
+            else
+            {
+                Console.WriteLine("=============================================================================");
+                Console.WriteLine("                     저장된 플레이어 데이터가 없습니다.                      ");
+                Console.WriteLine("=============================================================================");
+                Console.WriteLine("                     생성할 캐릭터의 이름을 정해주세요.                      ");
+                Console.WriteLine("=============================================================================");
 
-        //        string name = Console.ReadLine();
-        //        int job;
-        //        bool isInt;
-        //        do
-        //        {
+                string name = Console.ReadLine();
+                int job;
+                bool isInt;
+                do
+                {
 
-        //            Console.WriteLine();
-        //            Console.WriteLine("=============================================================================");
-        //            Console.WriteLine("          생성할 캐릭터의 직업을 선택해주세요 (전사 : 1 / 마법사 : 2)        ");
-        //            Console.WriteLine("=============================================================================");
+                    Console.WriteLine();
+                    Console.WriteLine("=============================================================================");
+                    Console.WriteLine("          생성할 캐릭터의 직업을 선택해주세요 (전사 : 1 / 마법사 : 2)        ");
+                    Console.WriteLine("=============================================================================");
 
-        //            isInt = int.TryParse(Console.ReadLine(), out job);
+                    isInt = int.TryParse(Console.ReadLine(), out job);
 
-        //        } while (isInt == false);
+                } while (isInt == false);
 
-        //        player = new Player(name, job, 1, 10, 5, 100, 1500);
-        //        Console.WriteLine();
-        //        Console.WriteLine("=============================================================================");
-        //        Console.WriteLine("                        캐릭터를 생성하고 있습니다..                         ");
-        //        Console.WriteLine("=============================================================================");
-        //        Thread.Sleep(300);
-        //    }
+                player = new Player(name, job, 1, 10, 5, 100, 1500);
+                Console.WriteLine();
+                Console.WriteLine("=============================================================================");
+                Console.WriteLine("                        캐릭터를 생성하고 있습니다..                         ");
+                Console.WriteLine("=============================================================================");
+                Thread.Sleep(300);
+            }
 
-        //}
+        }
 
         public void GameStart()
         {
@@ -124,8 +122,8 @@ namespace Sparta2ndTeam_TeamProject
             // 스타트 화면
             ConsoleUtility.PrintGameHeader();
 
-            //// 세이브 불러오기
-            //LoadData();
+            // 세이브 불러오기
+            LoadData();
 
             MainMenu();
         }
