@@ -116,7 +116,11 @@ namespace Sparta2ndTeam_TeamProject
 
                 } while (isInt == false);
 
-                player = new Player(name, job, 1, 10, 5, 100, 1500);
+                if (job == 1)
+                    player = new Warrior(name);
+                else if (job == 2)
+                    player = new Mage(name);
+
                 Console.WriteLine();
                 Console.WriteLine("=============================================================================");
                 Console.WriteLine("                        캐릭터를 생성하고 있습니다..                         ");
