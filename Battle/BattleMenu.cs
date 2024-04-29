@@ -12,6 +12,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         private bool duringBattle = false;
         int defeatCount = 0;        // 적 쓰러뜨림 확인용
         int startHp = 0;
+        
 
         public BattleMenu()
         {
@@ -34,12 +35,22 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 defeatCount = 0;            // 적 쓰러뜨림 초기화
                 int enemyCount = random.Next(1, 5); //(1, 5)
 
-                for (int i = 1; i <= enemyCount; i++)
+                for (int i = 0; i < enemyCount; i++)
                 {
                     // 어떤 적을 등장시킬 지
                     int id = random.Next(0, 2);
-                    enemies[id].PrintCurrentEnemies();
-                    currentEnemy.Add(enemies[id]);
+                    switch (id)
+                    {
+                        case 0:
+                            Rabbit rab = new Rabbit("토끼", 0, 1, 10, 5);
+                            currentEnemy.Add(rab);
+                            break;
+                        case 1:
+                            rab = new Rabbit("토끼", 0, 2, 20, 5);
+                            currentEnemy.Add(rab);
+                            break;
+                    }
+                    currentEnemy[i].PrintCurrentEnemies();
                 }
             }
             else
