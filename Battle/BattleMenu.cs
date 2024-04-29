@@ -5,36 +5,49 @@ namespace Sparta2ndTeam_TeamProject.Battle
 {
     internal class BattleMenu
     {
-        private List<Enemy> combatEnemy;
+        //private List<Enemy> enemies;
+        private Enemy[] enemies = new Enemy[2];
+        private List<Enemy> currentEnemy;
         Random random;
+        private bool duringBattle = false;
 
         public BattleMenu()
         {
-            combatEnemy = new List<Enemy>();
-            combatEnemy.Add(new("토끼", 0, 1, 10, 5));
+            enemies[0] = new("토끼", 0, 1, 10, 5);
+            enemies[1] = new("늑대", 1, 1, 20, 10);
+            currentEnemy = new();
             random = new Random();
         }
 
         public void Battle()
         {
-            Console.Clear();
-            ConsoleUtility.ShowTitle("■ Battle!! ■");
-
-            int enemyCount = random.Next(1, 5);
             
-            for (int i = 1; i <= enemyCount; i++)
-            {
-                // 어떤 적을 등장시킬 지
-                int enemyId = random.Next(0, 1);
+            Console.Clear();
+            ConsoleUtility.ShowTitle("■ Battle!! ■\n");
 
-                for (int j = 0; j <= enemyId; j++)
+            // 전투 돌입 or 전투 중
+            if (!duringBattle)      
+            {
+                currentEnemy.Clear();          
+                int enemyCount = random.Next(1, 5);
+
+                for (int i = 1; i <= enemyCount; i++)
                 {
-                    // 적 이름 표시 구현(ConsoleUtility)
-                    Console.Write(combatEnemy[j].Lv);
-                    Console.Write(combatEnemy[j].Name);
-                    Console.Write(combatEnemy[j].Hp);
+                    // 어떤 적을 등장시킬 지
+                    int id = random.Next(0, 2);
+                    enemies[id].PrintCurrentEnemies();
+                    currentEnemy.Add(enemies[id]);
                 }
             }
+            else
+            {
+                for (int i = 0; i <= currentEnemy.Count; i++)
+                {
+                    currentEnemy[i].PrintCurrentEnemies();
+                }
+                
+            }
+
             Console.WriteLine("\n\n[내 정보]");
             Console.WriteLine("정보");
             Console.WriteLine("체력");
@@ -54,12 +67,39 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
         private void AttackAction()
         {
-            throw new NotImplementedException();
+            Console.Clear();
+            ConsoleUtility.ShowTitle("■ Battle!! ■\n");
+            for (int i = 0; i < currentEnemy.Count; i++)
+            {
+                currentEnemy[i].PrintCurrentEnemies(true, i + 1);
+            }
+
+            Console.WriteLine("\n\n[내 정보]");
+            Console.WriteLine("정보");
+            Console.WriteLine("체력");
+
+            Console.WriteLine("\n0. 취소"); 
+            Console.WriteLine("\n대상을 선택해주세요.");
+            Console.Write(">>");
+
+            int keyInput = ConsoleUtility.PromptMenuChoice(0, currentEnemy.Count);
+
+            switch (keyInput)
+            {
+                case 0:
+                    duringBattle = true;
+                    Battle();
+                    break;
+                default:
+                    break;
+            }
         }
+
+
 
         private enum BattleAction
         {
-            Attack
+            Attack = 1
         }
     }
 }

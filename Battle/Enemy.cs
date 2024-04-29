@@ -31,5 +31,23 @@ namespace Sparta2ndTeam_TeamProject.Battle
             atk = sAtk;
             dead = sDead;
         }
+
+        public void PrintCurrentEnemies(bool withNumber = false, int idx = 0)
+        {
+            if (withNumber)
+            {
+                Console.Write("{0} ", idx);
+            }
+            Console.Write("Lv.{0} ", Lv);
+            Console.Write("{0} ", Name);
+            if (!Dead)
+            {
+                Console.WriteLine("HP {0}", Hp);
+            }
+            else
+            {
+                Console.WriteLine("Dead");
+            }
+        }
     }
 }
