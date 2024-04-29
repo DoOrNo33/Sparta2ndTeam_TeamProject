@@ -12,7 +12,7 @@ namespace Sparta2ndTeam_TeamProject
                 Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
 
                 ConsoleUtility.PrintTextHighlights("", "[보유 골드]");
-                Console.WriteLine($"{GameManager.player.Gold}\n");
+                Console.WriteLine($"{GameManager.player.Gold} G\n");
 
                 ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
                 for (int i = 0; i < GameManager.items.Count; i++)
@@ -56,8 +56,14 @@ namespace Sparta2ndTeam_TeamProject
         {
             PreviousPage,
             PurchaseMenu,
-            SellItem,
+            SalesMenu,
             WrongCommand = -1,
+        }
+        private enum CurrentShopState
+        {
+            Success,
+            Insufficient,
+            SoldOut,
         }
     }
     
