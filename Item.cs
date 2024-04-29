@@ -16,16 +16,17 @@ namespace Sparta2ndTeam_TeamProject
 
         public int Atk { get; }
         public int Def { get; }
+        public int HP { get; }  
         public int Price { get; }
 
         public bool isEquipped { get; private set; }
         public bool isPurchased { get; private set; }
 
-        public Item(string Name, string Desc, int Atk, int Def, int Price,
+        public Item(string Name, string Desc, int Atk, int Def, int HP, int Price,
             ItemType _type, bool isEquipped = false, bool isPurchased = false)
         {
             this.Name = Name; this.Desc = Desc; this.Atk = Atk;
-            this.Def = Def; this.Price = Price; this._type = _type;
+            this.Def = Def; this.HP = HP; this.Price = Price; this._type = _type;
             this.isEquipped = isEquipped; this.isPurchased = isPurchased;
         }
 
@@ -44,9 +45,9 @@ namespace Sparta2ndTeam_TeamProject
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write("[E] ");
                 Console.ResetColor();
-                Console.Write(ConsoleUtility.PadRightForMixedText(Name, 9));
+                Console.Write(ConsoleUtility.PadRightForMixedText(Name, 17));
             }
-            else Console.Write(ConsoleUtility.PadRightForMixedText(Name, 12));
+            else Console.Write(ConsoleUtility.PadRightForMixedText(Name, 20));
 
             Console.Write(" | ");
 
@@ -64,12 +65,14 @@ namespace Sparta2ndTeam_TeamProject
                     Console.Write(ConsoleUtility.PadRightForMixedText(($"공격력 {_MarkAtk}{Atk}"), 22));
                 if (Def != 0)
                     Console.Write(ConsoleUtility.PadRightForMixedText(($"방어력 {_MarkDef}{Def}"), 22));
+                if (HP != 0)
+                    Console.Write(ConsoleUtility.PadRightForMixedText(($"체  력 +{HP}"), 22));
+
             }
 
             Console.Write(" | ");
-
-            Console.WriteLine(Desc);
-
+            Console.Write(ConsoleUtility.PadRightForMixedText(Desc, 55));
+            //Console.Write(Desc);
         }
 
         internal void ToggleEquipStatus()
