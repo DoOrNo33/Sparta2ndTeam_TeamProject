@@ -1,9 +1,11 @@
 ﻿using System.Numerics;
+using Sparta2ndTeam_TeamProject.Battle;
 
 namespace Sparta2ndTeam_TeamProject
 {
     internal class GameManager
     {
+        BattleMenu battleMenu;
         public GameManager()
         {
             InitializeGame();
@@ -17,7 +19,7 @@ namespace Sparta2ndTeam_TeamProject
             {
                 if (instance == null)
                 {
-                    instance = new GameManager();
+                    instance = new GameManager();                    
                 }
                 return instance;
             }
@@ -49,9 +51,10 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("1. 상태보기");
             Console.WriteLine("2. 인벤토리");
             Console.WriteLine("3. 상점");
+            Console.WriteLine("4. 전투하기");
 
             // 2. 선택한 결과를 검증함
-            Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 3);
+            Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 4);
 
             // 3. 선택한 결과에 따라 보내줌
             switch (choice)
@@ -65,6 +68,13 @@ namespace Sparta2ndTeam_TeamProject
                 case SelectMainMenu.StoreMenu:
                     // 스토어 메뉴 이동
                     break;
+                case SelectMainMenu.BattleMenu:
+                    if (battleMenu == null)
+                    {
+                        battleMenu = new BattleMenu();
+                    }
+                    battleMenu.Battle();
+                    break;
             }
             MainMenu();
         }
@@ -73,7 +83,8 @@ namespace Sparta2ndTeam_TeamProject
         {
             StatusMenu = 1,
             InventoryMenu,
-            StoreMenu
+            StoreMenu,
+            BattleMenu
         }
     }
 }

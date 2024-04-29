@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sparta2ndTeam_TeamProject
+namespace Sparta2ndTeam_TeamProject.Battle
 {
     internal class Enemy
     {
@@ -19,7 +19,17 @@ namespace Sparta2ndTeam_TeamProject
         public int Id { get { return id; } }
         public int Lv { get { return lv; } }
         public int HP { get { return hp; } }
-        public int Atk { get { return atk;  } }
+        public int Atk { get { return atk; } }
         public bool Dead { get { return dead; } }
+
+        public Enemy(string sName, int sId, int sLv, int sHp, int sAtk, bool sDead = false)
+        {
+            name = sName;
+            id = sId;
+            lv = sLv;
+            hp = sHp;
+            atk = sAtk;
+            dead = sDead;
+        }
     }
 }
