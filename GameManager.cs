@@ -28,6 +28,7 @@ namespace Sparta2ndTeam_TeamProject
             }
         }
 
+        static public Player player;
         private void InitializeGame()
         {
             // 스타트 하면서 생성할 클래스 모음 - 아이템, 캐릭터
