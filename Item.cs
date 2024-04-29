@@ -79,5 +79,9 @@ namespace Sparta2ndTeam_TeamProject
         {
             isEquipped = !isEquipped;
         }
+        internal void TogglePurchaseStatus()
+        {
+            isPurchased = !isPurchased;
+        }
     }
 }
