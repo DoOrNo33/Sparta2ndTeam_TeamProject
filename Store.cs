@@ -6,7 +6,6 @@ namespace Sparta2ndTeam_TeamProject
     {
         static int command = 0;
         static CurrentShopState? currentShopState = null;
-
         static public void StoreMenu()
         {
             while (true)
@@ -52,6 +51,9 @@ namespace Sparta2ndTeam_TeamProject
                     case (int)SelectStoreMenu.PurchaseMenu:
                         PurchaseMenu();
                         break;
+                    case (int)SelectStoreMenu.SalesMenu:
+                        SalesMenu();
+                        break;
                     default:
                         break;
                 }
@@ -64,6 +66,7 @@ namespace Sparta2ndTeam_TeamProject
             {
 
                 Console.Clear();
+
                 ConsoleUtility.ShowTitle("< 상점 - 아이템 구매 >");
                 Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
 
@@ -95,13 +98,19 @@ namespace Sparta2ndTeam_TeamProject
                     switch (currentShopState)
                     {
                         case CurrentShopState.Success:
+                            Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine("!! 구매를 완료했습니다. !!");
+                            Console.ResetColor();
                             break;
                         case CurrentShopState.InsufficientGold:
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("!! Gold가 부족합니다 !!");
+                            Console.ResetColor();
                             break;
                         case CurrentShopState.SoldOut:
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("!! 이미 구매한 아이템입니다. !!");
+                            Console.ResetColor();
                             break;
                         default:
                             break;
@@ -113,20 +122,20 @@ namespace Sparta2ndTeam_TeamProject
                 if (command == (int)SelectStoreMenu.WrongCommand)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("\n잘못된 입력입니다.");
+                    Console.Write("잘못된 입력입니다.");
                     Console.ResetColor();
                     Console.WriteLine();
                 }
 
                 command = ConsoleUtility.PromptMenuChoice(0, GameManager.items.Count);
+
                 if (command == 0) return;
                 if (command == (int)SelectStoreMenu.WrongCommand) PurchaseMenu();
 
                 //입력한 숫자가 범위 내에 포함하나,
-                //골드 부족, 이미 판매가 완료 된 아이템에 대한 상태를 파악하는 메서드 
+                //골드 부족, 이미 판매가 완료 된 아이템에 대한 상태를 파악하기 위한 메서드 
                 CheckIsPossibleCommand(command);
             }
-            
         }
 
         private static void CheckIsPossibleCommand(int command)
@@ -153,6 +162,73 @@ namespace Sparta2ndTeam_TeamProject
             else
             {
                 currentShopState = CurrentShopState.SoldOut;
+            }
+        }
+
+        private static void SalesMenu()
+        {
+            while(true)
+            {
+                List<Item> storeItems = new List<Item>();
+
+                Console.Clear();
+                ConsoleUtility.ShowTitle("< 상점 - 아이템 판매>");
+                Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
+
+                ConsoleUtility.PrintTextHighlights("", "[보유 골드]");
+                Console.WriteLine($"{GameManager.player.Gold} G\n");
+
+                ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
+
+                
+                for (int i = 0; i < GameManager.items.Count; i++)
+                {
+                    if (GameManager.items[i].isPurchased)
+                    {
+                        storeItems.Add(GameManager.items[i]);
+                    }
+                }
+
+                if (storeItems.Count > 0)
+                {
+                    for (int i = 0; i < storeItems.Count; i++)
+                    {
+                        storeItems[i].PrintItemStatDesc(true, i + 1);
+                        Console.Write(" | ");
+                        Console.WriteLine($"{(int)Math.Round(0.85 * storeItems[i].Price)} G"); //아이템의 판매 가격을 화면에 표시
+                    }
+                }
+                else
+                    Console.WriteLine("~~ 보유중인 아이템이 없습니다. ~~");
+                
+
+                Console.WriteLine();
+
+                if (command == (int)SelectStoreMenu.WrongCommand)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("잘못된 입력입니다.");
+                    Console.ResetColor();
+                }
+
+                command = ConsoleUtility.PromptMenuChoice(0, storeItems.Count);
+                if (command == 0) return;
+                if (command == -1) SalesMenu();
+
+                foreach(Item item in storeItems)
+                {
+                    if((command-1) == storeItems.IndexOf(item))
+                    {
+                        if(item.isEquipped)
+                            item.ToggleEquipStatus();
+
+                        item.TogglePurchaseStatus();
+                        int refund = (int)Math.Round(0.85 * storeItems[command - 1].Price);
+                        GameManager.player.Gold += refund;
+
+                    }
+                }
+
             }
         }
 
