@@ -14,7 +14,7 @@ namespace Sparta2ndTeam_TeamProject
                 ConsoleUtility.ShowTitle("< 인벤토리 >");
                 Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
 
-                for(int i=0;i<GameManager.items.Count;i++) 
+                for (int i = 0; i < GameManager.items.Count; i++)
                 {
                     //구매가 된 상태의 아이템들을 인벤토리 메뉴에 표기
                     if (GameManager.items[i].isPurchased) { 
@@ -28,7 +28,7 @@ namespace Sparta2ndTeam_TeamProject
 
                 int command = ConsoleUtility.PromptMenuChoice(0, 1);
 
-                switch(command)
+                switch (command)
                 {
                     case (int)SelectInventoryMenu.PreviousPage:
                         return;
@@ -54,6 +54,7 @@ namespace Sparta2ndTeam_TeamProject
             {
                 invenList[i].PrintItemStatDesc(true, i+1);
                 Console.WriteLine();
+                
             }
 
             int command = ConsoleUtility.PromptMenuChoice(0, GameManager.items.Count);
@@ -78,7 +79,7 @@ namespace Sparta2ndTeam_TeamProject
         {
             PreviousPage,
             EquipMenu,
-            WrongCommand=-1,
+            WrongCommand = -1,
         }
     }
 }
