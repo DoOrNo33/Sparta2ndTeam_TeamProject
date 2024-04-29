@@ -8,29 +8,28 @@ namespace Sparta2ndTeam_TeamProject.Battle
         //private List<Enemy> enemies;
         private Enemy[] enemies = new Enemy[2];
         private List<Enemy> currentEnemy;
-        Random random;
+        Random random = new Random();
         private bool duringBattle = false;
         int defeatCount = 0;        // 적 쓰러뜨림 확인용
         int startHp = 0;
 
         public BattleMenu()
         {
-            enemies[0] = new("토끼", 0, 1, 10, 5);
-            enemies[1] = new("늑대", 1, 1, 30, 50);
+            //enemies[0] = new("토끼", 0, 1, 10, 5);
+            //enemies[1] = new("늑대", 1, 1, 30, 50);
             currentEnemy = new();
-            random = new Random();
+            //random = new Random();
         }
 
         public void Battle()
         {
-            startHp = GameManager.player.Hp;
-
             Console.Clear();
             ConsoleUtility.ShowTitle("■ Battle!! ■\n");
 
             // 전투 돌입 or 전투 중
             if (!duringBattle)      
             {
+                startHp = GameManager.player.Hp;
                 currentEnemy.Clear();
                 defeatCount = 0;            // 적 쓰러뜨림 초기화
                 int enemyCount = random.Next(1, 5); //(1, 5)
