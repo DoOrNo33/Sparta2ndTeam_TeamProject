@@ -30,7 +30,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 for (int j = 0; j <= enemyId; j++)
                 {
                     // 적 이름 표시 구현(ConsoleUtility)
-                    Console.WriteLine(combatEnemy[j].Name);
+                    Console.Write(combatEnemy[j].Lv);
+                    Console.Write(combatEnemy[j].Name);
+                    Console.Write(combatEnemy[j].Hp);
                 }
             }
             Console.WriteLine("\n\n[내 정보]");
@@ -44,10 +46,15 @@ namespace Sparta2ndTeam_TeamProject.Battle
             switch ((BattleAction)ConsoleUtility.PromptMenuChoice(1, 1))
             {
                 case BattleAction.Attack:
-                    Console.ReadKey();
+                    AttackAction();
                     break;
             }
 
+        }
+
+        private void AttackAction()
+        {
+            throw new NotImplementedException();
         }
 
         private enum BattleAction
