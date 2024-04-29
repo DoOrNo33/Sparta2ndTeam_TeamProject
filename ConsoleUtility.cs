@@ -32,6 +32,7 @@
                 {
                     return choice;
                 }
+                else return -1;
             }
         }
 
