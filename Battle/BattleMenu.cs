@@ -91,12 +91,20 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     Battle();
                     break;
                 default:
-                    duringBattle = false;
+                    //duringBattle = false; // 전투 끝날때 초기화하는데로 옮겨주자
+                    currentEnemy[i - 1].PlayerAttack();
+                    EnemyPhase();
                     break;
             }
         }
 
+        private void EnemyPhase()
+        {
+            foreach (Enemy enem in currentEnemy)
+            {
 
+            }
+        }
 
         private enum BattleAction
         {

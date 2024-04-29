@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,6 +61,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         {
             Console.Write("Lv.{0} {1} 을(를) 맞췄습니다.", Lv, Name);
             Console.WriteLine("데미지 : {0}", pAtk);
+
             Console.WriteLine("\nLv.{0} {1}", Lv, Name);
 
             int tempHp = hp;
@@ -79,11 +81,45 @@ namespace Sparta2ndTeam_TeamProject.Battle
             Console.WriteLine("\n0. 다음");
             Console.Write("\n>>");
 
-            switch ((PlayerAttackPhase)ConsoleUtility.PromptMenuChoice(0, 0))
+            switch ((PlayerPhase)ConsoleUtility.PromptMenuChoice(0, 0))
             {
-                case PlayerAttackPhase.ToEnemyPhase:
+                case PlayerPhase.ToEnemyPhase:
                     break;
             }
+        }
+
+        public void EnemyAttack()  // 플레이어 이름, 플레이어 체력
+        {
+            //if (플레이어 hp > 0)
+            //{
+
+                Console.WriteLine("\nLv.{0} {1} 의 공격!", Lv, Name);
+                Console.Write("(플레이어 이름) 을(를) 맞췄습니다. ");
+                Console.WriteLine("데미지 : {0}", Atk);
+
+            //int tempHp = 플레이어 hp;
+            //플레이어 hp -= Atk;
+
+            //if (플레이어 hp > 0)   // 플레이어의 남은 hp가 0보다 큰지 작은지
+            //{
+            //    Console.WriteLine("HP {0} -> {1}", tempHp, 플레이어hp);
+            //}
+            //if (플레이어 hp <= 0)
+            //{
+            //    플레이어 hp = 0;
+            //    Console.WriteLine("HP {0} -> {1}", tempHp, hp);
+            //}
+
+            Console.WriteLine("0. 다음");
+            Console.WriteLine("\n 대상을 선택해주세요.");
+            Console.Write(">>");
+
+            switch ((EnemyPhase)ConsoleUtility.PromptMenuChoice(0, 0))
+            {
+                case EnemyPhase.Next:
+                    break;
+            }
+            //}
         }
 
         private void Dead()
@@ -91,9 +127,14 @@ namespace Sparta2ndTeam_TeamProject.Battle
             isDead = true;
         }
 
-        public enum PlayerAttackPhase
+        public enum PlayerPhase
         {
             ToEnemyPhase
+        }
+
+        public enum EnemyPhase
+        {
+            Next
         }
     }
 }
