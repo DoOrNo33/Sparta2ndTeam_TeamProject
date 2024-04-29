@@ -41,7 +41,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
             else
             {
-                for (int i = 0; i <= currentEnemy.Count; i++)
+                for (int i = 0; i < currentEnemy.Count; i++)
                 {
                     currentEnemy[i].PrintCurrentEnemies();
                 }
@@ -91,6 +91,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     Battle();
                     break;
                 default:
+                    duringBattle = false;
                     break;
             }
         }

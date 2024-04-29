@@ -36,7 +36,13 @@ namespace Sparta2ndTeam_TeamProject.Battle
         {
             if (withNumber)
             {
-                Console.Write("{0} ", idx);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write(" {0} ", idx);
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.Write(" - ");
             }
             Console.Write("Lv.{0} ", Lv);
             Console.Write("{0} ", Name);
