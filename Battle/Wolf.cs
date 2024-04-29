@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace Sparta2ndTeam_TeamProject.Battle
 {
-    internal class Rabbit : Enemy
+    internal class Wolf : Enemy
     {
-
-        public Rabbit(string sName, int sId, int sLv, int sHp, int sAtk, bool sIsDead = false)
-            : base(sName, sId, sLv, sHp, sAtk, sIsDead)
+        public Wolf(string sName, int sId, int sLv, int sHp, int sAtk, bool sIsDead = false)
+       : base(sName, sId, sLv, sHp, sAtk, sIsDead)
         {
 
         }
-
     }
 }

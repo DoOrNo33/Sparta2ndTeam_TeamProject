@@ -38,16 +38,16 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 for (int i = 0; i < enemyCount; i++)
                 {
                     // 어떤 적을 등장시킬 지
-                    int id = random.Next(0, 2);
-                    switch (id)
+                    Enum type = (EnemyType)random.Next(0, 2);
+                    switch (type)
                     {
-                        case 0:
+                        case EnemyType.Rabbit:
                             Rabbit rab = new Rabbit("토끼", 0, 1, 10, 5);
                             currentEnemy.Add(rab);
                             break;
-                        case 1:
-                            rab = new Rabbit("토끼", 0, 2, 20, 5);
-                            currentEnemy.Add(rab);
+                        case EnemyType.Wolf:
+                            Wolf wolf = new Wolf("늑대", 1, 1, 20, 10);
+                            currentEnemy.Add(wolf);
                             break;
                     }
                     currentEnemy[i].PrintCurrentEnemies();
@@ -203,6 +203,12 @@ namespace Sparta2ndTeam_TeamProject.Battle
         private enum NextButton
         {
             Press
+        }
+
+        private enum EnemyType
+        {
+            Rabbit,
+            Wolf
         }
     }
 }

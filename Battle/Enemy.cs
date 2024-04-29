@@ -15,6 +15,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         private int hp;
         private int atk;
         private bool isDead;
+        Random random = new Random();
 
         public string Name { get { return name; } }
         public int Id { get { return id; } }
@@ -60,8 +61,10 @@ namespace Sparta2ndTeam_TeamProject.Battle
         public int PlayerAttack()                  // 플레이어 공격 체크
         {
             string pName = GameManager.player.Name;
-            int pAtk = GameManager.player.Atk;
+            int adAtk = (int)Math.Ceiling(GameManager.player.Atk * 0.1f);                                   //보정 공격, 10%의 올림치
+            int pAtk = random.Next((GameManager.player.Atk - adAtk), (GameManager.player.Atk + adAtk + 1)); //보정 공격치
             Console.Clear();
+            Console.WriteLine(pAtk);
             ConsoleUtility.ShowTitle("■ Battle!! ■\n");
             Console.WriteLine("{0} 의 공격!", pName);
             Console.Write("Lv.{0} {1} 을(를) 맞췄습니다.", Lv, Name);
