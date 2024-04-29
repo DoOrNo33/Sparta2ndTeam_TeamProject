@@ -10,26 +10,30 @@ namespace Sparta2ndTeam_TeamProject.Battle
         private List<Enemy> currentEnemy;
         Random random;
         private bool duringBattle = false;
+        int defeatCount = 0;        // 적 쓰러뜨림 확인용
+        int startHp = 0;
 
         public BattleMenu()
         {
             enemies[0] = new("토끼", 0, 1, 10, 5);
-            enemies[1] = new("늑대", 1, 1, 20, 10);
+            enemies[1] = new("늑대", 1, 1, 30, 50);
             currentEnemy = new();
             random = new Random();
         }
 
         public void Battle()
         {
-            
+            startHp = GameManager.player.Hp;
+
             Console.Clear();
             ConsoleUtility.ShowTitle("■ Battle!! ■\n");
 
             // 전투 돌입 or 전투 중
             if (!duringBattle)      
             {
-                currentEnemy.Clear();          
-                int enemyCount = random.Next(1, 5);
+                currentEnemy.Clear();
+                defeatCount = 0;            // 적 쓰러뜨림 초기화
+                int enemyCount = random.Next(1, 1); //(1, 5)
 
                 for (int i = 1; i <= enemyCount; i++)
                 {
@@ -91,14 +95,70 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     Battle();
                     break;
                 default:
-                    //duringBattle = false; // 전투 끝날때 초기화하는데로 옮겨주자
-                    currentEnemy[i - 1].PlayerAttack();
+                    
+                    defeatCount += currentEnemy[keyInput - 1].PlayerAttack();
                     foreach (Enemy enem in currentEnemy)
                     {
+                        if (enem.Hp <= 0)               // 적 체력 0이라면 건너뜀
+                        {
+                            continue;
+                        }
+
                         EnemyPhase(enem);
+
+                        if (GameManager.player.Hp <= 0)     // 플레이어 체력 0이라면 적 페이즈 멈춤
+                        {
+                            break;
+                        }
+
                     }
-                    EnemyPhase();
+                    
+                    if (GameManager.player.Hp <= 0)
+                    {
+                        BattleResult(BattleStatus.Defeat);
+                    }
+                    else if ((defeatCount == currentEnemy.Count) && (GameManager.player.Hp > 0))
+                    {
+                        BattleResult(BattleStatus.Win);
+                    }
+                    else
+                    {
+                        AttackAction();
+                    }
+
                     break;
+            }
+        }
+
+        private void BattleResult(BattleStatus result)
+        {
+            duringBattle = false; // 전투 끝날때 초기화하는데로 옮겨주자
+            if (result == BattleStatus.Defeat)
+            {
+                Console.Clear();
+                ConsoleUtility.ShowTitle("■ Battle!! ■ - Result\n");
+                Console.WriteLine("You Lose\n");
+                Console.WriteLine("Lv.{0}, {1}", GameManager.player.Level, GameManager.player.Name);
+                Console.WriteLine("HP {0} -> 0\n", startHp);
+                Console.WriteLine("0. 다음");
+                Console.Write("\n>>");
+
+                ConsoleUtility.PromptMenuChoice(0, 0);
+                GameManager.Instance.MainMenu();
+            }
+            else
+            {
+                Console.Clear();
+                ConsoleUtility.ShowTitle("■ Battle!! ■ - Result\n");
+                Console.WriteLine("Victory\n");
+                Console.WriteLine("던전에서 몬스터 {0}마리를 잡았습니다.\n", defeatCount);
+                Console.WriteLine("Lv.{0}, {1}", GameManager.player.Level, GameManager.player.Name);
+                Console.WriteLine("HP {0} -> {1}\n", startHp, GameManager.player.Hp);
+                Console.WriteLine("0. 다음");
+                Console.Write("\n>>");
+
+                ConsoleUtility.PromptMenuChoice(0, 0);
+                GameManager.Instance.MainMenu();
             }
         }
 
@@ -112,6 +172,17 @@ namespace Sparta2ndTeam_TeamProject.Battle
         private enum BattleAction
         {
             Attack = 1
+        }
+
+        private enum BattleStatus
+        {
+            Win,
+            Defeat               
+        }
+
+        private enum NextButton
+        {
+            Press
         }
     }
 }
