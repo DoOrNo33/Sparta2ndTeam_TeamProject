@@ -93,17 +93,20 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 default:
                     //duringBattle = false; // 전투 끝날때 초기화하는데로 옮겨주자
                     currentEnemy[i - 1].PlayerAttack();
+                    foreach (Enemy enem in currentEnemy)
+                    {
+                        EnemyPhase(enem);
+                    }
                     EnemyPhase();
                     break;
             }
         }
 
-        private void EnemyPhase()
+        private void EnemyPhase(Enemy enem)
         {
-            foreach (Enemy enem in currentEnemy)
-            {
-
-            }
+            Console.Clear();
+            ConsoleUtility.ShowTitle("■ Battle!! ■\n");
+            enem.EnemyAttack();  // 플레이어 체력, 플레이어 이름
         }
 
         private enum BattleAction

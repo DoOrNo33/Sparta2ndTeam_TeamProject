@@ -90,8 +90,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
         public void EnemyAttack()  // 플레이어 이름, 플레이어 체력
         {
-            //if (플레이어 hp > 0)
+            //if (!isDead && 플레이어 hp > 0)
             //{
+                Console.Clear();
+                ConsoleUtility.ShowTitle("■ Battle!! ■\n");
+
 
                 Console.WriteLine("\nLv.{0} {1} 의 공격!", Lv, Name);
                 Console.Write("(플레이어 이름) 을(를) 맞췄습니다. ");
