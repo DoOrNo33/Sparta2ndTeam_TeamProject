@@ -66,13 +66,21 @@ namespace Sparta2ndTeam_TeamProject.Battle
             Console.WriteLine("정보");
             Console.WriteLine("체력");
 
-            Console.WriteLine("\n1. 공격"); // 스킬, 소모성 아이템 추가 할 수 있음
+            Console.WriteLine("\n1. 평타 사용\n2. 스킬 사용\n3. 아이템 사용"); // 스킬, 소모성 아이템 추가 할 수 있음
             Console.WriteLine("\n원하시는 행동을 입력해주세요.");
             Console.Write(">>");
 
-            switch ((BattleAction)ConsoleUtility.PromptMenuChoice(1, 1))
+            Enum choice = (BattleAction)ConsoleUtility.PromptMenuChoice(1, 3);
+
+            switch (choice)
             {
-                case BattleAction.Attack:
+                case BattleAction.BasicAttack:
+                    AttackAction();
+                    break;
+                case BattleAction.SkillAttack:
+                    AttackAction();
+                    break;
+                case BattleAction.UseItems:
                     AttackAction();
                     break;
             }
@@ -181,7 +189,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
         private enum BattleAction
         {
-            Attack = 1
+            BasicAttack = 1,
+            SkillAttack,
+            UseItems
         }
 
         private enum BattleStatus
