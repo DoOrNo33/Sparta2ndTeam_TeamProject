@@ -4,7 +4,8 @@ namespace Sparta2ndTeam_TeamProject
 {
     internal class Inventory
     {
-        static List<Item> invenList = new List<Item>();
+        static bool isFirst = true;
+        static List<Item> invenItems = new List<Item>();
         internal static void InventoryMenu()
         {
             while (true)
@@ -14,16 +15,28 @@ namespace Sparta2ndTeam_TeamProject
                 ConsoleUtility.ShowTitle("< 인벤토리 >");
                 Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
 
-                for (int i = 0; i < GameManager.items.Count; i++)
+                ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
+
+                if (isFirst)
                 {
-                    //구매가 된 상태의 아이템들을 인벤토리 메뉴에 표기
-                    if (GameManager.items[i].isPurchased) { 
-                        GameManager.items[i].PrintItemStatDesc();
-                        invenList.Add(GameManager.items[i]);
-                        Console.WriteLine();
+                    for (int i = 0; i < GameManager.items.Count; i++)
+                    {
+                        //구매가 된 상태의 아이템들을 새로운 storeItems 리스트에 추가 
+                        if (GameManager.items[i].isPurchased)
+                        {
+                            invenItems.Add(GameManager.items[i]);
+                        }
                     }
+                    isFirst = false;
                 }
 
+                for (int i = 0; i < invenItems.Count; i++)
+                {
+                    invenItems[i].PrintItemStatDesc(true, i + 1);
+                    Console.WriteLine();
+                }
+
+                
                 Console.WriteLine("\n\n1. 장착 관리\n0. 나가기\n");
 
                 int command = ConsoleUtility.PromptMenuChoice(0, 1);
@@ -50,11 +63,11 @@ namespace Sparta2ndTeam_TeamProject
             ConsoleUtility.ShowTitle("< 인벤토리 - 장착 관리 >");
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
 
-            for (int i = 0; i < invenList.Count; i++)
+            for (int i = 0; i < invenItems.Count; i++)
             {
-                invenList[i].PrintItemStatDesc(true, i+1);
+                invenItems[i].PrintItemStatDesc(true, i+1);
                 Console.WriteLine();
-                
+
             }
 
             int command = ConsoleUtility.PromptMenuChoice(0, GameManager.items.Count);
@@ -69,7 +82,7 @@ namespace Sparta2ndTeam_TeamProject
                     Console.ResetColor();
                     break;
                 default:
-                    invenList[command - 1].ToggleEquipStatus();
+                    invenItems[command - 1].ToggleEquipStatus();
                     EquipMenu();
                     break;
             }
