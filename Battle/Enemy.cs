@@ -9,12 +9,12 @@ namespace Sparta2ndTeam_TeamProject.Battle
 {
     internal class Enemy
     {
-        private string name;
-        private int id;
-        private int lv;
-        private int hp;
-        private int atk;
-        private bool isDead;
+        protected string name;
+        protected int id;
+        protected int lv;
+        protected int hp;
+        protected int atk;
+        protected bool isDead = false;
         Random random = new Random();
 
         public string Name { get { return name; } }
@@ -24,14 +24,21 @@ namespace Sparta2ndTeam_TeamProject.Battle
         public int Atk { get { return atk; } }
         public bool IsDead { get { return isDead; } }
 
-        public Enemy(string sName, int sId, int sLv, int sHp, int sAtk, bool sIsDead = false)
+        //public Enemy(string sName, int sId, int sLv, int sHp, int sAtk, bool sIsDead = false)
+        //{
+        //    name = sName;
+        //    id = sId;
+        //    lv = sLv;
+        //    hp = sHp;
+        //    atk = sAtk;
+        //    isDead = sIsDead;
+        //}
+
+        protected virtual void SetLevel()
         {
-            name = sName;
-            id = sId;
-            lv = sLv;
-            hp = sHp;
-            atk = sAtk;
-            isDead = sIsDead;
+            lv += 0;
+            hp += 0;
+            atk += 0;
         }
 
         public void PrintCurrentEnemies(bool withNumber = false, int idx = 0)
@@ -223,5 +230,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         {
             Next
         }
+
+
     }
 }

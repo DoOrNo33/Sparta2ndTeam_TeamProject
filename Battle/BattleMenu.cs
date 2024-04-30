@@ -17,10 +17,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
         public BattleMenu()
         {
-            //enemies[0] = new("토끼", 0, 1, 10, 5);
-            //enemies[1] = new("늑대", 1, 1, 30, 50);
             currentEnemy = new();
-            //random = new Random();   
         }
         
         public void Battle()
@@ -43,11 +40,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     switch (type)
                     {
                         case EnemyType.Rabbit:
-                            Rabbit rab = new Rabbit("토끼", 0, 1, 10, 5);
+                            Rabbit rab = new Rabbit();
                             currentEnemy.Add(rab);
                             break;
                         case EnemyType.Wolf:
-                            Wolf wolf = new Wolf("늑대", 1, 1, 20, 10);
+                            Wolf wolf = new Wolf();
                             currentEnemy.Add(wolf);
                             break;
                     }
