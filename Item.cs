@@ -9,14 +9,14 @@ namespace Sparta2ndTeam_TeamProject
     }
     internal class Item
     {
-        ItemType _type;
+        public ItemType _type;
         string _MarkAtk = "", _MarkDef = "";
         public string Name { get; }
         public string Desc { get; }
 
         public int Atk { get; }
         public int Def { get; }
-        public int HP { get; }  
+        public int HP { get; }
         public int Price { get; }
 
         public bool isEquipped { get; private set; }
