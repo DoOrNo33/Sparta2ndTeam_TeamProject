@@ -34,7 +34,7 @@ namespace Sparta2ndTeam_TeamProject
         {
             string _menuHead = "";
             if (!withNumber) _menuHead = "- ";
-            else _menuHead = $"{idx}. ";
+            else _menuHead = $"{idx:00}. ";
 
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write($"{_menuHead}");

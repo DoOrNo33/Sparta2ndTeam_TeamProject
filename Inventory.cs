@@ -60,6 +60,7 @@ namespace Sparta2ndTeam_TeamProject
 
         private static void EquipMenu()
         {
+            
             Console.Clear();
             ConsoleUtility.ShowTitle("■ 인벤토리 - 장착 관리 ■");
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
@@ -73,12 +74,23 @@ namespace Sparta2ndTeam_TeamProject
             }
 
             Console.WriteLine();
-            if (command == (int)SelectInventoryMenu.WrongCommand)
+
+            switch (command)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("잘못된 입력입니다.");
-                Console.ResetColor();
-                Console.WriteLine();
+                case (int)SelectInventoryMenu.WrongCommand:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("잘못된 입력입니다.");
+                    Console.ResetColor();
+                    Console.WriteLine();
+                    break;
+                case (int)SelectInventoryMenu.TryEquipPotion:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("!! 포션은 장착할 수 없습니다 !!");
+                    Console.ResetColor();
+                    Console.WriteLine();
+                    break;
+                default:
+                    break;
             }
 
             command = ConsoleUtility.PromptMenuChoice(0, invenItems.Count);
@@ -91,7 +103,11 @@ namespace Sparta2ndTeam_TeamProject
                     EquipMenu();
                     break;
                 default:
-                    setEquipItems(command);
+                    if(invenItems[command - 1]._type==ItemType.PORTION)
+                    {
+                        command = (int)SelectInventoryMenu.TryEquipPotion;
+                    }
+                    else setEquipItems(command);
                     EquipMenu();
                     break;
             }
@@ -111,7 +127,7 @@ namespace Sparta2ndTeam_TeamProject
             for (int i = 0; i < invenItems.Count; i++)
             {
                 //현재 착용한 아이템과 타입이 일치하는 아이템이
-                if (i != (command-1) && invenItems[command - 1]._type == invenItems[i]._type)
+                if (i != (command - 1) && invenItems[command - 1]._type == invenItems[i]._type)
                 {
                     //장착 상태라면, 
                     if (invenItems[i].isEquipped)
@@ -133,6 +149,7 @@ namespace Sparta2ndTeam_TeamProject
             PreviousPage,
             EquipMenu,
             WrongCommand = -1,
+            TryEquipPotion = -2,
         }
     }
 }

@@ -18,6 +18,19 @@ namespace Sparta2ndTeam_TeamProject
                 ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
                 for (int i = 0; i < GameManager.items.Count; i++)
                 {
+                    if (i == 0) 
+                    {
+                        ConsoleUtility.PrintTextHighlights("++++ ", GameManager.items[i]._type.ToString(), " ++++");
+                    }
+                    else if (i < GameManager.items.Count - 1)
+                    {
+                        if (GameManager.items[i]._type != GameManager.items[i - 1]._type)
+                        {
+                            ConsoleUtility.PrintTextHighlights("\n++++ ", GameManager.items[i]._type.ToString(), " ++++");
+                        }
+                    }
+                    
+
                     GameManager.items[i].PrintItemStatDesc();
                     //아이템이 아직 구매되지 않은 상태라면, 
                     if (!GameManager.items[i].isPurchased)
@@ -30,6 +43,7 @@ namespace Sparta2ndTeam_TeamProject
                     {
                         ConsoleUtility.PrintTextHighlights(" | ", "판매 완료");
                     }
+
                 }
 
                 Console.WriteLine("\n\n1. 아이템 구매\n2. 아이템 판매\n0. 나가기\n");
@@ -71,7 +85,18 @@ namespace Sparta2ndTeam_TeamProject
 
                 for (int i = 0; i < GameManager.items.Count; i++)
                 {
-                    
+                    if (i == 0)
+                    {
+                        ConsoleUtility.PrintTextHighlights("++++ ", GameManager.items[i]._type.ToString(), " ++++");
+                    }
+                    else if (i < GameManager.items.Count - 1)
+                    {
+                        if (GameManager.items[i]._type != GameManager.items[i - 1]._type)
+                        {
+                            ConsoleUtility.PrintTextHighlights("\n++++ ", GameManager.items[i]._type.ToString(), " ++++");
+                        }
+                    }
+
                     GameManager.items[i].PrintItemStatDesc(true, i + 1);
                     //아이템이 아직 구매되지 않은 상태라면, 
                     if (!GameManager.items[i].isPurchased)
@@ -161,7 +186,8 @@ namespace Sparta2ndTeam_TeamProject
 
         private static void SalesMenu()
         {
-            while(true)
+            bool sellComplete = false;
+            while (true)
             {
                 List<Item> storeItems = new List<Item>();
 
@@ -174,7 +200,7 @@ namespace Sparta2ndTeam_TeamProject
 
                 ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
 
-                
+
                 for (int i = 0; i < GameManager.items.Count; i++)
                 {
                     if (GameManager.items[i].isPurchased)
@@ -194,7 +220,7 @@ namespace Sparta2ndTeam_TeamProject
                 }
                 else
                     Console.WriteLine("~~ 보유중인 아이템이 없습니다. ~~");
-                
+
 
                 Console.WriteLine();
 
@@ -203,6 +229,13 @@ namespace Sparta2ndTeam_TeamProject
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("잘못된 입력입니다.");
                     Console.ResetColor();
+                }
+                if (sellComplete)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("!! 판매를 완료하였습니다. !!");
+                    Console.ResetColor();
+                    sellComplete = false;
                 }
 
                 command = ConsoleUtility.PromptMenuChoice(0, storeItems.Count);
@@ -229,6 +262,7 @@ namespace Sparta2ndTeam_TeamProject
                         int refund = (int)Math.Round(0.85 * storeItems[command - 1].Price);
                         GameManager.player.Gold += refund;
 
+                        sellComplete = true;
                     }
                 }
             }
