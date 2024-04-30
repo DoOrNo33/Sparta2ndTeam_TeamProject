@@ -16,16 +16,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
             hp = 15;
             atk = 10;
 
-            int lowLv = _towerLv - 1;
-            int highLv = _towerLv + 2;
-            if (lowLv < 1)
-            {
-                lowLv = 1;
-            }
-            if (highLv > 6)
-            {
-                highLv = 6;
-            }
+            int lowLv = Math.Max(_towerLv - 1, 1);
+            int highLv = Math.Min(_towerLv + 2, 6);
+
             int enemyLv = random.Next(lowLv, highLv);
 
             for (int i = 0; i < enemyLv; i++)

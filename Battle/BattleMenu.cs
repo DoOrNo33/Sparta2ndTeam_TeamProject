@@ -245,17 +245,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
         private void CreateEnemy()
         {
             // 어떤 적을 등장시킬 지
-            int lowType = towerLv - 4;
-            int highType = towerLv + 1;
-
-            if (lowType < 0)
-            {
-                lowType = 0;
-            }
-            if (highType > 5)
-            {
-                highType = 5;
-            }
+            int lowType = Math.Max(towerLv - 4, 0);
+            int highType = Math.Min(towerLv + 1, 5);
 
             int type = (random.Next(lowType, highType)); // 던전 레벨에 맞는 적 생성
 

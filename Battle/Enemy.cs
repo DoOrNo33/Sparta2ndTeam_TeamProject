@@ -24,15 +24,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
         public int Atk { get { return atk; } }
         public bool IsDead { get { return isDead; } }
 
-        //public Enemy(string sName, int sId, int sLv, int sHp, int sAtk, bool sIsDead = false)
-        //{
-        //    name = sName;
-        //    id = sId;
-        //    lv = sLv;
-        //    hp = sHp;
-        //    atk = sAtk;
-        //    isDead = sIsDead;
-        //}
 
         protected virtual void SetLevel()
         {
