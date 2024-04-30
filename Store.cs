@@ -170,6 +170,11 @@ namespace Sparta2ndTeam_TeamProject
                             GameManager.player.Gold -= GameManager.items[command - 1].Price;
 
                             currentShopState = CurrentShopState.Success;
+
+                            //현재 구매한 아이템의 종류가 포션이라면, 
+                            if (GameManager.items[command - 1]._type == ItemType.PORTION)
+                                //인벤토리에 포션의 수를 추가
+                                Inventory.PortionCnt++;
                         }
                         else
                         {
