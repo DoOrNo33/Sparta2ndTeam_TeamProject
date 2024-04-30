@@ -10,7 +10,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
     {
         public BloodThirster() : base()
         {
-            name = "유혈 갈망자";
+            name = "피의 탐식자";
             id = 8;
             lv = 8;
             hp = 888;
