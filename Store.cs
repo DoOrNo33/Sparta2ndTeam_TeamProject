@@ -29,7 +29,6 @@ namespace Sparta2ndTeam_TeamProject
                             ConsoleUtility.PrintTextHighlights("\n++++ ", GameManager.items[i]._type.ToString(), " ++++");
                         }
                     }
-                    
 
                     GameManager.items[i].PrintItemStatDesc();
                     //아이템이 아직 구매되지 않은 상태라면, 
@@ -48,7 +47,15 @@ namespace Sparta2ndTeam_TeamProject
 
                 Console.WriteLine("\n\n1. 아이템 구매\n2. 아이템 판매\n0. 나가기\n");
 
-                int command = ConsoleUtility.PromptMenuChoice(0, 2);
+                if (command == (int)SelectStoreMenu.WrongCommand)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("잘못된 입력입니다.");
+                    Console.ResetColor();
+                    Console.WriteLine();
+                }
+                command = ConsoleUtility.PromptMenuChoice(0, 2);
+
                 switch (command)
                 {
                     case (int)SelectStoreMenu.PreviousPage:
@@ -148,39 +155,33 @@ namespace Sparta2ndTeam_TeamProject
 
                 command = ConsoleUtility.PromptMenuChoice(0, GameManager.items.Count);
 
-                if (command == 0) return;
-                if (command == (int)SelectStoreMenu.WrongCommand) PurchaseMenu();
-
-                //입력한 숫자가 범위 내에 포함하나,
-                //골드 부족, 이미 판매가 완료 된 아이템에 대한 상태를 파악하기 위한 메서드 
-                CheckPossibleCommand(command, ref currentShopState);
-            }
-        }
-
-        private static void CheckPossibleCommand(int command, ref CurrentShopState? currentShopState)
-        {
-            //해당 아이템이 판매되지 않은 상태이면서,
-            if (!GameManager.items[command - 1].isPurchased)
-            {
-                //현재 소지 금액이 아이템의 판매 금액보다 많다면, 
-                if (GameManager.player.Gold >= GameManager.items[command - 1].Price)
+                if (command == (int)SelectStoreMenu.PreviousPage) return;
+                else if(command != (int) SelectStoreMenu.WrongCommand)
                 {
-                    //현재 아이템의 판매 상태를 true로 변경
-                    GameManager.items[command - 1].TogglePurchaseStatus();
+                    if (!GameManager.items[command - 1].isPurchased)
+                    {
+                        //현재 소지 금액이 아이템의 판매 금액보다 많다면, 
+                        if (GameManager.player.Gold >= GameManager.items[command - 1].Price)
+                        {
+                            //현재 아이템의 판매 상태를 true로 변경
+                            GameManager.items[command - 1].TogglePurchaseStatus();
 
-                    //캐릭터의 소지 금액에서 아이템의 가격만큼 차감
-                    GameManager.player.Gold -= GameManager.items[command - 1].Price;
+                            //캐릭터의 소지 금액에서 아이템의 가격만큼 차감
+                            GameManager.player.Gold -= GameManager.items[command - 1].Price;
 
-                    currentShopState = CurrentShopState.Success;
+                            currentShopState = CurrentShopState.Success;
+                        }
+                        else
+                        {
+                            currentShopState = CurrentShopState.InsufficientGold;
+                        }
+                    }
+                    else
+                    {
+                        currentShopState = CurrentShopState.SoldOut;
+                    }
                 }
-                else
-                {
-                    currentShopState = CurrentShopState.InsufficientGold;
-                }
-            }
-            else
-            {
-                currentShopState = CurrentShopState.SoldOut;
+
             }
         }
 
@@ -227,7 +228,7 @@ namespace Sparta2ndTeam_TeamProject
                 if (command == (int)SelectStoreMenu.WrongCommand)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("잘못된 입력입니다.");
+                    Console.WriteLine("잘못된 입력입니다.");
                     Console.ResetColor();
                 }
                 if (sellComplete)
@@ -239,21 +240,23 @@ namespace Sparta2ndTeam_TeamProject
                 }
 
                 command = ConsoleUtility.PromptMenuChoice(0, storeItems.Count);
+
                 if (command == (int)SelectStoreMenu.PreviousPage) return;
-                if (command == (int)SelectStoreMenu.WrongCommand) SalesMenu();
-
-                foreach(Item item in storeItems)
+                else if (command != (int)SelectStoreMenu.WrongCommand)
                 {
-                    if((command-1) == storeItems.IndexOf(item))
+                    foreach (Item item in storeItems)
                     {
-                        if(item.isEquipped)
-                            item.ToggleEquipStatus();
+                        if ((command - 1) == storeItems.IndexOf(item))
+                        {
+                            if (item.isEquipped)
+                                item.ToggleEquipStatus();
 
-                        item.TogglePurchaseStatus();
-                        int refund = (int)Math.Round(0.85 * storeItems[command - 1].Price);
-                        GameManager.player.Gold += refund;
+                            item.TogglePurchaseStatus();
+                            int refund = (int)Math.Round(0.85 * storeItems[command - 1].Price);
+                            GameManager.player.Gold += refund;
 
-                        sellComplete = true;
+                            sellComplete = true;
+                        }
                     }
                 }
             }
