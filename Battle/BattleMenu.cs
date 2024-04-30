@@ -1,30 +1,30 @@
 ﻿
+using Sparta2ndTeam_TeamProject.Tower;
 using System.Numerics;
 
 namespace Sparta2ndTeam_TeamProject.Battle
 {
     internal class BattleMenu
     {
-        //private List<Enemy> enemies;
-        private Enemy[] enemies = new Enemy[2];
         private List<Enemy> currentEnemy;
         Random random = new Random();
         private bool duringBattle = false;
         int defeatCount = 0;        // 적 쓰러뜨림 확인용
         int startHp = 0;
         int choice = 0;
-        
+        int towerLv;
+
+
 
         public BattleMenu()
         {
-            //enemies[0] = new("토끼", 0, 1, 10, 5);
-            //enemies[1] = new("늑대", 1, 1, 30, 50);
             currentEnemy = new();
-            //random = new Random();
         }
-
+        
         public void Battle()
         {
+            towerLv = GameManager.tower.TowerLv;
+
             Console.Clear();
             ConsoleUtility.ShowTitle("■ Battle!! ■\n");
 
@@ -34,23 +34,12 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 startHp = GameManager.player.Hp;
                 currentEnemy.Clear();
                 defeatCount = 0;            // 적 쓰러뜨림 초기화
-                int enemyCount = random.Next(1, 5); //(1, 5)
+                int enemyCount = CreateEnemyCount();
 
                 for (int i = 0; i < enemyCount; i++)
                 {
-                    // 어떤 적을 등장시킬 지
-                    Enum type = (EnemyType)random.Next(0, 2);
-                    switch (type)
-                    {
-                        case EnemyType.Rabbit:
-                            Rabbit rab = new Rabbit("토끼", 0, 1, 10, 5);
-                            currentEnemy.Add(rab);
-                            break;
-                        case EnemyType.Wolf:
-                            Wolf wolf = new Wolf("늑대", 1, 1, 20, 10);
-                            currentEnemy.Add(wolf);
-                            break;
-                    }
+                    CreateEnemy();        //어떤 적을 등장시킬 지
+
                     currentEnemy[i].PrintCurrentEnemies();
                 }
             }
@@ -100,6 +89,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
 
         }
+
 
         private void AttackAction()
         {
@@ -203,8 +193,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 Console.WriteLine("0. 다음");
                 Console.Write("\n>>");
 
-                ConsoleUtility.PromptMenuChoice(0, 0);
-                GameManager.Instance.MainMenu();
+                ConsoleUtility.PromptMenuChoice(0, 0);   
+                
+                Environment.Exit(0);                                    // 패배 시 게임 종료
             }
             else
             {
@@ -218,7 +209,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 Console.Write("\n>>");
 
                 ConsoleUtility.PromptMenuChoice(0, 0);
-                GameManager.Instance.MainMenu();
+
+                GameManager.tower.ClimbCheck(1);
             }
         }
 
@@ -228,6 +220,65 @@ namespace Sparta2ndTeam_TeamProject.Battle
             ConsoleUtility.ShowTitle("■ Battle!! ■\n");
             enem.EnemyAttack();  // 플레이어 체력, 플레이어 이름
         }
+
+        private int CreateEnemyCount()
+        {
+            Enum count = (combatCount)GameManager.tower.CombatCount;
+
+            switch (count)
+            {
+                case combatCount.first:
+                    return random.Next(1, 3);  // 첫 전투는 1~2 적, 2 : 2~3, 3 : 3~4
+
+                case combatCount.second:
+                    return random.Next(2, 4);
+
+                case combatCount.third:
+                    return random.Next(3, 5);
+
+                default:
+                    return 0;               // 예외 : 생성 안됨
+            }
+        }
+
+
+        private void CreateEnemy()
+        {
+            // 어떤 적을 등장시킬 지
+            int lowType = Math.Max(towerLv - 4, 0);
+            int highType = Math.Min(towerLv + 1, 5);
+
+            int type = (random.Next(lowType, highType)); // 던전 레벨에 맞는 적 생성
+
+            switch ((EnemyType)type)
+            {
+                case EnemyType.BigRat:              // 큰 쥐 1~4층
+                    BigRat bigRat = new BigRat(towerLv);
+                    currentEnemy.Add(bigRat);
+                    break;
+
+                case EnemyType.Goblin:              // 고블린 1~5층
+                    Goblin gob = new Goblin(towerLv);
+                    currentEnemy.Add(gob);
+                    break;
+
+                case EnemyType.Wolf:                // 늑대 2~6층
+                    Wolf wolf = new Wolf(towerLv);
+                    currentEnemy.Add(wolf);
+                    break;
+
+                case EnemyType.Orc:                // 오크 3~7층
+                     Orc orc = new Orc(towerLv);
+                    currentEnemy.Add(orc);
+                    break;
+
+                case EnemyType.Minotarus:                // 미노타우르스 4~8층
+                    Minotaurs mino = new Minotaurs(towerLv);
+                    currentEnemy.Add(mino);
+                    break;
+            }
+        }
+
 
         private enum BattleAction
         {
@@ -250,8 +301,19 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
         private enum EnemyType
         {
-            Rabbit,
-            Wolf
+            BigRat,
+            Goblin,
+            Wolf,
+            Orc,
+            Minotarus,
+            BloodGod
+        }
+
+        private enum combatCount
+        {
+            first,
+            second,
+            third
         }
 
         //            if (command == (int) SelectInventoryMenu.WrongCommand)
@@ -261,5 +323,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         //    Console.ResetColor();
         //    Console.WriteLine();
         //}
+
     }
+
 }

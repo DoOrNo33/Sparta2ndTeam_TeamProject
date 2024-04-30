@@ -6,13 +6,16 @@ using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using static System.Net.Mime.MediaTypeNames;
 using System.Threading;
+using Sparta2ndTeam_TeamProject.Tower;
 
 namespace Sparta2ndTeam_TeamProject
 {
     internal class GameManager
     {
         static public List<Item> items = new List<Item>();
-        BattleMenu battleMenu;
+
+        public static Tower.Tower tower = new();
+
         public GameManager()
         {
             InitializeGame();
@@ -156,7 +159,7 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("1. 상태보기");
             Console.WriteLine("2. 인벤토리");
             Console.WriteLine("3. 상점");
-            Console.WriteLine("4. 전투하기");
+            Console.WriteLine("4. 탑 입장 (현재 진행 : {0}층)", tower.TowerLv);
 
             // 2. 선택한 결과를 검증함
             Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 4);
@@ -175,23 +178,19 @@ namespace Sparta2ndTeam_TeamProject
                     Store.StoreMenu();
                     // 스토어 메뉴 이동
                     break;
-                case SelectMainMenu.BattleMenu:
-                    if (battleMenu == null)
-                    {
-                        battleMenu = new BattleMenu();
-                    }
-                    battleMenu.Battle();
+                case SelectMainMenu.EnterTower:
+                    tower.EnterTower();                   
                     break;
             }
             MainMenu();
         }
-
+        
         private enum SelectMainMenu
         {
             StatusMenu = 1,
             InventoryMenu,
             StoreMenu,
-            BattleMenu
+            EnterTower
         }
     }
 }
