@@ -6,40 +6,37 @@ namespace Sparta2ndTeam_TeamProject
         static public int SmallPortionCnt = 3; //소형 포션의 개수 정보를 저장
         static public int LargePortionCnt = 0;  //대형 포션의 개수 정보를 저장 
 
-        //초기에 소형 포션을 3개 가지고 있어야 하므로,
-        //상점이나 던전 등의 경로로 포션이 인벤토리에 추가되지 않은 상태라면, → 이부분을 true, false 판단
-        //임의로 소형 포션 인스턴스를 할당해주기 위한 변수 
-        static public bool hasSmallPortion = false; 
-
         static int command; 
 
         //각각 포션과 장비 아이템을 저장하기 위한 리스트 
-        static List<Item> portionItems;
-        static List<Item> equipmentItems;
+        static List<Item> portionItems = new List<Item>();
+        static List<Item> equipmentItems = new List<Item>();
+
         internal static void InventoryMenu()
         {
+
             while (true)
             {
-                //invenItems = new List<Item>();
                 portionItems = new List<Item>();
-                equipmentItems = new List<Item>();  
+                equipmentItems = new List<Item>();
 
                 Console.Clear();
 
                 ConsoleUtility.ShowTitle("■ 인벤토리 ■");
                 Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
 
-                
+
                 for (int i = 0; i < GameManager.items.Count; i++)
                 {
-                    //구매가 된 상태의 아이템들을 새로운 invenItems 리스트에 추가 
-                    if (GameManager.items[i].isPurchased)
+                    //현재 아이템이 초기에 지급되는 아이템인 경우(현재는 우선 소형 포션만 이에 해당) 이면서,
+                    if (GameManager.items[i].isInitItem)
                     {
-                        //invenItems.Add(GameManager.items[i]);
-
-                        if (GameManager.items[i].Name == "소형 HP 포션")
-                            hasSmallPortion = true;
-
+                        //현재 포션의 개수가 0보다 클 때에만 상태를 유지
+                        if (SmallPortionCnt > 0)
+                            portionItems.Add(GameManager.items[i]);
+                    }
+                    else if (GameManager.items[i].isPurchased)
+                    {
                         if (GameManager.items[i]._type == ItemType.PORTION)
                         {
                             portionItems.Add(GameManager.items[i]);
@@ -49,14 +46,6 @@ namespace Sparta2ndTeam_TeamProject
                             equipmentItems.Add(GameManager.items[i]);
                         }
                     }
-                }
-
-                //현재 인벤토리에 포션이 없다면, (상점에서 구매, 던전에서 획득 등의 경로)
-                if(!hasSmallPortion)
-                {
-                    //소형 포션 인스턴스를 추가
-                    portionItems.Add(new Item("소형 HP 포션", "HP를 30만큼 회복합니다.", 0, 0, 30, 50, ItemType.PORTION, false,true));
-                    hasSmallPortion = true;
                 }
 
                 ConsoleUtility.PrintTextHighlights("", "[장비 목록]");
@@ -119,7 +108,7 @@ namespace Sparta2ndTeam_TeamProject
             {
                 Console.Clear();
                 ConsoleUtility.ShowTitle("■ 인벤토리 - 포션 관리 ■");
-                Console.WriteLine("포션을 사용하여 체력이나 마나를 회복할 수 있습니다.\n\n");
+                Console.WriteLine("포션을 사용하여 체력이나 마나를 회복할 수 있습니다.\n");
 
                 ConsoleUtility.PrintTextHighlights("", "[포션 목록]");
                 for (int i = 0; i < portionItems.Count; i++)
@@ -137,6 +126,8 @@ namespace Sparta2ndTeam_TeamProject
 
                     Console.WriteLine();
                 }
+
+                Console.WriteLine();
 
                 switch (command)
                 {
