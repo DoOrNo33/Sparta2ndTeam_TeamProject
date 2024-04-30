@@ -72,7 +72,6 @@ namespace Sparta2ndTeam_TeamProject
 
             Console.Write(" | ");
             Console.Write(ConsoleUtility.PadRightForMixedText(Desc, 55));
-            //Console.Write(Desc);
         }
 
         internal void ToggleEquipStatus()
