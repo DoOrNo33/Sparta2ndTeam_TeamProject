@@ -1,9 +1,11 @@
-﻿
-
-namespace Sparta2ndTeam_TeamProject
+﻿namespace Sparta2ndTeam_TeamProject
 {
     internal class Inventory
     {
+        static public int SmallPortionCnt = 3; //초기에 소형 포션을 3개 가지고 있음
+        static public int LargePortionCnt = 0; 
+
+        static bool hasSmallPortion = false;
         static int command; 
         static List<Item> invenItems;
         internal static void InventoryMenu()
@@ -24,12 +26,38 @@ namespace Sparta2ndTeam_TeamProject
                     if (GameManager.items[i].isPurchased)
                     {
                         invenItems.Add(GameManager.items[i]);
+
+                        if (GameManager.items[i].Name == "소형 HP 포션")
+                            hasSmallPortion = true;
                     }
                 }
+
+                //현재 인벤토리에 포션이 없다면, (상점에서 구매, 던전에서 획득 등의 경로)
+                if(!hasSmallPortion)
+                {
+                    //소형 포션을 추가
+                    invenItems.Add(new Item("소형 HP 포션", "HP를 30만큼 회복합니다.", 0, 0, 30, 50, ItemType.PORTION,
+                        false,true)) ;
+                    hasSmallPortion = true;
+                }
+
 
                 for (int i = 0; i < invenItems.Count; i++)
                 {
                     invenItems[i].PrintItemStatDesc(true, i + 1);
+
+                    if (invenItems[i]._type == ItemType.PORTION) 
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+
+                        if (invenItems[i].Name == "소형 HP 포션")
+                            Console.Write($"| {SmallPortionCnt}개 보유중");
+                        else if(invenItems[i].Name == "대형 HP 포션")
+                            Console.Write($"| {LargePortionCnt}개 보유중");
+
+                        Console.ResetColor();
+                    }
+
                     Console.WriteLine();
                 }
 
@@ -70,6 +98,19 @@ namespace Sparta2ndTeam_TeamProject
                 for (int i = 0; i < invenItems.Count; i++)
                 {
                     invenItems[i].PrintItemStatDesc(true, i + 1);
+
+                    if (invenItems[i]._type == ItemType.PORTION)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+
+                        if (invenItems[i].Name == "소형 HP 포션")
+                            Console.Write($"| {SmallPortionCnt}개 보유중");
+                        else if (invenItems[i].Name == "대형 HP 포션")
+                            Console.Write($"| {LargePortionCnt}개 보유중");
+
+                        Console.ResetColor();
+                    }
+
                     Console.WriteLine();
                 }
 
@@ -114,6 +155,7 @@ namespace Sparta2ndTeam_TeamProject
         }
         static void usePotion(int command)
         {
+            
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("체력 회복이 완료되었습니다. {0} → ", GameManager.player.Hp);
 
@@ -124,6 +166,31 @@ namespace Sparta2ndTeam_TeamProject
             Console.ResetColor();
 
             Thread.Sleep(500);
+
+            //사용하고자 하는 포션을 이름 기준으로 분류
+            if (invenItems[command - 1].Name == "소형 HP 포션")
+            {
+                SmallPortionCnt--;
+                //포션을 모두 사용하였다면 invenItems 리스트에서 해당 정보를 삭제
+                if (SmallPortionCnt <= 0)
+                {
+                    SmallPortionCnt = 0;
+                    hasSmallPortion = false;
+                    invenItems[command - 1].TogglePurchaseStatus();
+                    invenItems.Remove(invenItems[command - 1]);
+                }
+            }
+            else if (invenItems[command - 1].Name == "대형 HP 포션")
+            {
+                LargePortionCnt--;
+                if (LargePortionCnt <= 0)
+                {
+                    LargePortionCnt = 0;
+                    invenItems[command - 1].TogglePurchaseStatus();
+                    invenItems.Remove(invenItems[command - 1]);
+                }
+            }
+
         }
         static void setEquipItems(int command)
         {
