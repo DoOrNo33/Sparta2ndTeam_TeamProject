@@ -52,8 +52,6 @@ namespace Sparta2ndTeam_TeamProject
                     case (int)SelectInventoryMenu.EquipMenu:
                         EquipMenu();
                         break;
-                    default:
-                        break;
                 }
             }
         }
