@@ -81,7 +81,7 @@ namespace Sparta2ndTeam_TeamProject
                 Console.WriteLine();
             }
 
-            command = ConsoleUtility.PromptMenuChoice(0, GameManager.items.Count);
+            command = ConsoleUtility.PromptMenuChoice(0, invenItems.Count);
 
             switch (command)
             {
@@ -101,6 +101,12 @@ namespace Sparta2ndTeam_TeamProject
         {
             invenItems[command - 1].ToggleEquipStatus();
 
+            if (invenItems[command-1].Atk!=0 || invenItems[command-1].Def!=0 || invenItems[command-1].HP!=0) 
+            {
+                GameManager.player.Atk += invenItems[command - 1].Atk;
+                GameManager.player.Def += invenItems[command - 1].Def;
+                GameManager.player.Hp += invenItems[command - 1].HP;
+            }
             //현재 인벤토리에 있는 아이템 중, 
             for (int i = 0; i < invenItems.Count; i++)
             {
@@ -112,6 +118,12 @@ namespace Sparta2ndTeam_TeamProject
                     {
                         //장착 상태를 해제
                         invenItems[i].ToggleEquipStatus();
+                        if (invenItems[command - 1].Atk != 0 || invenItems[command - 1].Def != 0 || invenItems[command - 1].HP != 0)
+                        {
+                            GameManager.player.Atk -= invenItems[i].Atk;
+                            GameManager.player.Def -= invenItems[i].Def;
+                            GameManager.player.Hp -= invenItems[i].HP;
+                        }
                     }
                 }
             }

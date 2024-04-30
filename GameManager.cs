@@ -52,11 +52,9 @@ namespace Sparta2ndTeam_TeamProject
         public void SaveData()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("=============================================================================");
             Console.WriteLine("                         플레이어 데이터 저장 중...!                         ");
             Console.WriteLine("=============================================================================");
-            Console.ResetColor();
             Thread.Sleep(300);
 
             string playerDataName = "playerStatData.json";
@@ -71,6 +69,26 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("=============================================================================");
             Console.WriteLine("                플레이어 데이터를 성공적으로 저장하였습니다!                 ");
             Console.WriteLine("=============================================================================");
+            Thread.Sleep(300);
+            Console.WriteLine();
+            Console.WriteLine("=============================================================================");
+            Console.WriteLine("                          아이템 데이터 저장 중...!                          ");
+            Console.WriteLine("=============================================================================");
+            Thread.Sleep(300);
+
+            string itemDataName = "itemData.json";
+            // 데이터 경로 저장. (C드라이브, Documents)
+            string itemDataPath = Path.Combine(path, itemDataName);
+
+            string itemJson = JsonConvert.SerializeObject(items, Formatting.Indented);
+
+            File.WriteAllText(itemDataPath, itemJson);
+
+            Console.WriteLine("=============================================================================");
+            Console.WriteLine("                 아이템 데이터를 성공적으로 저장하였습니다!                  ");
+            Console.WriteLine("=============================================================================");
+            Thread.Sleep(300);
+
             Console.ReadKey();
 
         }
@@ -78,10 +96,12 @@ namespace Sparta2ndTeam_TeamProject
         {
             Console.Clear();
             string playerDataName = "playerStatData.json";
+            string itemDataName = "itemData.json";
 
             // C 드라이브 - MyDocuments 폴더
             string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string playerDataPath = Path.Combine(path, playerDataName);
+            string itemDataPath = Path.Combine(path, itemDataName);
 
             if (File.Exists(playerDataPath)) // 데이터 존재
             {
@@ -93,9 +113,20 @@ namespace Sparta2ndTeam_TeamProject
                 Console.WriteLine("                 플레이어 데이터를 성공적으로 불러왔습니다!                  ");
                 Console.WriteLine("=============================================================================");
                 Console.ResetColor();
-                Console.ReadKey();
+                Thread.Sleep(300);
+                
+                if(File.Exists(itemDataPath))
+                {
+                    string itemJson = File.ReadAllText(itemDataPath);
+                    items = JsonConvert.DeserializeObject<List<Item>>(itemJson);
+                    Console.ForegroundColor = ConsoleColor.Yellow;
 
-
+                    Console.WriteLine("=============================================================================");
+                    Console.WriteLine("             플레이어의 아이템 데이터를 성공적으로 불러왔습니다!             ");
+                    Console.WriteLine("=============================================================================");
+                    Console.ResetColor();
+                    Thread.Sleep(300);
+                }
             }
             else
             {
@@ -110,7 +141,6 @@ namespace Sparta2ndTeam_TeamProject
                 bool isInt;
                 do
                 {
-
                     Console.WriteLine();
                     Console.WriteLine("=============================================================================");
                     Console.WriteLine("          생성할 캐릭터의 직업을 선택해주세요 (전사 : 1 / 마법사 : 2)        ");

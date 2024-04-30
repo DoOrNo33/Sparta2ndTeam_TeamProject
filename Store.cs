@@ -201,7 +201,7 @@ namespace Sparta2ndTeam_TeamProject
                 if (command == (int)SelectStoreMenu.WrongCommand)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("잘못된 입력입니다.");
+                    Console.WriteLine("잘못된 입력입니다.");
                     Console.ResetColor();
                 }
 
@@ -214,7 +214,16 @@ namespace Sparta2ndTeam_TeamProject
                     if((command-1) == storeItems.IndexOf(item))
                     {
                         if(item.isEquipped)
+                        {
                             item.ToggleEquipStatus();
+                            if (item.Atk != 0 || item.Def != 0 || item.HP != 0)
+                            {
+                                GameManager.player.Atk -= item.Atk;
+                                GameManager.player.Def -= item.Def;
+                                GameManager.player.Hp -= item.HP;
+                            }
+                        }
+                            
 
                         item.TogglePurchaseStatus();
                         int refund = (int)Math.Round(0.85 * storeItems[command - 1].Price);

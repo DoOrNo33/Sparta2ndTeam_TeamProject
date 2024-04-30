@@ -12,7 +12,7 @@ namespace Sparta2ndTeam_TeamProject
     {
         Random random = new Random();
         public string Name { get; }
-        public int Job { get; protected set; }
+        public int Job { get; set; }
         public int Level { get; } = 1;
         public int Atk { get; set; } = 10;
         public int Def { get; set; } = 5;
@@ -88,9 +88,9 @@ namespace Sparta2ndTeam_TeamProject
 
         public bool Critical() // 치명타
         {
-            int percent = random.Next(0, 101);
+            int percent = random.Next(0, 100);
 
-            if (percent <= 15)
+            if (percent < 15)
                 return true;
 
             return false;
@@ -98,9 +98,9 @@ namespace Sparta2ndTeam_TeamProject
 
         public bool Avoid() // 회피
         {
-            int percent = random.Next(0, 11);
+            int percent = random.Next(0, 10);
 
-            if (percent <= 1)
+            if (percent < 1)
                 return true;
 
             return false;
