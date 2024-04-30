@@ -114,7 +114,7 @@ namespace Sparta2ndTeam_TeamProject
 
                     isInt = int.TryParse(Console.ReadLine(), out job);
 
-                } while (isInt == false);
+                } while (isInt == false || job > 2 || job < 1);
 
                 if (job == 1)
                     player = new Warrior(name);
@@ -157,9 +157,10 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("2. 인벤토리");
             Console.WriteLine("3. 상점");
             Console.WriteLine("4. 전투하기");
+            Console.WriteLine("5. 저장하기");
 
             // 2. 선택한 결과를 검증함
-            Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 4);
+            Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 5);
 
             // 3. 선택한 결과에 따라 보내줌
             switch (choice)
@@ -183,6 +184,9 @@ namespace Sparta2ndTeam_TeamProject
                     }
                     battleMenu.Battle();
                     break;
+                case SelectMainMenu.SaveData:
+                    SaveData();
+                    break;
             }
             MainMenu();
         }
@@ -192,7 +196,8 @@ namespace Sparta2ndTeam_TeamProject
             StatusMenu = 1,
             InventoryMenu,
             StoreMenu,
-            BattleMenu
+            BattleMenu,
+            SaveData
         }
     }
 }
