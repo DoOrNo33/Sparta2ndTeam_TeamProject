@@ -13,7 +13,7 @@ namespace Sparta2ndTeam_TeamProject.Tower
         BattleMenu battleMenu = new();
 
         public int TowerLv = 1;
-        private int CombatCount = 0;
+        public int CombatCount = 0;
         private int command;
 
         public void EnterTower()

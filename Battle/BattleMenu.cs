@@ -34,7 +34,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 startHp = GameManager.player.Hp;
                 currentEnemy.Clear();
                 defeatCount = 0;            // 적 쓰러뜨림 초기화
-                int enemyCount = random.Next(1, 5); // 적 최대 4까지 등장
+                int enemyCount = CreateEnemyCount();
 
                 for (int i = 0; i < enemyCount; i++)
                 {
@@ -221,6 +221,26 @@ namespace Sparta2ndTeam_TeamProject.Battle
             enem.EnemyAttack();  // 플레이어 체력, 플레이어 이름
         }
 
+        private int CreateEnemyCount()
+        {
+            Enum count = (combatCount)GameManager.tower.CombatCount;
+
+            switch (count)
+            {
+                case combatCount.first:
+                    return random.Next(1, 3);  // 첫 전투는 1~2 적, 2 : 2~3, 3 : 3~4
+
+                case combatCount.second:
+                    return random.Next(2, 4);
+
+                case combatCount.third:
+                    return random.Next(3, 5);
+
+                default:
+                    return 0;               // 예외 : 생성 안됨
+            }
+        }
+
 
         private void CreateEnemy()
         {
@@ -296,6 +316,13 @@ namespace Sparta2ndTeam_TeamProject.Battle
             Orc,
             Minotarus,
             BloodGod
+        }
+
+        private enum combatCount
+        {
+            first,
+            second,
+            third
         }
 
         //            if (command == (int) SelectInventoryMenu.WrongCommand)
