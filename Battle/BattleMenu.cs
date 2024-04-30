@@ -6,8 +6,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
 {
     internal class BattleMenu
     {
-        //private List<Enemy> enemies;
-        private Enemy[] enemies = new Enemy[2];
         private List<Enemy> currentEnemy;
         Random random = new Random();
         private bool duringBattle = false;
@@ -40,7 +38,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
                 for (int i = 0; i < enemyCount; i++)
                 {
-                    CreateEnemy();        //어떤떤 적을 등장시킬 지
+                    CreateEnemy();        //어떤 적을 등장시킬 지
 
                     currentEnemy[i].PrintCurrentEnemies();
                 }
