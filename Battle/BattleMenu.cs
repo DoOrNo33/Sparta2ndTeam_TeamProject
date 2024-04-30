@@ -63,8 +63,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
 
             Console.WriteLine("\n\n[내 정보]");
-            Console.WriteLine("정보");
-            Console.WriteLine("체력");
+            Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, GameManager.player.Job);
+            Console.WriteLine("HP {0}/100", GameManager.player.Hp);
 
             Console.WriteLine("\n1. 평타 사용\n2. 스킬 사용\n3. 아이템 사용"); // 스킬, 소모성 아이템 추가 할 수 있음
             Console.WriteLine("\n원하시는 행동을 입력해주세요.");
@@ -96,16 +96,31 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 currentEnemy[i].PrintCurrentEnemies(true, i + 1);
             }
 
-            Console.WriteLine("\n\n[내 정보]");
-            Console.WriteLine("정보");
-            Console.WriteLine("체력");
+            Console.WriteLine("\n[내 정보]");
+            Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, GameManager.player.Job);
+            Console.WriteLine("HP {0}/100", GameManager.player.Hp);
 
             Console.WriteLine("\n0. 취소"); 
             Console.WriteLine("\n대상을 선택해주세요.");
             Console.Write(">>");
 
-            int keyInput = ConsoleUtility.PromptMenuChoice(0, currentEnemy.Count);
+            int keyInput = 0;
 
+            while (true) // 대상이 죽었는지 체크
+            {
+                keyInput = ConsoleUtility.PromptMenuChoice(0, currentEnemy.Count);
+                
+                if (currentEnemy[keyInput - 1].Hp <= 0)
+                {
+                    Console.WriteLine("이미 죽은 대상입니다.");
+                    Console.Write(">>");
+                }
+                else
+                {
+                    break;
+                }
+            }
+            
             switch (keyInput)
             {
                 case 0:
@@ -113,8 +128,10 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     Battle();
                     break;
                 default:
-                    
-                    defeatCount += currentEnemy[keyInput - 1].PlayerAttack();
+
+
+                    defeatCount += currentEnemy[keyInput - 1].PlayerAttack();     // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
+
                     foreach (Enemy enem in currentEnemy)
                     {
                         if (enem.Hp <= 0)               // 적 체력 0이라면 건너뜀
