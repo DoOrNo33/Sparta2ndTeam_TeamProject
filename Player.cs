@@ -27,6 +27,7 @@ namespace Sparta2ndTeam_TeamProject
 
         public void StatusMenu()
         {
+            
             int added_ATK = 0;
             int added_DEF = 0;
             int added_HP = 0;
@@ -72,13 +73,13 @@ namespace Sparta2ndTeam_TeamProject
 
             Console.WriteLine("\n0. 나가기");
 
-            int command = ConsoleUtility.PromptMenuChoice(0, 0);
+            Enum command = (SelectStatusMenu)ConsoleUtility.PromptMenuChoice(0, 0);
 
             switch (command)
             {
-                case (int)SelectStatusMenu.PreviousPage:
+                case SelectStatusMenu.PreviousPage:
                     return;
-                case (int)SelectStatusMenu.WrongCommand:
+                case SelectStatusMenu.WrongCommand:
                     StatusMenu();
                     break;
             }
@@ -181,7 +182,7 @@ namespace Sparta2ndTeam_TeamProject
 
     enum SelectStatusMenu
     {
-        PreviousPage,
+        PreviousPage = 0,
         WrongCommand = -1,
     }
 }

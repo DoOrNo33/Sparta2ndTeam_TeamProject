@@ -92,7 +92,9 @@ namespace Sparta2ndTeam_TeamProject
                 Console.WriteLine("=============================================================================");
                 Console.WriteLine("                 플레이어 데이터를 성공적으로 불러왔습니다!                  ");
                 Console.WriteLine("=============================================================================");
+                Console.ResetColor();
                 Console.ReadKey();
+
 
             }
             else
