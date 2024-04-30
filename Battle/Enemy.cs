@@ -36,25 +36,51 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
         public void PrintCurrentEnemies(bool withNumber = false, int idx = 0)
         {
-            if (withNumber)
-            {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.Write(" {0} ", idx);
+            if (isDead)     // 죽었다면 모두 검은색으로 처리
+            { 
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                if (withNumber)
+                {
+                    Console.Write(" {0} ", idx);
+                }
+                else
+                {
+                    Console.Write(" - ");
+                }
+                Console.Write("Lv.{0} ", Lv);
+                Console.Write("{0} ", Name);
+                if (!IsDead)
+                {
+                    Console.WriteLine("HP {0}", Hp);
+                }
+                else
+                {
+                    Console.WriteLine("Dead");
+                }
                 Console.ResetColor();
             }
-            else
+            else                                // 아니라면
             {
-                Console.Write(" - ");
-            }
-            Console.Write("Lv.{0} ", Lv);
-            Console.Write("{0} ", Name);
-            if (!IsDead)
-            {
-                Console.WriteLine("HP {0}", Hp);
-            }
-            else
-            {
-                Console.WriteLine("Dead");
+                if (withNumber)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write(" {0} ", idx);
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.Write(" - ");
+                }
+                Console.Write("Lv.{0} ", Lv);
+                Console.Write("{0} ", Name);
+                if (!IsDead)
+                {
+                    Console.WriteLine("HP {0}", Hp);
+                }
+                else
+                {
+                    Console.WriteLine("Dead");
+                }
             }
         }
 
@@ -64,11 +90,10 @@ namespace Sparta2ndTeam_TeamProject.Battle
             int adAtk = (int)Math.Ceiling(GameManager.player.Atk * 0.1f);                                   //보정 공격, 10%의 올림치
             int pAtk = random.Next((GameManager.player.Atk - adAtk), (GameManager.player.Atk + adAtk + 1)); //보정 공격치
             Console.Clear();
-            Console.WriteLine(pAtk);
             ConsoleUtility.ShowTitle("■ Battle!! ■\n");
             Console.WriteLine("{0} 의 공격!", pName);
             Console.Write("Lv.{0} {1} 을(를) 맞췄습니다.", Lv, Name);
-            Console.WriteLine("데미지 : {0}", pAtk);
+            Console.WriteLine(" [데미지 : {0}]", pAtk);
 
             Console.WriteLine("\nLv.{0} {1}", Lv, Name);
 
@@ -115,9 +140,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 Console.Clear();
                 ConsoleUtility.ShowTitle("■ Battle!! ■\n");
 
-                Console.WriteLine("\nLv.{0} {1} 의 공격!", Lv, Name);
+                Console.WriteLine("Lv.{0} {1} 의 공격!", Lv, Name);
                 Console.Write("{0} 을(를) 맞췄습니다. ", GameManager.player.Name);
-                Console.WriteLine("데미지 : {0}", Atk);
+                Console.WriteLine("[데미지 : {0}]", Atk);
 
                 int tempHp = GameManager.player.Hp;
                 GameManager.player.Hp -= Atk;
