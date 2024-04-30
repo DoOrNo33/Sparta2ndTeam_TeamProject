@@ -58,59 +58,71 @@ namespace Sparta2ndTeam_TeamProject
 
         private static void EquipMenu()
         {
-            
-            Console.Clear();
-            ConsoleUtility.ShowTitle("■ 인벤토리 - 장착 관리 ■");
-            Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
-
-            ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
-            for (int i = 0; i < invenItems.Count; i++)
+            while(true)
             {
-                invenItems[i].PrintItemStatDesc(true, i+1);
+                Console.Clear();
+                ConsoleUtility.ShowTitle("■ 인벤토리 - 장착 관리 ■");
+                Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
+
+                ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
+                for (int i = 0; i < invenItems.Count; i++)
+                {
+                    invenItems[i].PrintItemStatDesc(true, i + 1);
+                    Console.WriteLine();
+                }
+
                 Console.WriteLine();
 
-            }
+                switch (command)
+                {
+                    case (int)SelectInventoryMenu.WrongCommand:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("잘못된 입력입니다.");
+                        Console.ResetColor();
+                        Console.WriteLine();
+                        break;
+                    //case (int)SelectInventoryMenu.TryEquipPotion:
+                    //    Console.ForegroundColor = ConsoleColor.Red;
+                    //    Console.Write("!! 포션은 장착할 수 없습니다 !!");
+                    //    Console.ResetColor();
+                    //    Console.WriteLine();
+                    //    break;
+                    default:
+                        break;
+                }
 
-            Console.WriteLine();
+                command = ConsoleUtility.PromptMenuChoice(0, invenItems.Count);
 
-            switch (command)
-            {
-                case (int)SelectInventoryMenu.WrongCommand:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("잘못된 입력입니다.");
-                    Console.ResetColor();
-                    Console.WriteLine();
-                    break;
-                case (int)SelectInventoryMenu.TryEquipPotion:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("!! 포션은 장착할 수 없습니다 !!");
-                    Console.ResetColor();
-                    Console.WriteLine();
-                    break;
-                default:
-                    break;
-            }
-
-            command = ConsoleUtility.PromptMenuChoice(0, invenItems.Count);
-
-            switch (command)
-            {
-                case (int)SelectInventoryMenu.PreviousPage:
-                    return;
-                case (int)SelectInventoryMenu.WrongCommand:
-                    EquipMenu();
-                    break;
-                default:
-                    if(invenItems[command - 1]._type==ItemType.PORTION)
-                    {
-                        command = (int)SelectInventoryMenu.TryEquipPotion;
-                    }
-                    else setEquipItems(command);
-                    EquipMenu();
-                    break;
+                switch (command)
+                {
+                    case (int)SelectInventoryMenu.PreviousPage:
+                        return;
+                    case (int)SelectInventoryMenu.WrongCommand:
+                        break;
+                    default:
+                        if (invenItems[command - 1]._type == ItemType.PORTION)
+                        {
+                            usePotion(command);
+                            //command = (int)SelectInventoryMenu.TryEquipPotion;
+                        }
+                        else setEquipItems(command);
+                        break;
+                }
             }
         }
+        static void usePotion(int command)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("체력 회복이 완료되었습니다. {0} → ", GameManager.player.Hp);
 
+            GameManager.player.Hp += invenItems[command - 1].HP;
+            if (GameManager.player.Hp >= 100) GameManager.player.Hp = 100; //최대 체력은 100
+
+            Console.WriteLine($"{GameManager.player.Hp}");
+            Console.ResetColor();
+
+            Thread.Sleep(500);
+        }
         static void setEquipItems(int command)
         {
             invenItems[command - 1].ToggleEquipStatus();
