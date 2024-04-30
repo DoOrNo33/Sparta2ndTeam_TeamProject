@@ -20,9 +20,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
             //enemies[0] = new("토끼", 0, 1, 10, 5);
             //enemies[1] = new("늑대", 1, 1, 30, 50);
             currentEnemy = new();
-            //random = new Random();
+            //random = new Random();   
         }
-
+        
         public void Battle()
         {
             Console.Clear();
@@ -34,7 +34,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 startHp = GameManager.player.Hp;
                 currentEnemy.Clear();
                 defeatCount = 0;            // 적 쓰러뜨림 초기화
-                int enemyCount = random.Next(1, 5); //(1, 5)
+                int enemyCount = random.Next(1, 2); //(1, 5)
 
                 for (int i = 0; i < enemyCount; i++)
                 {
@@ -203,8 +203,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 Console.WriteLine("0. 다음");
                 Console.Write("\n>>");
 
-                ConsoleUtility.PromptMenuChoice(0, 0);
-                GameManager.Instance.MainMenu();
+                ConsoleUtility.PromptMenuChoice(0, 0);   
+                
+                Environment.Exit(0);                                    // 패배 시 게임 종료
             }
             else
             {
@@ -218,7 +219,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 Console.Write("\n>>");
 
                 ConsoleUtility.PromptMenuChoice(0, 0);
-                GameManager.Instance.MainMenu();
+
+                GameManager.tower.ClimbCheck(1);
             }
         }
 
