@@ -5,7 +5,7 @@
         static public int SmallPortionCnt = 3; //초기에 소형 포션을 3개 가지고 있음
         static public int LargePortionCnt = 0; 
 
-        static bool hasSmallPortion = false;
+        static public bool hasSmallPortion = false;
         static int command; 
         static List<Item> invenItems;
         internal static void InventoryMenu()
