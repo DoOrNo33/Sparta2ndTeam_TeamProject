@@ -12,6 +12,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         private bool duringBattle = false;
         int defeatCount = 0;        // 적 쓰러뜨림 확인용
         int startHp = 0;
+        int choice = 0;
         
 
         public BattleMenu()
@@ -70,9 +71,17 @@ namespace Sparta2ndTeam_TeamProject.Battle
             Console.WriteLine("\n원하시는 행동을 입력해주세요.");
             Console.Write(">>");
 
-            Enum choice = (BattleAction)ConsoleUtility.PromptMenuChoice(1, 3);
+            if (choice == (int)BattleAction.WrongCommand)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("잘못된 입력입니다.");
+                Console.ResetColor();
+                Console.WriteLine();
+            }
 
-            switch (choice)
+            choice = ConsoleUtility.PromptMenuChoice(1, 3);
+
+            switch ((BattleAction)choice)
             {
                 case BattleAction.BasicAttack:
                     AttackAction();
@@ -83,6 +92,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 case BattleAction.UseItems:
                     AttackAction();
                     break;
+                case BattleAction.WrongCommand:
+                    duringBattle = true;
+                    Battle();
+                    break;
+
             }
 
         }
@@ -110,7 +124,18 @@ namespace Sparta2ndTeam_TeamProject.Battle
             {
                 keyInput = ConsoleUtility.PromptMenuChoice(0, currentEnemy.Count);
                 
-                if (currentEnemy[keyInput - 1].IsDead)
+                if (keyInput == (int)BattleAction.WrongCommand)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("잘못된 입력입니다.");
+                    Console.ResetColor();
+                    Console.WriteLine();
+                }
+                else if (keyInput == 0)
+                {
+                    break;
+                }
+                else if (currentEnemy[keyInput - 1].IsDead)
                 {
                     Console.WriteLine("이미 죽은 대상입니다.");
                     Console.Write(">>");
@@ -208,7 +233,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
         {
             BasicAttack = 1,
             SkillAttack,
-            UseItems
+            UseItems,
+            WrongCommand = -1
         }
 
         private enum BattleStatus
@@ -227,5 +253,13 @@ namespace Sparta2ndTeam_TeamProject.Battle
             Rabbit,
             Wolf
         }
+
+        //            if (command == (int) SelectInventoryMenu.WrongCommand)
+        //{
+        //    Console.ForegroundColor = ConsoleColor.Red;
+        //    Console.Write("잘못된 입력입니다.");
+        //    Console.ResetColor();
+        //    Console.WriteLine();
+        //}
     }
 }
