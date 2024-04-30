@@ -62,7 +62,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 
             }
 
-            Console.WriteLine("\n\n[내 정보]");
+            Console.WriteLine("\n[내 정보]");
             Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, GameManager.player.Job);
             Console.WriteLine("HP {0}/100", GameManager.player.Hp);
 
@@ -110,7 +110,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             {
                 keyInput = ConsoleUtility.PromptMenuChoice(0, currentEnemy.Count);
                 
-                if (currentEnemy[keyInput - 1].Hp <= 0)
+                if (currentEnemy[keyInput - 1].IsDead)
                 {
                     Console.WriteLine("이미 죽은 대상입니다.");
                     Console.Write(">>");
