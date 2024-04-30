@@ -1,17 +1,15 @@
 ﻿
-
 namespace Sparta2ndTeam_TeamProject
 {
     internal class Store
     {
         static int command = 0;
-        static CurrentShopState? currentShopState = null;
         static public void StoreMenu()
         {
             while (true)
             {
                 Console.Clear();
-                ConsoleUtility.ShowTitle("< 상점 >");
+                ConsoleUtility.ShowTitle("■ 상점 ■");
                 Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
 
                 ConsoleUtility.PrintTextHighlights("", "[보유 골드]");
@@ -34,16 +32,9 @@ namespace Sparta2ndTeam_TeamProject
                     }
                 }
 
-                if(command == (int)SelectStoreMenu.WrongCommand)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("\n잘못된 입력입니다.");
-                    Console.ResetColor();
-                }
+                Console.WriteLine("\n\n1. 아이템 구매\n2. 아이템 판매\n0. 나가기\n");
 
-                Console.WriteLine("\n1. 아이템 구매\n2. 아이템 판매\n0. 나가기\n");
-
-                command = ConsoleUtility.PromptMenuChoice(0, 2);
+                int command = ConsoleUtility.PromptMenuChoice(0, 2);
                 switch (command)
                 {
                     case (int)SelectStoreMenu.PreviousPage:
@@ -62,12 +53,15 @@ namespace Sparta2ndTeam_TeamProject
 
         private static void PurchaseMenu()
         {
+
+            CurrentShopState? currentShopState = null;
+
             while (true)
             {
 
                 Console.Clear();
 
-                ConsoleUtility.ShowTitle("< 상점 - 아이템 구매 >");
+                ConsoleUtility.ShowTitle("■ 상점 - 아이템 구매 ■");
                 Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
 
                 ConsoleUtility.PrintTextHighlights("", "[보유 골드]");
@@ -77,6 +71,7 @@ namespace Sparta2ndTeam_TeamProject
 
                 for (int i = 0; i < GameManager.items.Count; i++)
                 {
+                    
                     GameManager.items[i].PrintItemStatDesc(true, i + 1);
                     //아이템이 아직 구매되지 않은 상태라면, 
                     if (!GameManager.items[i].isPurchased)
@@ -90,7 +85,7 @@ namespace Sparta2ndTeam_TeamProject
                         ConsoleUtility.PrintTextHighlights(" | ", "판매 완료");
                     }
                 }
-
+                
                 Console.WriteLine();
 
                 if(currentShopState != null)
@@ -115,9 +110,8 @@ namespace Sparta2ndTeam_TeamProject
                         default:
                             break;
                     }
-
-                    currentShopState = null;
                 }
+                currentShopState = null;
 
                 if (command == (int)SelectStoreMenu.WrongCommand)
                 {
@@ -134,11 +128,11 @@ namespace Sparta2ndTeam_TeamProject
 
                 //입력한 숫자가 범위 내에 포함하나,
                 //골드 부족, 이미 판매가 완료 된 아이템에 대한 상태를 파악하기 위한 메서드 
-                CheckIsPossibleCommand(command);
+                CheckPossibleCommand(command, ref currentShopState);
             }
         }
 
-        private static void CheckIsPossibleCommand(int command)
+        private static void CheckPossibleCommand(int command, ref CurrentShopState? currentShopState)
         {
             //해당 아이템이 판매되지 않은 상태이면서,
             if (!GameManager.items[command - 1].isPurchased)
@@ -172,7 +166,7 @@ namespace Sparta2ndTeam_TeamProject
                 List<Item> storeItems = new List<Item>();
 
                 Console.Clear();
-                ConsoleUtility.ShowTitle("< 상점 - 아이템 판매>");
+                ConsoleUtility.ShowTitle("■ 상점 - 아이템 판매 ■");
                 Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
 
                 ConsoleUtility.PrintTextHighlights("", "[보유 골드]");
@@ -212,8 +206,8 @@ namespace Sparta2ndTeam_TeamProject
                 }
 
                 command = ConsoleUtility.PromptMenuChoice(0, storeItems.Count);
-                if (command == 0) return;
-                if (command == -1) SalesMenu();
+                if (command == (int)SelectStoreMenu.PreviousPage) return;
+                if (command == (int)SelectStoreMenu.WrongCommand) SalesMenu();
 
                 foreach(Item item in storeItems)
                 {
@@ -228,7 +222,6 @@ namespace Sparta2ndTeam_TeamProject
 
                     }
                 }
-
             }
         }
 
@@ -241,9 +234,10 @@ namespace Sparta2ndTeam_TeamProject
         }
         private enum CurrentShopState
         {
-            Success, //정상적으로 구매가 가능한 상태
-            InsufficientGold, //골드가 부족한 상태
-            SoldOut, //아이템이 이미 판매 완료가 된 상태
+            Success,
+            InsufficientGold,
+            SoldOut,
         }
     }
+
 }

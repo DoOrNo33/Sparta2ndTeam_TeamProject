@@ -5,36 +5,26 @@ namespace Sparta2ndTeam_TeamProject
     internal class Inventory
     {
         static int command; 
-
-        static bool isFirst = true;
-
-        //현재 무기/방어구가 착용 중인지 아닌지에 대한 정보를 저장하는 변수
-        static bool isEquipedWeapon = false;
-        static bool isEquipedArmor = false;
-
-        static List<Item> invenItems = new List<Item>();
+        static List<Item> invenItems;
         internal static void InventoryMenu()
         {
             while (true)
             {
+                invenItems = new List<Item>();
                 Console.Clear();
 
                 ConsoleUtility.ShowTitle("■ 인벤토리 ■");
                 Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
 
                 ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
-
-                if (isFirst)
+                
+                for (int i = 0; i < GameManager.items.Count; i++)
                 {
-                    for (int i = 0; i < GameManager.items.Count; i++)
+                    //구매가 된 상태의 아이템들을 새로운 storeItems 리스트에 추가 
+                    if (GameManager.items[i].isPurchased)
                     {
-                        //구매가 된 상태의 아이템들을 새로운 storeItems 리스트에 추가 
-                        if (GameManager.items[i].isPurchased)
-                        {
-                            invenItems.Add(GameManager.items[i]);
-                        }
+                        invenItems.Add(GameManager.items[i]);
                     }
-                    isFirst = false;
                 }
 
                 for (int i = 0; i < invenItems.Count; i++)
@@ -43,7 +33,6 @@ namespace Sparta2ndTeam_TeamProject
                     Console.WriteLine();
                 }
 
-                
                 Console.WriteLine("\n\n1. 장착 관리\n0. 나가기\n");
 
                 if (command == (int)SelectInventoryMenu.WrongCommand)
