@@ -90,6 +90,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             int adAtk = (int)Math.Ceiling(GameManager.player.Atk * 0.1f);                                   //보정 공격, 10%의 올림치
             int pAtk = random.Next((GameManager.player.Atk - adAtk), (GameManager.player.Atk + adAtk + 1)); //보정 공격치
             bool isCri = false;
+            bool isAvoid = false;
 
             // 치명타 판정
             if (GameManager.player.Critical())
@@ -98,26 +99,13 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 isCri = true;
             }
 
-
-            Console.Clear();
-            ConsoleUtility.ShowTitle("■ Battle!! ■\n");
-            Console.WriteLine("{0} 의 공격!", pName);
-            Console.Write("Lv.{0} {1} 을(를) 맞췄습니다.", Lv, Name);
-            Console.Write(" [데미지 : {0}]", pAtk);
-
-            if (isCri)
+            // 적의 회피 판정
+            if (GameManager.player.Avoid())                 // 적이 회피했다면(10%)
             {
-                Console.Write(" - 치명타 공격!!");
-            }
-
-            Console.WriteLine("\n\nLv.{0} {1}", Lv, Name);
-
-            int tempHp = hp;
-            hp -= pAtk;
-            
-            if (hp > 0)   // 적의 남은 hp가 0보다 큰지 작은지
-            {
-                Console.WriteLine("HP {0} -> {1}", tempHp, hp);
+                Console.Clear();
+                ConsoleUtility.ShowTitle("■ Battle!! ■\n");
+                Console.WriteLine("{0} 의 공격!", pName);
+                Console.WriteLine("Lv.{0} {1} 을(를) 공격했지만 아무일도 일어나지 않았습니다.", Lv, Name);
                 Console.WriteLine("\n0. 다음");
                 Console.Write("\n>>");
 
@@ -128,21 +116,58 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 }
                 return 0;
             }
-            else
-            {
-                hp = 0;
-                Dead();
-                Console.WriteLine("HP {0} -> {1}", tempHp, hp);
-                Console.WriteLine("\n0. 다음");
-                Console.Write("\n>>");
 
-                switch ((PlayerPhase)ConsoleUtility.PromptMenuChoice(0, 0))
+            else                                            // 적이 맞았다면
+            {
+
+                Console.Clear();
+                ConsoleUtility.ShowTitle("■ Battle!! ■\n");
+                Console.WriteLine("{0} 의 공격!", pName);
+                Console.Write("Lv.{0} {1} 을(를) 맞췄습니다.", Lv, Name);
+                Console.Write(" [데미지 : {0}]", pAtk);
+
+                if (isCri)
                 {
-                    case PlayerPhase.ToEnemyPhase:
-                        break;
+                    Console.Write(" - 치명타 공격!!");
                 }
-                return 1;
+
+                Console.WriteLine("\n\nLv.{0} {1}", Lv, Name);
+
+                int tempHp = hp;
+                hp -= pAtk;
+
+                if (hp > 0)   // 적의 남은 hp가 0보다 큰지 작은지
+                {
+                    Console.WriteLine("HP {0} -> {1}", tempHp, hp);
+                    Console.WriteLine("\n0. 다음");
+                    Console.Write("\n>>");
+
+                    switch ((PlayerPhase)ConsoleUtility.PromptMenuChoice(0, 0))
+                    {
+                        case PlayerPhase.ToEnemyPhase:
+                            break;
+                    }
+                    return 0;
+                }
+                else
+                {
+                    hp = 0;
+                    Dead();
+                    Console.WriteLine("HP {0} -> {1}", tempHp, hp);
+                    Console.WriteLine("\n0. 다음");
+                    Console.Write("\n>>");
+
+                    switch ((PlayerPhase)ConsoleUtility.PromptMenuChoice(0, 0))
+                    {
+                        case PlayerPhase.ToEnemyPhase:
+                            break;
+                    }
+                    return 1;
+                }
             }
+            
+
+
 
 
         }
