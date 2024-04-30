@@ -60,6 +60,7 @@ namespace Sparta2ndTeam_TeamProject
 
         private static void EquipMenu()
         {
+            
             Console.Clear();
             ConsoleUtility.ShowTitle("■ 인벤토리 - 장착 관리 ■");
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
@@ -84,7 +85,7 @@ namespace Sparta2ndTeam_TeamProject
                     break;
                 case (int)SelectInventoryMenu.TryEquipPotion:
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("포션은 장착할 수 없습니다!");
+                    Console.Write("!! 포션은 장착할 수 없습니다 !!");
                     Console.ResetColor();
                     Console.WriteLine();
                     break;
@@ -92,7 +93,7 @@ namespace Sparta2ndTeam_TeamProject
                     break;
             }
 
-            command = ConsoleUtility.PromptMenuChoice(0, GameManager.items.Count);
+            command = ConsoleUtility.PromptMenuChoice(0, invenItems.Count);
 
             switch (command)
             {
@@ -120,7 +121,7 @@ namespace Sparta2ndTeam_TeamProject
             for (int i = 0; i < invenItems.Count; i++)
             {
                 //현재 착용한 아이템과 타입이 일치하는 아이템이
-                if (i != (command-1) && invenItems[command - 1]._type == invenItems[i]._type)
+                if (i != (command - 1) && invenItems[command - 1]._type == invenItems[i]._type)
                 {
                     //장착 상태라면, 
                     if (invenItems[i].isEquipped)
