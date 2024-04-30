@@ -15,7 +15,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         protected int hp;
         protected int atk;
         protected bool isDead = false;
-        Random random = new Random();
+        protected Random random = new Random();
 
         public string Name { get { return name; } }
         public int Id { get { return id; } }

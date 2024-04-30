@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sparta2ndTeam_TeamProject.Tower;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace Sparta2ndTeam_TeamProject.Battle
 {
-    internal class Wolf : Enemy
+    internal class BigRat : Enemy
     {
-        public Wolf(int _towerLv) : base()      // 2층부터 등장
+        public BigRat(int _towerLv) : base()
         {
-            name = "늑대";
-            id = 2;
+            name = "큰 쥐";
+            id = 0;
             lv = 0;
-            hp = 30;
-            atk = 10;
+            hp = 10;
+            atk = 5;
 
-            int lowLv = _towerLv - 2;
-            int highLv = _towerLv + 1;
+            int lowLv = _towerLv - 1;
+            int highLv = _towerLv + 2;
             if (lowLv < 1)
             {
                 lowLv = 1;
@@ -28,7 +29,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
             int enemyLv = random.Next(lowLv, highLv);
 
-            for (int i = 0; i < enemyLv; i++)    //등장 층수에서 레벨이 1로 시작하도록 세팅
+            for (int i = 0; i < enemyLv; i++)
             {
                 SetLevel();
             }
@@ -36,9 +37,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
         protected override void SetLevel()
         {
-            lv += 1;            
-            hp += 10;
-            atk += 3;
+            lv += 1;
+            hp += 3;
+            atk += 1;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿
+using Sparta2ndTeam_TeamProject.Tower;
 using System.Numerics;
 
 namespace Sparta2ndTeam_TeamProject.Battle
@@ -13,7 +14,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
         int defeatCount = 0;        // 적 쓰러뜨림 확인용
         int startHp = 0;
         int choice = 0;
-        
+        int towerLv;
+
+
 
         public BattleMenu()
         {
@@ -22,6 +25,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
         
         public void Battle()
         {
+            towerLv = GameManager.tower.TowerLv;
+
             Console.Clear();
             ConsoleUtility.ShowTitle("■ Battle!! ■\n");
 
@@ -31,23 +36,12 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 startHp = GameManager.player.Hp;
                 currentEnemy.Clear();
                 defeatCount = 0;            // 적 쓰러뜨림 초기화
-                int enemyCount = random.Next(1, 2); //(1, 5)
+                int enemyCount = random.Next(1, 5); // 적 최대 4까지 등장
 
                 for (int i = 0; i < enemyCount; i++)
                 {
-                    // 어떤 적을 등장시킬 지
-                    Enum type = (EnemyType)random.Next(0, 2);
-                    switch (type)
-                    {
-                        case EnemyType.Rabbit:
-                            Rabbit rab = new Rabbit();
-                            currentEnemy.Add(rab);
-                            break;
-                        case EnemyType.Wolf:
-                            Wolf wolf = new Wolf();
-                            currentEnemy.Add(wolf);
-                            break;
-                    }
+                    CreateEnemy();        //어떤떤 적을 등장시킬 지
+
                     currentEnemy[i].PrintCurrentEnemies();
                 }
             }
@@ -97,6 +91,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
 
         }
+
 
         private void AttackAction()
         {
@@ -228,6 +223,54 @@ namespace Sparta2ndTeam_TeamProject.Battle
             enem.EnemyAttack();  // 플레이어 체력, 플레이어 이름
         }
 
+
+        private void CreateEnemy()
+        {
+            // 어떤 적을 등장시킬 지
+            int lowType = towerLv - 4;
+            int highType = towerLv + 1;
+
+            if (lowType < 0)
+            {
+                lowType = 0;
+            }
+            if (highType > 5)
+            {
+                highType = 5;
+            }
+
+            int type = (random.Next(lowType, highType)); // 던전 레벨에 맞는 적 생성
+
+            switch ((EnemyType)type)
+            {
+                case EnemyType.BigRat:              // 큰 쥐 1~4층
+                    BigRat bigRat = new BigRat(towerLv);
+                    currentEnemy.Add(bigRat);
+                    break;
+
+                case EnemyType.Goblin:              // 고블린 1~5층
+                    Goblin gob = new Goblin(towerLv);
+                    currentEnemy.Add(gob);
+                    break;
+
+                case EnemyType.Wolf:                // 늑대 2~6층
+                    Wolf wolf = new Wolf(towerLv);
+                    currentEnemy.Add(wolf);
+                    break;
+
+                case EnemyType.Orc:                // 오크 3~7층
+                     Orc orc = new Orc(towerLv);
+                    currentEnemy.Add(orc);
+                    break;
+
+                case EnemyType.Minotarus:                // 미노타우르스 4~8층
+                    Minotaurs mino = new Minotaurs(towerLv);
+                    currentEnemy.Add(mino);
+                    break;
+            }
+        }
+
+
         private enum BattleAction
         {
             BasicAttack = 1,
@@ -249,8 +292,12 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
         private enum EnemyType
         {
-            Rabbit,
-            Wolf
+            BigRat,
+            Goblin,
+            Wolf,
+            Orc,
+            Minotarus,
+            BloodGod
         }
 
         //            if (command == (int) SelectInventoryMenu.WrongCommand)
@@ -260,5 +307,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         //    Console.ResetColor();
         //    Console.WriteLine();
         //}
+
     }
+
 }
