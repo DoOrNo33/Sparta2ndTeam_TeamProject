@@ -23,6 +23,7 @@
         static bool isFromBattle = false;
         internal static void InventoryMenu(bool callFromBattle = false)
         {
+            isFromBattle = false;
             isFromBattle = callFromBattle;
             while (true)
             {
@@ -202,7 +203,6 @@
                             if (LimitRecover_MP > 0)
                             {
                                 useMpPotion(command, ItemType.MONSTER_DROP);
-                                LimitRecover_MP--;
                             }
                             else
                             {
@@ -280,8 +280,10 @@
                         break;
                     default:
                         //배틀 중인 상태에서만 회복에 제한을 둠. 
-                        if(isFromBattle)
+                        if (isFromBattle)
+                        {
                             CheckPossiblePortion(command);
+                        }
                         else
                         {
                             if (portionItems[command - 1].Name == "소형 HP 포션" || portionItems[command - 1].Name == "대형 HP 포션")
@@ -298,10 +300,9 @@
             if (portionItems[command - 1].Name == "소형 HP 포션" || portionItems[command - 1].Name == "대형 HP 포션")
             {
                 //회복할 수 있는 기회가 남아있다면 회복 기능을 실행
-                if (LimitRecover_HP > 0)
+                if (LimitRecover_HP > 0 )
                 {
                     useHpPotion(command);
-                    LimitRecover_HP--;
                 }
                 else
                 {
@@ -317,7 +318,6 @@
                 if (LimitRecover_MP > 0)
                 {
                     useMpPotion(command, ItemType.PORTION);
-                    LimitRecover_MP--;
                 }
                 else
                 {
@@ -376,6 +376,9 @@
         {
             if(GameManager.player.Hp < GameManager.player.Max_Hp)
             {
+                if(isFromBattle)
+                    LimitRecover_HP--;
+
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("체력 회복이 완료되었습니다. {0} → ", GameManager.player.Hp);
                 int prePlayerHP = GameManager.player.Hp;
@@ -426,6 +429,9 @@
         {
             if (GameManager.player.Mp < GameManager.player.Max_Mp)
             {
+                if (isFromBattle)
+                    LimitRecover_MP--;
+
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("마나 회복이 완료되었습니다. {0} → ", GameManager.player.Mp);
                 int prePlayerMP = GameManager.player.Mp;
