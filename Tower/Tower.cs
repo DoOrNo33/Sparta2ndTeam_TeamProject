@@ -35,23 +35,18 @@ namespace Sparta2ndTeam_TeamProject.Tower
                 if (TowerLv < 8)
                 {
                     Console.Clear();
-                    ConsoleUtility.ShowTitle("■ Battle!! ■\n");
+                    ConsoleUtility.ShowTitle("■ 전투결과 ■\n");
                     Console.WriteLine("3회 연승 시 {0}층으로 진행!", TowerLv + 1);
                     Console.WriteLine("(현재 연승 횟수 : {0})", CombatCount);
                     Console.WriteLine("\n축하합니다! {0}층으로 진행 할 수 있습니다.", TowerLv + 1);
                     Console.WriteLine("마을로 복귀합니다.");
-                    Console.Write("\n<Press Any Key>");
-
-                    ClimbTower();
-
-                    ConsoleUtility.PromptMenuChoice(0, 0);
-
+                    ConsoleUtility.PromptReturn();
                     GameManager.Instance.MainMenu();
                 }
                 else if (TowerLv == 8)
                 {
                     Console.Clear();
-                    ConsoleUtility.ShowTitle("■ Battle!! ■\n");
+                    ConsoleUtility.ShowTitle("■ 전투결과 ■\n");
                     Console.WriteLine("3회 연승 시 타워 정복?!");
                     Console.WriteLine("(현재 연승 횟수 : {0})", CombatCount);
                     Console.WriteLine("\n아무일도 일어나지 않았습니다.", TowerLv + 1);                    
@@ -67,16 +62,14 @@ namespace Sparta2ndTeam_TeamProject.Tower
                     Console.WriteLine(".");
                     Thread.Sleep(1000);
                     Console.WriteLine("\n{0} 은(는) 갑자기 어디론가 소환되었습니다.", GameManager.player.Name);
-                    Console.Write("\n<Press Any Key>");
-
-                    Console.ReadKey();
+                    ConsoleUtility.PromptReturn();
                     battleMenu.Battle(true);
                 }
             }
             else
             {
                 Console.Clear();
-                ConsoleUtility.ShowTitle("■ Battle!! ■\n");
+                ConsoleUtility.ShowTitle("■ 전투결과 ■\n");
                 if (TowerLv < 8)
                 {
                     Console.WriteLine("3회 연승 시 {0}층으로 진행!", TowerLv + 1);
