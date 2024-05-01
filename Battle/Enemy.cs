@@ -45,11 +45,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 if (withNumber)
                 {
-                    Console.Write(" {0} ", idx);
+                    Console.Write("{0:D2} ", idx);
                 }
                 else
                 {
-                    Console.Write(" - ");
+                    Console.Write("- ");
                 }
                 Console.Write("Lv. {0} ", Lv);
                 Console.Write(ConsoleUtility.PadRightForMixedText(Name, 13));
@@ -60,13 +60,13 @@ namespace Sparta2ndTeam_TeamProject.Battle
             {
                 if (withNumber)
                 {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.Write(" {0} ", idx);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("{0:D2} ", idx);
                     Console.ResetColor();
                 }
                 else
                 {
-                    Console.Write(" - ");
+                    Console.Write("- ");
                 }
                 Console.Write("Lv. {0} ", Lv);
                 Console.Write(ConsoleUtility.PadRightForMixedText(Name, 13));
