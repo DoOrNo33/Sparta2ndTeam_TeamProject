@@ -155,6 +155,23 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("더블-스트라이크 스킬 사용");
             return Atk * 2;
         }
+
+        public override void LevelUp(int exp)
+        {
+            CurrentExp += exp;
+            while (CurrentExp > RequiredExp)
+            {
+                CurrentExp -= RequiredExp;
+                RequiredExp += 20 + (Level * 5);
+                Level++;
+                Atk += 1;
+                Def += 2;
+                Hp += 0;
+                Max_Hp += 5;
+                Mp += 0;
+                Max_Mp += 0;
+            }
+        }
     }
 
     internal class Mage : Player
@@ -190,6 +207,22 @@ namespace Sparta2ndTeam_TeamProject
             Mp -= 25;
             Console.WriteLine("썬더 볼트 스킬 사용");
             return Atk * 2;
+        }
+        public override void LevelUp(int exp)
+        {
+            CurrentExp += exp;
+            while (CurrentExp > RequiredExp)
+            {
+                CurrentExp -= RequiredExp;
+                RequiredExp += 20 + (Level * 5);
+                Level++;
+                Atk += 1;
+                Def += 1;
+                Hp += 0;
+                Max_Hp += 0;
+                Mp += 0;
+                Max_Mp += 5;
+            }
         }
     }
 
