@@ -13,8 +13,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
             name = "미노타우르스";
             id = 4;
             lv = 0;
-            hp = 100;
-            atk = 30;
+            hp = 70;
+            atk = 20;
+            exp = 4;
+            drops[0] = 2;
+            drops[1] = 2;
 
             int lowLv = Math.Max(_towerLv - 4, 1);
             int highLv = Math.Min(_towerLv - 1, 6);
@@ -31,7 +34,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
         {
             lv += 1;
             hp += 30;
-            atk += 10;
+            atk += 8;
+            exp += 1;
         }
     }
 }

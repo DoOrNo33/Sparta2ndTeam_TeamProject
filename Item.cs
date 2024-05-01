@@ -6,6 +6,7 @@ namespace Sparta2ndTeam_TeamProject
         ARMOR,
         WEAPON,
         PORTION,
+        MONSTER_DROP,
     }
     internal class Item
     {
@@ -17,17 +18,20 @@ namespace Sparta2ndTeam_TeamProject
         public int Atk { get; }
         public int Def { get; }
         public int HP { get; }  
+        public int MP { get; }  
         public int Price { get; }
 
         public bool isEquipped { get; private set; }
         public bool isPurchased { get; private set; }
+        public bool isInitItem { get; private set; }
 
-        public Item(string Name, string Desc, int Atk, int Def, int HP, int Price,
-            ItemType _type, bool isEquipped = false, bool isPurchased = false)
+        public Item(string Name, string Desc, int Atk, int Def, int HP, int MP, int Price,
+            ItemType _type, bool isEquipped = false, bool isPurchased = false, bool isInitItem = false)
         {
-            this.Name = Name; this.Desc = Desc; this.Atk = Atk;
-            this.Def = Def; this.HP = HP; this.Price = Price; this._type = _type;
-            this.isEquipped = isEquipped; this.isPurchased = isPurchased;
+            this.Name = Name; this.Desc = Desc; this.Atk = Atk; this.Def = Def;
+            this.HP = HP; this.MP = MP;  this.Price = Price; this._type = _type;
+            this.isEquipped = isEquipped; this.isPurchased = isPurchased; this.isInitItem = isInitItem;
+
         }
 
         internal void PrintItemStatDesc(bool withNumber = false, int idx = 0)
@@ -67,12 +71,13 @@ namespace Sparta2ndTeam_TeamProject
                     Console.Write(ConsoleUtility.PadRightForMixedText(($"방어력 {_MarkDef}{Def}"), 22));
                 if (HP != 0)
                     Console.Write(ConsoleUtility.PadRightForMixedText(($"체  력 +{HP}"), 22));
+                if (MP != 0)
+                    Console.Write(ConsoleUtility.PadRightForMixedText(($"마  나 +{MP}"), 22));
 
             }
 
             Console.Write(" | ");
             Console.Write(ConsoleUtility.PadRightForMixedText(Desc, 55));
-            //Console.Write(Desc);
         }
 
         internal void ToggleEquipStatus()
@@ -82,6 +87,11 @@ namespace Sparta2ndTeam_TeamProject
         internal void TogglePurchaseStatus()
         {
             isPurchased = !isPurchased;
+        }
+
+        internal void DropItemActive()
+        {
+            isPurchased = true;
         }
     }
 }

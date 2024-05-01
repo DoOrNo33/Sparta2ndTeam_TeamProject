@@ -27,29 +27,63 @@ namespace Sparta2ndTeam_TeamProject.Tower
             CombatCount += count;
 
             if (CombatCount == 3)   // 3회 전투 했는지 체크
-            {
-                Console.Clear();
-                ConsoleUtility.ShowTitle("■ Battle!! ■\n");
-                Console.WriteLine("3회 연승 시 {0}층으로 진행!", TowerLv + 1);
-                Console.WriteLine("(현재 연승 횟수 : {0}", CombatCount);
-                Console.WriteLine("\n축하합니다! {0}층으로 진행 할 수 있습니다.", TowerLv + 1);
-                Console.WriteLine("마을로 복귀합니다.");
-                Console.Write(">>");
+            {   
+                if (TowerLv < 8)
+                {
+                    Console.Clear();
+                    ConsoleUtility.ShowTitle("■ Battle!! ■\n");
+                    Console.WriteLine("3회 연승 시 {0}층으로 진행!", TowerLv + 1);
+                    Console.WriteLine("(현재 연승 횟수 : {0})", CombatCount);
+                    Console.WriteLine("\n축하합니다! {0}층으로 진행 할 수 있습니다.", TowerLv + 1);
+                    Console.WriteLine("마을로 복귀합니다.");
+                    Console.Write("\n<Press Any Key>");
 
-                ClimbTower();
+                    ClimbTower();
 
-                ConsoleUtility.PromptMenuChoice(0, 0);
+                    ConsoleUtility.PromptMenuChoice(0, 0);
 
-                GameManager.Instance.MainMenu();
+                    GameManager.Instance.MainMenu();
+                }
+                else if (TowerLv == 8)
+                {
+                    Console.Clear();
+                    ConsoleUtility.ShowTitle("■ Battle!! ■\n");
+                    Console.WriteLine("3회 연승 시 타워 정복?!");
+                    Console.WriteLine("(현재 연승 횟수 : {0})", CombatCount);
+                    Console.WriteLine("\n아무일도 일어나지 않았습니다.", TowerLv + 1);                    
+                    Thread.Sleep(1000);
+                    Console.Write("\n.");
+                    Thread.Sleep(1000);
+                    Console.Write(".");
+                    Thread.Sleep(1000);
+                    Console.Write(".");
+                    Thread.Sleep(1000);
+                    Console.Write(".");
+                    Thread.Sleep(1000);
+                    Console.WriteLine(".");
+                    Thread.Sleep(1000);
+                    Console.WriteLine("\n{0} 은(는) 갑자기 어디론가 소환되었습니다.", GameManager.player.Name);
+                    Console.Write("\n<Press Any Key>");
+
+                    Console.ReadKey();
+                    battleMenu.Battle(true);
+                }
             }
             else
             {
                 Console.Clear();
                 ConsoleUtility.ShowTitle("■ Battle!! ■\n");
-                Console.WriteLine("3회 연승 시 {0}층으로 진행!", TowerLv + 1);
-                Console.WriteLine("(현재 연승 횟수 : {0}", CombatCount);
+                if (TowerLv < 8)
+                {
+                    Console.WriteLine("3회 연승 시 {0}층으로 진행!", TowerLv + 1);
+                }
+                else if (TowerLv == 8)
+                {
+                    Console.WriteLine("3회 연승 시 타워 정복?!");
+                }
+                Console.WriteLine("(현재 연승 횟수 : {0})", CombatCount);
 
-                Console.WriteLine("\n1. 전투 속행\n2. 아이템 사용\n\n0.후퇴");
+                Console.WriteLine("\n1. 전투 속행\n2. 인벤토리\n\n0.후퇴");
                 Console.Write(">>");
 
                 if (command == (int)ClimbSelect.WrongCommand)
@@ -72,7 +106,9 @@ namespace Sparta2ndTeam_TeamProject.Tower
                         battleMenu.Battle();
                         break;
 
-                    case ClimbSelect.UseItem:
+                    case ClimbSelect.Inventory:
+                        Inventory.InventoryMenu();
+                        ClimbCheck(0);
                         break;
 
                     case ClimbSelect.WrongCommand:
@@ -94,7 +130,7 @@ namespace Sparta2ndTeam_TeamProject.Tower
         {
             Retreat,
             AdvanceCombat,
-            UseItem,
+            Inventory,
             WrongCommand = -1
         }
     }
