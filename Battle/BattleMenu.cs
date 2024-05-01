@@ -1,4 +1,5 @@
 ﻿
+using Sparta2ndTeam_TeamProject.Scenes;
 using Sparta2ndTeam_TeamProject.Tower;
 using System.Numerics;
 
@@ -252,7 +253,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 }
                 else                                          // 최종 전투 승리 시 게임 종료
                 {
-                    EndGame();
+                    EndScene endScene = new();
+                    endScene.EndGame();
                 }
 
             }
@@ -377,16 +379,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
         }
 
-        private void EndGame()
-        {
-            Console.Clear();
-            ConsoleUtility.ShowTitle("■ Battle!! ■ - Result\n");
-            Console.WriteLine("Victory\n");
-            Console.WriteLine("{0} 은(는) 타워를 정복했습니다.");
-            Console.WriteLine("타워는 사라졌고, 당신은 타워 입구가 있던 자리로 이동되었습니다.");
-            Console.WriteLine("Happy Ending?");
-            Environment.Exit(0);
-        }
 
 
         private enum BattleAction

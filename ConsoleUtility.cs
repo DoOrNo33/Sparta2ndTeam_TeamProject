@@ -1,4 +1,6 @@
-﻿namespace Sparta2ndTeam_TeamProject
+﻿using Sparta2ndTeam_TeamProject.Scenes;
+
+namespace Sparta2ndTeam_TeamProject
 {
     internal class ConsoleUtility
     {
@@ -72,6 +74,15 @@
         {
             Console.Write(s1);
             Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(s2);
+            Console.ResetColor();
+            Console.WriteLine(s3);
+        }
+
+        internal static void PrintTextBlood(string s1, string s2, string s3 = "")
+        {
+            Console.Write(s1);
+            Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write(s2);
             Console.ResetColor();
             Console.WriteLine(s3);
