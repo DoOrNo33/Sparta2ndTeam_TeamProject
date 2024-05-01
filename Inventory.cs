@@ -331,6 +331,7 @@
         }
         private static void EquipMenu()
         {
+            
             while(true)
             {
                 Console.Clear();
@@ -512,6 +513,15 @@
         static void setEquipItems(int command)
         {
             equipmentItems[command - 1].ToggleEquipStatus();
+
+            if (GameManager.quests[1].isAccept == true && GameManager.quests[1].isComplete == false && equipmentItems[command-1]._type == ItemType.ARMOR)
+            {
+                GameManager.quests[1].isComplete = true;
+            }
+            if (GameManager.quests[2].isAccept == true && GameManager.quests[2].isComplete == false && equipmentItems[command - 1]._type == ItemType.ARMOR)
+            {
+                GameManager.quests[2].isComplete = true;
+            }
 
             if (equipmentItems[command-1].Atk!=0 || equipmentItems[command-1].Def!=0 || equipmentItems[command-1].HP!=0) 
             {
