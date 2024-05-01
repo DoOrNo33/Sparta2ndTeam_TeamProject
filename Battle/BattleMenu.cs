@@ -84,7 +84,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job - 1]);
             Console.WriteLine("HP {0}/100", GameManager.player.Hp);
 
-            Console.WriteLine("\n1. 평타 사용\n2. 스킬 사용\n3. 아이템 사용"); // 스킬, 소모성 아이템 추가 할 수 있음
+            Console.WriteLine("\n1. 기본 공격\n2. 스킬\n3. 인벤토리"); // 스킬, 소모성 아이템 추가 할 수 있음
             Console.WriteLine("\n원하시는 행동을 입력해주세요.");
             Console.Write(">>");
 
@@ -106,8 +106,10 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 case BattleAction.SkillAttack:
                     AttackAction();
                     break;
-                case BattleAction.UseItems:
-                    AttackAction();
+                case BattleAction.Inventory:
+                    duringBattle = true;
+                    Inventory.InventoryMenu();
+                    Battle();
                     break;
                 case BattleAction.WrongCommand:
                     duringBattle = true;
@@ -352,7 +354,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         {
             BasicAttack = 1,
             SkillAttack,
-            UseItems,
+            Inventory,
             WrongCommand = -1
         }
 

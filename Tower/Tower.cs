@@ -67,8 +67,6 @@ namespace Sparta2ndTeam_TeamProject.Tower
 
                     Console.ReadKey();
                     battleMenu.Battle(true);
-
-
                 }
             }
             else
@@ -85,7 +83,7 @@ namespace Sparta2ndTeam_TeamProject.Tower
                 }
                 Console.WriteLine("(현재 연승 횟수 : {0})", CombatCount);
 
-                Console.WriteLine("\n1. 전투 속행\n2. 아이템 사용\n\n0.후퇴");
+                Console.WriteLine("\n1. 전투 속행\n2. 인벤토리\n\n0.후퇴");
                 Console.Write(">>");
 
                 if (command == (int)ClimbSelect.WrongCommand)
@@ -108,7 +106,9 @@ namespace Sparta2ndTeam_TeamProject.Tower
                         battleMenu.Battle();
                         break;
 
-                    case ClimbSelect.UseItem:
+                    case ClimbSelect.Inventory:
+                        Inventory.InventoryMenu();
+                        ClimbCheck(0);
                         break;
 
                     case ClimbSelect.WrongCommand:
@@ -130,7 +130,7 @@ namespace Sparta2ndTeam_TeamProject.Tower
         {
             Retreat,
             AdvanceCombat,
-            UseItem,
+            Inventory,
             WrongCommand = -1
         }
     }
