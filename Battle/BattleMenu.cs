@@ -1,12 +1,15 @@
 ﻿
 using Sparta2ndTeam_TeamProject.Tower;
+using System;
 using System.Numerics;
+using System.Runtime.InteropServices;
 
 namespace Sparta2ndTeam_TeamProject.Battle
 {
     internal class BattleMenu
     {
         private List<Enemy> currentEnemy;
+        private Enemy enemy = new Enemy();
         Random random = new Random();
         private bool duringBattle = false;
         int defeatCount = 0;        // 적 쓰러뜨림 확인용
@@ -14,6 +17,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         int choice = 0;
         int towerLv;
         bool finalBattle;
+        bool skill;
 
         public BattleMenu()
         {
@@ -80,8 +84,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
             string[] job = { "전사", "마법사" };
             Console.WriteLine("\n[내 정보]");
             Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job - 1]);
-            Console.WriteLine("HP {0}/{1}}",GameManager.player.Hp, GameManager.player.Max_Hp);
-            Console.WriteLine("MP {0}/{1}}", GameManager.player.Mp, GameManager.player.Max_Mp);
+            Console.WriteLine("HP {0}/{1}",GameManager.player.Hp, GameManager.player.Max_Hp);
+            Console.WriteLine("MP {0}/{1}", GameManager.player.Mp, GameManager.player.Max_Mp);
 
             Console.WriteLine("\n1. 기본 공격\n2. 스킬\n3. 인벤토리"); // 스킬, 소모성 아이템 추가 할 수 있음
             Console.WriteLine("\n원하시는 행동을 입력해주세요.");
@@ -102,6 +106,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     AttackAction();
                     break;
                 case BattleAction.SkillAttack:
+                    skill = true;
                     SkillAction();
                     break;
                 case BattleAction.Inventory:
@@ -138,8 +143,27 @@ namespace Sparta2ndTeam_TeamProject.Battle
         //    return 0;
         //}
 
+
+        private void BattleSet()
+        {
+            Console.Clear();
+            ConsoleUtility.ShowTitle("■ Battle!! ■\n");
+            for (int i = 0; i < currentEnemy.Count; i++)
+            {
+                currentEnemy[i].PrintCurrentEnemies(true, i + 1);
+            }
+
+            string[] job = { "전사", "마법사" };
+
+            Console.WriteLine("\n[내 정보]");
+            Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job - 1]);
+            Console.WriteLine("HP {0}/{1}", GameManager.player.Hp, GameManager.player.Max_Hp);
+            Console.WriteLine("MP {0}/{1}", GameManager.player.Mp, GameManager.player.Max_Mp);
+        }
+
         private void SkillAction()
         {
+            BattleSet();
             int SetSkill = 0;
             Console.WriteLine("\n[내 스킬]", GameManager.player.skill[1].SkillName);
             for (int i = 0; i < GameManager.player.skill.Count; i++)
@@ -150,7 +174,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             Console.WriteLine("\n원하시는 행동을 입력해주세요.");
             Console.Write(">>");
 
-            
+
             if (choice == (int)SkillCount.WrongCommand)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -178,6 +202,15 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     Battle();
                     break;
             }
+            if (GameManager.player.Mp < GameManager.player.skill[SetSkill].SkillMana)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("마나가 부족합니다.");
+                Console.ResetColor();
+                Console.WriteLine();
+            }
+            GameManager.player.Mp = GameManager.player.Mp - GameManager.player.skill[SetSkill].SkillMana;
+
 
             Console.Clear();
             ConsoleUtility.ShowTitle("■ Battle!! ■\n");
@@ -188,7 +221,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
             Console.WriteLine("\n[내 정보]");
             Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, GameManager.player.Job);
-            Console.WriteLine("HP {0}/100", GameManager.player.Hp);
+            Console.WriteLine("HP {0}/{1}", GameManager.player.Hp, GameManager.player.Max_Hp);
+            Console.WriteLine("MP {0}/{1}", GameManager.player.Mp, GameManager.player.Max_Mp);
 
             Console.WriteLine("\n0. 취소");
             Console.WriteLine("\n대상을 선택해주세요.");
@@ -229,8 +263,80 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     Battle();
                     break;
                 default:
-
                     defeatCount += currentEnemy[keyInput - 1].PlayerSkillAttack(SetSkill); // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
+
+                    foreach (Enemy enem in currentEnemy)
+                    {
+                        if (enem.Hp <= 0)               // 적 체력 0이라면 건너뜀
+                        {
+                            continue;
+                        }
+
+                        EnemyPhase(enem);
+
+                        if (GameManager.player.Hp <= 0)     // 플레이어 체력 0이라면 적 페이즈 멈춤
+                        {
+                            break;
+                        }
+
+                    }
+
+                    if (GameManager.player.Hp <= 0)
+                    {
+                        BattleResult(BattleStatus.Defeat);
+                    }
+                    else if ((defeatCount == currentEnemy.Count) && (GameManager.player.Hp > 0))
+                    {
+                        BattleResult(BattleStatus.Win);
+                    }
+                    else
+                    {
+                        SkillAction();
+                    }
+
+                    break;
+            }
+        }
+
+
+        private void StartBattel(bool skill)
+        {
+            int keyInput = 0;
+            while (true) // 대상이 죽었는지 체크
+            {
+
+                keyInput = ConsoleUtility.PromptMenuChoice(0, currentEnemy.Count);
+
+                if (keyInput == (int)BattleAction.WrongCommand)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("잘못된 입력입니다.");
+                    Console.ResetColor();
+                    Console.WriteLine();
+                }
+                else if (keyInput == 0)
+                {
+                    break;
+                }
+                else if (currentEnemy[keyInput - 1].IsDead)
+                {
+                    Console.WriteLine("이미 죽은 대상입니다.");
+                    Console.Write(">>");
+                }
+                else
+                {
+                    break;
+                }
+            }
+            switch (keyInput)
+            {
+                case 0:
+                    duringBattle = true;
+                    Battle();
+                    break;
+                default:
+
+                    defeatCount += currentEnemy[keyInput - 1].PlayerAttack(); // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
 
                     foreach (Enemy enem in currentEnemy)
                     {
@@ -265,31 +371,17 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
         }
 
+
         private void AttackAction()
         {
-            Console.Clear();
-            ConsoleUtility.ShowTitle("■ Battle!! ■\n");
-            for (int i = 0; i < currentEnemy.Count; i++)
-            {
-                currentEnemy[i].PrintCurrentEnemies(true, i + 1);
-            }
-
-            string[] job = { "전사", "마법사" };
-
-            Console.WriteLine("\n[내 정보]");
-            Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job-1]);
-            Console.WriteLine("HP {0}/100", GameManager.player.Hp);
-
-            Console.WriteLine("\n0. 취소"); 
-            Console.WriteLine("\n대상을 선택해주세요.");
-            Console.Write(">>");
+            BattleSet();
 
             int keyInput = 0;
-
             while (true) // 대상이 죽었는지 체크
             {
+
                 keyInput = ConsoleUtility.PromptMenuChoice(0, currentEnemy.Count);
-                
+
                 if (keyInput == (int)BattleAction.WrongCommand)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -311,7 +403,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     break;
                 }
             }
-            
             switch (keyInput)
             {
                 case 0:
@@ -337,7 +428,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                         }
 
                     }
-                    
+
                     if (GameManager.player.Hp <= 0)
                     {
                         BattleResult(BattleStatus.Defeat);
@@ -353,6 +444,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
                     break;
             }
+
+
+
         }
 
         private void BattleResult(BattleStatus result)
@@ -492,6 +586,17 @@ namespace Sparta2ndTeam_TeamProject.Battle
             Environment.Exit(0);
         }
 
+        private void SkillSet()
+        {
+            switch ()
+            {
+                case 1:
+
+                    break;
+                case 2:
+                    break;
+            }
+        }
 
         private enum BattleAction
         {

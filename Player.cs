@@ -17,11 +17,10 @@ namespace Sparta2ndTeam_TeamProject
         public int Level { get; } = 1;
         public int Atk { get; set; } = 10;
         public int Def { get; set; } = 5;
-        public int Hp { get; set; } = 100;
-        public int Max_Hp { get; set; } = 100;
-        public int Mp { get; set; } = 50;
-
-        public int Max_Mp { get; set; } = 50;
+        public int Hp { get; set; } 
+        public int Max_Hp { get; set; } 
+        public int Mp { get; set; } 
+        public int Max_Mp { get; set; }
         public int Gold { get; set; } = 1500;
 
 
@@ -118,8 +117,8 @@ namespace Sparta2ndTeam_TeamProject
                 Hp = Max_Hp;
                 Max_Mp = 50;
                 Mp = Max_Mp;
-                skill.Add(new Skill("알파-스트라이크", 10, Atk * 2, 1, 1));
-                skill.Add(new Skill("더블-스트라이크", 25, Atk * 2, 2, 2));
+                skill.Add(new Skill("알파-스트라이크", 10, Atk * 2, 1, 1));//전사 스킬 1
+                skill.Add(new Skill("더블-스트라이크", 25, Atk * 2, 2, 2));//전사 스킬 2
             }
         }
         internal class Mage : Player
@@ -133,23 +132,23 @@ namespace Sparta2ndTeam_TeamProject
                     Hp = Max_Hp;
                     Max_Mp = 150;
                     Mp = Max_Mp;
-                    skill.Add(new Skill("에너지 볼트", 10, Atk * 1, 2, 1));
-                    skill.Add(new Skill("썬더 볼트", 25, Atk * 2, 1, 2));
+                    skill.Add(new Skill("에너지 볼트", 10, Atk * 1, 2, 1)); //마법사 스킬 1
+                    skill.Add(new Skill("썬더 볼트", 25, Atk * 2, 1, 2)); //마법사 스킬 2
 
-                }
+            }
 
-                public int Thunder_Bolt() // 데미지를 반환 ( -1 : 스킬 사용 실패)
-                {
-                    if (Mp < 25)
-                    {
-                        Console.WriteLine("마나가 부족합니다..");
-                        return -1;
-                    }
+                //public int Thunder_Bolt() // 데미지를 반환 ( -1 : 스킬 사용 실패)
+                //{
+                //    if (Mp < 25)
+                //    {
+                //        Console.WriteLine("마나가 부족합니다..");
+                //        return -1;
+                //    }
 
-                    Mp -= 25;
-                    Console.WriteLine("썬더 볼트 스킬 사용");
-                    return Atk * 2;
-                }
+                //    Mp -= 25;
+                //    Console.WriteLine("썬더 볼트 스킬 사용");
+                //    return Atk * 2;
+                //}
             }
         }
  }
