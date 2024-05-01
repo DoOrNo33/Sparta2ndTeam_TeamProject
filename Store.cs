@@ -18,38 +18,32 @@ namespace Sparta2ndTeam_TeamProject
                 ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
                 for (int i = 0; i < GameManager.items.Count; i++)
                 {
-                    //몬스터로부터 드랍되는 아이템은 상점이 표기 X 
-                    if (GameManager.items[i]._type != ItemType.MONSTER_DROP)
+                    //ARMOR, WEAPON, PORTION을 구분하는 선을 그려주는 조건문
+                    if (i == 0)
                     {
-                        //ARMOR, WEAPON, PORTION을 구분하는 선을 그려주는 조건문
-                        if (i == 0)
-                        {
-                            ConsoleUtility.PrintTextHighlights("++++ ", GameManager.items[i]._type.ToString(), " ++++");
-                        }
-                        else if (i < GameManager.items.Count - 1)
-                        {
-                            if (GameManager.items[i]._type != GameManager.items[i - 1]._type)
-                            {
-                                ConsoleUtility.PrintTextHighlights("\n++++ ", GameManager.items[i]._type.ToString(), " ++++");
-                            }
-                        }
-
-                        GameManager.items[i].PrintItemStatDesc();
-
-                        //아이템이 아직 구매되지 않은 상태라면, 
-                        if (!GameManager.items[i].isPurchased)
-                        {
-                            Console.Write(" | ");
-                            Console.WriteLine($"{GameManager.items[i].Price} G");
-                        }
-                        //아이템이 구매가 된 상태라면, 
-                        else
-                        {
-                            ConsoleUtility.PrintTextHighlights(" | ", "판매 완료");
-                        }
-
+                        ConsoleUtility.PrintTextHighlights("++++ ", GameManager.items[i]._type.ToString(), " ++++");
                     }
-                        
+                    else if (i < GameManager.items.Count - 1)
+                    {
+                        if (GameManager.items[i]._type != GameManager.items[i - 1]._type)
+                        {
+                            ConsoleUtility.PrintTextHighlights("\n++++ ", GameManager.items[i]._type.ToString(), " ++++");
+                        }
+                    }
+
+                    GameManager.items[i].PrintItemStatDesc();
+
+                    //아이템이 아직 구매되지 않은 상태라면, 
+                    if (!GameManager.items[i].isPurchased)
+                    {
+                        Console.Write(" | ");
+                        Console.WriteLine($"{GameManager.items[i].Price} G");
+                    }
+                    //아이템이 구매가 된 상태라면, 
+                    else
+                    {
+                        ConsoleUtility.PrintTextHighlights(" | ", "판매 완료");
+                    }
 
                 }
 
@@ -184,9 +178,13 @@ namespace Sparta2ndTeam_TeamProject
                             {
                                 //인벤토리에 포션의 수를 추가
                                 if (GameManager.items[command - 1].Name == "소형 HP 포션")
-                                    Inventory.SmallPortionCnt++;
+                                    Inventory.portionCnt[0]++;
                                 else if (GameManager.items[command - 1].Name == "대형 HP 포션")
-                                    Inventory.LargePortionCnt++;
+                                    Inventory.portionCnt[1]++;
+                                else if (GameManager.items[command - 1].Name == "소형 MP 포션")
+                                    Inventory.portionCnt[2]++;
+                                else if (GameManager.items[command - 1].Name == "대형 MP 포션")
+                                    Inventory.portionCnt[3]++;
                             }
                         }
                         else
@@ -241,9 +239,13 @@ namespace Sparta2ndTeam_TeamProject
                             Console.ForegroundColor = ConsoleColor.Green;
 
                             if (storeItems[i].Name == "소형 HP 포션")
-                                Console.Write($"\t| {Inventory.SmallPortionCnt}개 보유중");
+                                Console.Write($"\t| {Inventory.portionCnt[0]}개 보유중");
                             else if (storeItems[i].Name == "대형 HP 포션")
-                                Console.Write($"\t| {Inventory.LargePortionCnt}개 보유중");
+                                Console.Write($"\t| {Inventory.portionCnt[1]}개 보유중");
+                            else if (storeItems[i].Name == "소형 MP 포션")
+                                Console.Write($"\t| {Inventory.portionCnt[2]}개 보유중");
+                            else if (storeItems[i].Name == "대형 MP 포션")
+                                Console.Write($"\t| {Inventory.portionCnt[3]}개 보유중");
 
                             Console.ResetColor();
                         }
@@ -287,23 +289,23 @@ namespace Sparta2ndTeam_TeamProject
                                 //개수가 1개라면 다른 아이템과 동일한 방식으로 판매 기능을 작업
                                 if (item.Name == "소형 HP 포션")
                                 {
-                                    Inventory.SmallPortionCnt--; 
+                                    Inventory.portionCnt[0]--; 
 
                                     //아이템을 모두 팔았을 경우 storeItems 리스트에서 해당 정보를 삭제 
-                                    if(Inventory.SmallPortionCnt <= 0)
+                                    if(Inventory.portionCnt[0] <= 0)
                                     {
-                                        Inventory.SmallPortionCnt = 0;
+                                        Inventory.portionCnt[0] = 0;
                                         item.TogglePurchaseStatus();
                                     }
                                 }
                                 else if (item.Name == "대형 HP 포션" )
                                 {
-                                    Inventory.LargePortionCnt--;
+                                    Inventory.portionCnt[1]--;
 
                                     //아이템을 모두 팔았을 경우 storeItems 리스트에서 해당 정보를 삭제 
-                                    if (Inventory.LargePortionCnt <= 0)
+                                    if (Inventory.portionCnt[1] <= 0)
                                     {
-                                        Inventory.LargePortionCnt = 0;
+                                        Inventory.portionCnt[1] = 0;
                                         item.TogglePurchaseStatus();
                                     }
                                 }
