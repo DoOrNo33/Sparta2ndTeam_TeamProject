@@ -40,6 +40,7 @@ namespace Sparta2ndTeam_TeamProject
 
         private void InitializeGame()
         {
+            // 스타트 하면서 생성할 클래스 모음 - 아이템, 캐릭터
             // 방어구 인덱스 0~3                                       공격 | 방어 | 체력 | 마나 | 판매 가격 | 아이템 타입
             items.Add(new Item("수련자 갑옷", "수련에 도움을 주는 갑옷입니다.", 0, 5, 0, 0, 1000, ItemType.ARMOR));
             items.Add(new Item("무쇠 갑옷", "무쇠로 만들어져 튼튼한 갑옷입니다.", 0, 9, 0, 0, 200, ItemType.ARMOR));
@@ -62,7 +63,6 @@ namespace Sparta2ndTeam_TeamProject
             dropItems.Add(new Item("작은 혈석 조각", "몬스터에게서 떨어져 나온 의문의 혈석 조각입니다.", 0, 0, 0, 15, 1500, ItemType.MONSTER_DROP));
             dropItems.Add(new Item("일반 혈석", "몬스터에게서 떨어져 나온 의문의 혈석입니다.", 0, 0, 0, 30, 3000, ItemType.MONSTER_DROP, false, true));
             dropItems.Add(new Item("거대한 혈석", "일반 혈석과는 달리 거대한 크기의 자색 혈석입니다.", 0, 0, 0, 50, 5000, ItemType.MONSTER_DROP));
-
         }
 
 

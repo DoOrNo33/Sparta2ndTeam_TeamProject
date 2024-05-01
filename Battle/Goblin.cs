@@ -13,8 +13,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
             name = "고블린";
             id = 1;
             lv = 0;
-            hp = 15;
-            atk = 10;
+            hp = 10;
+            atk = 8;
+            exp = 1;
+            drops[0] = 0;
+            drops[1] = 1;
 
             int lowLv = Math.Max(_towerLv - 1, 1);
             int highLv = Math.Min(_towerLv + 2, 6);
@@ -32,6 +35,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             lv += 1;
             hp += 5;
             atk += 2;
+            exp += 1;
         }
     }
 }

@@ -13,8 +13,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
             name = "오크";
             id = 3;
             lv = 0;
-            hp = 50;
-            atk = 20;
+            hp = 30;
+            atk = 15;
+            exp = 2;
+            drops[0] = 1;
+            drops[1] = 2;
 
             int lowLv = Math.Max(_towerLv - 3, 1);
             int highLv = Math.Min(_towerLv, 6);
@@ -32,6 +35,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             lv += 1;
             hp += 20;
             atk += 5;
+            exp += 1;
         }
     }
 }
