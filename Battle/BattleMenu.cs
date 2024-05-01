@@ -12,6 +12,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
         private bool duringBattle = false;
         int defeatCount = 0;        // 적 쓰러뜨림 확인용
         int startHp = 0;
+        int startMp = 0;
+        int startMaxHp = 0;
+        int startMaxMp = 0;
         int choice = 0;
         int towerLv;
         bool finalBattle;
@@ -30,12 +33,15 @@ namespace Sparta2ndTeam_TeamProject.Battle
             finalBattle = finalTrigger;         // 최종 전투 트리거
 
             Console.Clear();
-            ConsoleUtility.ShowTitle("■ Battle!! ■\n");
+            ConsoleUtility.ShowTitle("■ 전  투 ■\n");
 
             // 전투 돌입 or 전투 중
             if (!duringBattle)      
             {
                 startHp = GameManager.player.Hp;
+                startMp = GameManager.player.Mp;
+                startMaxHp = GameManager.player.Max_Hp;
+                startMaxMp = GameManager.player.Max_Mp;
                 currentEnemy.Clear();
                 defeatCount = 0;            // 적 쓰러뜨림 초기화
                 
@@ -69,7 +75,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
                         currentEnemy.Add(mino);
                         currentEnemy[i].PrintCurrentEnemies();
                     }
-
                 }
             }
             else
@@ -82,12 +87,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
             string[] job = { "전사", "마법사" };
             Console.WriteLine("\n[내 정보]");
-            Console.WriteLine("Lv.{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job - 1]);
-            Console.WriteLine("HP {0}/100", GameManager.player.Hp);
+            Console.WriteLine("Lv. {0:D2} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job - 1]);
+            Console.WriteLine("체  력 : {0}/{1}", GameManager.player.Hp, GameManager.player.Max_Hp);
+            Console.WriteLine("마  나 : {0}/{1}", GameManager.player.Mp, GameManager.player.Max_Mp);
 
-            Console.WriteLine("\n1. 기본 공격\n2. 스킬\n3. 인벤토리"); // 스킬, 소모성 아이템 추가 할 수 있음
-            Console.WriteLine("\n원하시는 행동을 입력해주세요.");
-            Console.Write(">>");
+            Console.WriteLine("\n1. 기본 공격\n2. 스킬\n3. 인벤토리\n"); // 스킬, 소모성 아이템 추가 할 수 있음
 
             if (choice == (int)BattleAction.WrongCommand)
             {
@@ -124,7 +128,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         private void AttackAction()
         {
             Console.Clear();
-            ConsoleUtility.ShowTitle("■ Battle!! ■\n");
+            ConsoleUtility.ShowTitle("■ 전  투 ■\n");
             for (int i = 0; i < currentEnemy.Count; i++)
             {
                 currentEnemy[i].PrintCurrentEnemies(true, i + 1);
@@ -133,8 +137,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
             string[] job = { "전사", "마법사" };
 
             Console.WriteLine("\n[내 정보]");
-            Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job-1]);
-            Console.WriteLine("HP {0}/100", GameManager.player.Hp);
+            Console.WriteLine("Lv. {0:D2} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job-1]);
+            Console.WriteLine("체  력 : {0}/{1}", GameManager.player.Hp, GameManager.player.Max_Hp);
+            Console.WriteLine("마  나 : {0}/{1}", GameManager.player.Mp, GameManager.player.Max_Mp);
 
             Console.WriteLine("\n0. 취소"); 
             Console.WriteLine("\n대상을 선택해주세요.");
@@ -174,9 +179,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     duringBattle = true;
                     Battle();
                     break;
+
                 default:
-
-
                     defeatCount += currentEnemy[keyInput - 1].PlayerAttack();     // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
 
                     foreach (Enemy enem in currentEnemy)
@@ -218,15 +222,12 @@ namespace Sparta2ndTeam_TeamProject.Battle
             if (result == BattleStatus.Defeat)
             {
                 Console.Clear();
-                ConsoleUtility.ShowTitle("■ Battle!! ■ - Result\n");
+                ConsoleUtility.ShowTitle("■ 전투결과 ■\n");
                 Console.WriteLine("You Lose\n");
-                Console.WriteLine("Lv.{0}, {1}", GameManager.player.Level, GameManager.player.Name);
-                Console.WriteLine("HP {0} -> 0\n", startHp);
-                Console.WriteLine("0. 다음");
-                Console.Write("\n>>");
-
-                ConsoleUtility.PromptMenuChoice(0, 0);   
-                
+                Console.WriteLine("Lv. {0:D2}, {1}", GameManager.player.Level, GameManager.player.Name);
+                Console.WriteLine("체  력 : {0} -> 0", startHp);
+                Console.WriteLine("마  나 : {0} -> {1}\n", startMp, GameManager.player.Mp);
+                ConsoleUtility.PromptReturn();
                 Environment.Exit(0);                                    // 패배 시 게임 종료
             }
             else
@@ -234,20 +235,17 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 if (!finalBattle)                               // 일반 전투
                 {
                     Console.Clear();
-                    ConsoleUtility.ShowTitle("■ Battle!! ■ - Result\n");
+                    ConsoleUtility.ShowTitle("■ 전투결과 ■\n");
                     Console.WriteLine("Victory\n");
-                    Console.WriteLine("던전에서 몬스터 {0}마리를 잡았습니다.\n", defeatCount);
-                    Console.WriteLine("Lv.{0}, {1}", GameManager.player.Level, GameManager.player.Name);
-                    Console.WriteLine("HP {0} -> {1}\n", startHp, GameManager.player.Hp);
+                    Console.WriteLine("탑에서 몬스터 {0}마리를 잡았습니다.\n", defeatCount);
+                    Console.WriteLine("Lv. {0:D2}, {1}", GameManager.player.Level, GameManager.player.Name);
+                    Console.WriteLine("체  력 : {0} -> {1}", startHp, GameManager.player.Hp);
+                    Console.WriteLine("마  나 : {0} -> {1}\n", startMp, GameManager.player.Mp);
 
                     Console.WriteLine("\n[전리품]");                           // 전리품 설정
                     DropItems();
                     LevelCheck();
-
-                    Console.WriteLine("\n<Press Any Key>");
-                    Console.Write("\n>>");
-
-                    ConsoleUtility.PromptMenuChoice(0, 0);
+                    ConsoleUtility.PromptReturn();
 
                     GameManager.tower.ClimbCheck(1);
                 }
@@ -269,7 +267,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 if (DropCheckPoint < (currentEnemy[i].Lv * 2))             // 레벨 2배수로 확률 증가
                 {
                     int drop = currentEnemy[i].Drops[random.Next(0, 2)];
-                    Console.WriteLine("{0}", GameManager.dropItems[drop].Name);  // 드랍 아이템 중 무작위 결정
+                    Console.WriteLine(" - {0}", GameManager.dropItems[drop].Name);  // 드랍 아이템 중 무작위 결정
                     GameManager.dropItems[drop].DropItemActive();
                     Inventory.dropItemsCnt[drop]++;                         // 드랍 아이템 인벤토리 보유량 증가
                 }
@@ -323,7 +321,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         private void EnemyPhase(Enemy enem)
         {
             Console.Clear();
-            ConsoleUtility.ShowTitle("■ Battle!! ■\n");
+            ConsoleUtility.ShowTitle("■ 전  투 ■\n");
             enem.EnemyAttack();  // 플레이어 체력, 플레이어 이름
         }
 

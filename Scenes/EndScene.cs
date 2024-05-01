@@ -11,7 +11,7 @@ namespace Sparta2ndTeam_TeamProject.Scenes
         public void EndGame()
         {
             Console.Clear();
-            ConsoleUtility.ShowTitle("■ 전투 결과 ■");
+            ConsoleUtility.ShowTitle("■ 전투결과 ■\n");
             ConsoleUtility.PrintTextHighlights("", "Victory\n");
             Console.Write("Happy Ending");
             Thread.Sleep(1000);
@@ -24,7 +24,7 @@ namespace Sparta2ndTeam_TeamProject.Scenes
             Thread.Sleep(2000);
 
             Console.Clear();
-            ConsoleUtility.PrintTextBlood("", "■ 전투 결과 ■");
+            ConsoleUtility.PrintTextBlood("", "■ 전투결과 ■\n");
             ConsoleUtility.PrintTextBlood("", "Victory\n");
             ConsoleUtility.PrintTextBlood("", "Happy Ending...?\n");
             Thread.Sleep(3000);
