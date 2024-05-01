@@ -59,8 +59,8 @@ namespace Sparta2ndTeam_TeamProject.skill
             Hp = 150;
             Mp = 50;
 
-            skill.Add(new Skill("알파-스트라이크", 10, Atk * 2, 1));
-            skill.Add(new Skill("더블-스트라이크", 25, Atk * 2, 2));
+            skill.Add(new Skill("알파-스트라이크", 10, Atk * 2, 1, 1));
+            skill.Add(new Skill("더블-스트라이크", 25, Atk * 2, 2, 2));
 
         }
     }
@@ -74,8 +74,8 @@ namespace Sparta2ndTeam_TeamProject.skill
             Def = 6; // 마법사의 방어력 설정
             Hp = 100;
             Mp = 150;
-            skill.Add(new Skill("에너지 볼트", 10, Atk * 1, 2));
-            skill.Add(new Skill("썬더 볼트", 25, Atk * 2, 1));
+            skill.Add(new Skill("에너지 볼트", 10, Atk * 1, 2, 1));
+            skill.Add(new Skill("썬더 볼트", 25, Atk * 2, 1, 2));
         }
 
     }
