@@ -81,7 +81,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
             string[] job = { "전사", "마법사" };
             Console.WriteLine("\n[내 정보]");
-            Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job - 1]);
+            Console.WriteLine("Lv.{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job - 1]);
             Console.WriteLine("HP {0}/100", GameManager.player.Hp);
 
             Console.WriteLine("\n1. 기본 공격\n2. 스킬\n3. 인벤토리"); // 스킬, 소모성 아이템 추가 할 수 있음
@@ -241,7 +241,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
                     Console.WriteLine("\n[전리품]");                           // 전리품 설정
                     DropItems();
-
+                    LevelCheck();
 
                     Console.WriteLine("\n<Press Any Key>");
                     Console.Write("\n>>");
@@ -258,6 +258,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
         }
 
+
         private void DropItems()
         {
             for (int i = 0; i < defeatCount; i++)
@@ -272,6 +273,44 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 }
             } 
         }
+
+        private void LevelCheck(int getExp = 0)
+        {
+            int tempLv = GameManager.player.Level;
+            int tempAtk = GameManager.player.Atk;
+            int tempDef = GameManager.player.Def;            
+
+            for (int i = 0; i < currentEnemy.Count; i++)
+            {
+                getExp += currentEnemy[i].Exp;
+            }
+
+            GameManager.player.LevelUp(getExp);
+
+            if (tempLv != GameManager.player.Level)
+            {
+                Console.WriteLine("\n[획득 경험치]");
+
+                ConsoleUtility.PrintTextHighlights("      ", getExp.ToString());
+
+                Console.WriteLine("\n[레벨 업!]");
+                Console.Write("Lv. {0:D2} -> ", tempLv);
+                ConsoleUtility.PrintTextHighlights("", GameManager.player.Level.ToString("D2"));
+                Console.Write("공격력 : {0} -> ", tempAtk);
+                ConsoleUtility.PrintTextHighlights("", GameManager.player.Atk.ToString("D2"));
+                Console.Write("방어력 : {0} -> ", tempDef);
+                ConsoleUtility.PrintTextHighlights("", GameManager.player.Def.ToString("D2"));
+                Console.WriteLine("경험치 : {0} / {1}", GameManager.player.CurrentExp, GameManager.player.RequiredExp);
+                return;
+            }
+            else
+            {
+                Console.WriteLine("\n[획득 경험치]");
+                ConsoleUtility.PrintTextHighlights("      ", getExp.ToString());
+                Console.WriteLine("경험치 : {0} / {1}", GameManager.player.CurrentExp, GameManager.player.RequiredExp);
+            }
+        }
+
 
         private void EnemyPhase(Enemy enem)
         {

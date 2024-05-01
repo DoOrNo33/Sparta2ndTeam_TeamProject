@@ -26,6 +26,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         public int Atk { get { return atk; } }
         public bool IsDead { get { return isDead; } }
         public int[] Drops { get { return drops; } }
+        public int Exp { get { return exp; } }
 
 
 
