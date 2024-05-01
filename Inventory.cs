@@ -107,7 +107,7 @@ namespace Sparta2ndTeam_TeamProject
             while(true)
             {
                 Console.Clear();
-                ConsoleUtility.ShowTitle("■ 인벤토리 - 포션 관리 ■");
+                ConsoleUtility.ShowTitle("■ 인벤토리 - 회복 아이템 ■");
                 Console.WriteLine("포션을 사용하여 체력이나 마나를 회복할 수 있습니다.\n");
 
                 ConsoleUtility.PrintTextHighlights("", "[포션 목록]");
