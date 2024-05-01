@@ -209,7 +209,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 Console.WriteLine("\n[전리품]");                           // 전리품 설정
                 DropItems();
 
-                Console.WriteLine("0. 다음");
+                Console.WriteLine("\n<Press Any Key>");
                 Console.Write("\n>>");
 
                 ConsoleUtility.PromptMenuChoice(0, 0);
@@ -223,7 +223,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             for (int i = 0; i < defeatCount; i++)
             {
                 int DropCheckPoint = random.Next(0, 10);
-                if (DropCheckPoint < (currentEnemy[i].Lv * 2))             // 레벨 2배수로 확률 증가
+                if (DropCheckPoint < (currentEnemy[i].Lv * 5))             // 레벨 2배수로 확률 증가
                 {
                     Console.WriteLine("{0}", currentEnemy[i].Drops[random.Next(0, 2)]);             // 드랍 아이템 중 무작위 결정
                 }
