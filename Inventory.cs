@@ -2,10 +2,9 @@
 {
     internal class Inventory
     {
-
         //다양한 혈석의 개수 정보를 저장 
         //인덱스 순서대로 작은 혈석 조각, 일반 혈석, 거대한 혈석
-        static public int[] dropItemsCnt = { 0, 2, 0 };
+        static public int[] dropItemsCnt = { 1, 2, 1 };
 
         //인덱스 순서대로 소형 hp 포션, 대형 hp 포션, 소형 mp 포션, 대형 mp 포션
         static public int[] portionCnt = { 3, 0, 0, 0 };
@@ -15,7 +14,7 @@
         //아이템을 저장하기 위한 리스트 
         static List<Item> portionItems = new List<Item>(); //포션
         static List<Item> equipmentItems = new List<Item>(); //장비
-        static List<Item> monstorDropItems = new List<Item>(); //몬스터 드랍 아이템 
+        static public List<Item> monstorDropItems = new List<Item>(); //몬스터 드랍 아이템 
         internal static void InventoryMenu()
         {
             while (true)
@@ -177,7 +176,7 @@
                 
                 Console.WriteLine();
 
-                command = ConsoleUtility.PromptMenuChoice(0, portionItems.Count);
+                command = ConsoleUtility.PromptMenuChoice(0, monstorDropItems.Count);
 
                 switch (command)
                 {
@@ -371,7 +370,7 @@
 
                 dropItemsCnt[idx]--;
 
-                //혈석을 모두 사용하였다면 invenItems 리스트에서 해당 정보를 삭제
+                //혈석을 모두 사용하였다면 monstorDropItems 리스트에서 해당 정보를 삭제
                 if (dropItemsCnt[idx] <= 0)
                 {
                     dropItemsCnt[idx] = 0;
