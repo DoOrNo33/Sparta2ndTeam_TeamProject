@@ -205,6 +205,10 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 Console.WriteLine("던전에서 몬스터 {0}마리를 잡았습니다.\n", defeatCount);
                 Console.WriteLine("Lv.{0}, {1}", GameManager.player.Level, GameManager.player.Name);
                 Console.WriteLine("HP {0} -> {1}\n", startHp, GameManager.player.Hp);
+
+                Console.WriteLine("\n[전리품]");                           // 전리품 설정
+                DropItems();
+
                 Console.WriteLine("0. 다음");
                 Console.Write("\n>>");
 
@@ -212,6 +216,18 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
                 GameManager.tower.ClimbCheck(1);
             }
+        }
+
+        private void DropItems()
+        {
+            for (int i = 0; i < defeatCount; i++)
+            {
+                int DropCheckPoint = random.Next(0, 10);
+                if (DropCheckPoint < (currentEnemy[i].Lv * 2))             // 레벨 2배수로 확률 증가
+                {
+                    Console.WriteLine("{0}", currentEnemy[i].Drops[random.Next(0, 2)]);             // 드랍 아이템 중 무작위 결정
+                }
+            } 
         }
 
         private void EnemyPhase(Enemy enem)

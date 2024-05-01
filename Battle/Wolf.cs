@@ -16,6 +16,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
             hp = 20;
             atk = 7;
             exp = 3;
+            drops[0] = 1;
+            drops[1] = 1;
 
             int lowLv = Math.Max(_towerLv - 2, 1);
             int highLv = Math.Min(_towerLv + 1, 6);

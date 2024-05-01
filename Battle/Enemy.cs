@@ -16,6 +16,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         protected int atk;
         protected bool isDead = false;
         protected int exp;
+        protected int[] drops = new int[2];
         protected Random random = new Random();
 
         public string Name { get { return name; } }
@@ -24,6 +25,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
         public int Hp { get { return hp; } }
         public int Atk { get { return atk; } }
         public bool IsDead { get { return isDead; } }
+        public int[] Drops { get { return drops; } }
+
 
 
         protected virtual void SetLevel()
