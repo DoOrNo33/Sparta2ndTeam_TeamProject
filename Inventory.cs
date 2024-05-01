@@ -71,7 +71,8 @@ namespace Sparta2ndTeam_TeamProject
                     Console.WriteLine();
                 }
 
-                Console.WriteLine();
+                Console.WriteLine("\n\n\n0. 나가기\n");
+                
 
                 switch (command)
                 {

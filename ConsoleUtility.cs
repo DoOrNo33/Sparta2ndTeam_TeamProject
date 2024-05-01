@@ -23,6 +23,12 @@
             Console.ReadKey();
         }
 
+        public static void PromptReturn()
+        {
+            Console.Write("\n\n<Press Any Key>");
+            Console.ReadKey();
+        }
+
         public static int PromptMenuChoice(int min, int max)
         {
             while (true)

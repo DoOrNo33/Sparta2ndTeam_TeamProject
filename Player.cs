@@ -17,7 +17,10 @@ namespace Sparta2ndTeam_TeamProject
         public int Atk { get; set; } = 10;
         public int Def { get; set; } = 5;
         public int Hp { get; set; } = 100;
+        public int Max_Hp { get; set; } = 100;
         public int Mp { get; set; } = 50;
+
+        public int Max_Mp { get; set; } = 50;
         public int Gold { get; set; } = 1500;
 
         public Player(string name)
@@ -35,9 +38,7 @@ namespace Sparta2ndTeam_TeamProject
             string[] job = { "전사", "마법사" };
 
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("상태 보기\n");
-            Console.ResetColor();
+            ConsoleUtility.ShowTitle("■ 상태 보기 ■");
             Console.WriteLine("캐릭터의 정보가 표시됩니다.");
             Console.WriteLine();
 
@@ -65,24 +66,15 @@ namespace Sparta2ndTeam_TeamProject
                 Console.WriteLine($"방어력 : {Def} (+{added_DEF})");
 
             if (added_HP == 0)
-                Console.WriteLine($"체 력 : {Hp}");
+                Console.WriteLine($"체 력 : {Hp} / {Max_Hp}");
             else
                 Console.WriteLine($"체 력 : {Hp} (+{added_HP})");
 
+            Console.WriteLine($"마 나 : {Mp} / {Max_Mp}");
             Console.WriteLine($"Gold : {Gold} G");
 
-            Console.WriteLine("\n0. 나가기");
+            ConsoleUtility.PromptReturn();
 
-            Enum command = (SelectStatusMenu)ConsoleUtility.PromptMenuChoice(0, 0);
-
-            switch (command)
-            {
-                case SelectStatusMenu.PreviousPage:
-                    return;
-                case SelectStatusMenu.WrongCommand:
-                    StatusMenu();
-                    break;
-            }
             return;
         }
 

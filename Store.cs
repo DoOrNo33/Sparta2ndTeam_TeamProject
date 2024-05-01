@@ -153,6 +153,7 @@ namespace Sparta2ndTeam_TeamProject
                     Console.WriteLine();
                 }
 
+                Console.WriteLine("\n\n\n0. 나가기\n\n");
                 command = ConsoleUtility.PromptMenuChoice(0, GameManager.items.Count);
 
                 if (command == (int)SelectStoreMenu.PreviousPage) return;
@@ -172,9 +173,9 @@ namespace Sparta2ndTeam_TeamProject
                             currentShopState = CurrentShopState.Success;
 
                             //현재 구매한 아이템의 종류가 포션이라면, 
-                            if (GameManager.items[command - 1]._type == ItemType.PORTION)
+                            //if (GameManager.items[command - 1]._type == ItemType.PORTION)
                                 //인벤토리에 포션의 수를 추가
-                                Inventory.PortionCnt++;
+                                //Inventory.PortionCnt++;
                         }
                         else
                         {
@@ -227,8 +228,6 @@ namespace Sparta2ndTeam_TeamProject
                 else
                     Console.WriteLine("~~ 보유중인 아이템이 없습니다. ~~");
 
-
-                Console.WriteLine();
 
                 if (command == (int)SelectStoreMenu.WrongCommand)
                 {

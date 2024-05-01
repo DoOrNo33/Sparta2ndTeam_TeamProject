@@ -13,12 +13,14 @@ namespace Sparta2ndTeam_TeamProject
     {
         static public List<Item> items = new List<Item>();
         BattleMenu battleMenu;
+
         public GameManager()
         {
             InitializeGame();
         }
 
         private static GameManager instance;
+        public static Player player;
 
         public static GameManager Instance
         {
@@ -32,10 +34,10 @@ namespace Sparta2ndTeam_TeamProject
             }
         }
 
-        public static Player player;
+
         private void InitializeGame()
         {
-            // 스타트 하면서 생성할 클래스 모음 - 아이템, 캐릭터
+            // 스타트 하면서 생성할 클래스 모음 - 아이템, 캐릭터 , 퀘스트
 
             items.Add(new Item("수련자 갑옷", "수련에 도움을 주는 갑옷입니다.", 0, 5, 0, 1000, ItemType.ARMOR));
             items.Add(new Item("무쇠 갑옷", "무쇠로 만들어져 튼튼한 갑옷입니다.", 0, 9, 0, 200, ItemType.ARMOR));
@@ -48,8 +50,8 @@ namespace Sparta2ndTeam_TeamProject
 
             items.Add(new Item("HP 포션", "HP를 30만큼 회복합니다.", 0, 0, 30, 50, ItemType.PORTION));
 
-        }
-        public void SaveData()
+         }
+        static public void SaveData()
         {
             Console.Clear();
             Console.WriteLine("=============================================================================");
@@ -88,10 +90,9 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("                 아이템 데이터를 성공적으로 저장하였습니다!                  ");
             Console.WriteLine("=============================================================================");
             Thread.Sleep(300);
-
-            Console.ReadKey();
-
         }
+
+
         public void LoadData()
         {
             Console.Clear();
@@ -139,6 +140,7 @@ namespace Sparta2ndTeam_TeamProject
                 string name = Console.ReadLine();
                 int job;
                 bool isInt;
+
                 do
                 {
                     Console.WriteLine();
@@ -154,6 +156,7 @@ namespace Sparta2ndTeam_TeamProject
                     player = new Warrior(name);
                 else if (job == 2)
                     player = new Mage(name);
+
                 Console.WriteLine();
                 Console.WriteLine("=============================================================================");
                 Console.WriteLine("                        캐릭터를 생성하고 있습니다..                         ");
@@ -166,13 +169,12 @@ namespace Sparta2ndTeam_TeamProject
         public void GameStart()
         {
             Console.Clear();
-            // 스타트 화면
-            ConsoleUtility.PrintGameHeader();
+           
+            ConsoleUtility.PrintGameHeader(); // 스타트 화면 출력
 
-            // 세이브 불러오기
-            LoadData();
+            LoadData(); // 세이브 불러오기
 
-            MainMenu();
+            MainMenu(); // 메인 화면 출력
         }
 
         public void MainMenu()
@@ -190,7 +192,7 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("2. 인벤토리");
             Console.WriteLine("3. 상점");
             Console.WriteLine("4. 전투하기");
-            Console.WriteLine("5. 저장하기");
+            Console.WriteLine("5. 탐험가 길드");
 
             // 2. 선택한 결과를 검증함
             Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 5);
@@ -212,13 +214,11 @@ namespace Sparta2ndTeam_TeamProject
                     break;
                 case SelectMainMenu.BattleMenu:
                     if (battleMenu == null)
-                    {
                         battleMenu = new BattleMenu();
-                    }
                     battleMenu.Battle();
                     break;
-                case SelectMainMenu.SaveData:
-                    SaveData();
+                case SelectMainMenu.GuildMenu:
+                    Guild.GuildMenu();
                     break;
             }
             MainMenu();
@@ -230,7 +230,7 @@ namespace Sparta2ndTeam_TeamProject
             InventoryMenu,
             StoreMenu,
             BattleMenu,
-            SaveData
+            GuildMenu,
         }
     }
 }
