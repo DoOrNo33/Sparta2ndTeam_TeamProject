@@ -9,10 +9,10 @@ namespace Sparta2ndTeam_TeamProject.skill
 {
     internal class Skill
     {
-        public string SkillName { get; set; }
-        public int SkillMana { get; set; }
-        public int SkillDamage { get; set; }
-        public int SkillRange { get; set; }
+        public string SkillName { get; }
+        public int SkillMana { get;  }
+        public int SkillDamage { get; }
+        public int SkillRange { get;  }
 
         public Skill(string Name, int Mana, int Damage, int Range)
         {
