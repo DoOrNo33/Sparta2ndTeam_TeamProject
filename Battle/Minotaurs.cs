@@ -34,7 +34,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         {
             lv += 1;
             hp += 30;
-            atk += 10;
+            atk += 8;
             exp += 1;
         }
     }

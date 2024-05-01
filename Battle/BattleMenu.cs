@@ -13,6 +13,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         int startHp = 0;
         int choice = 0;
         int towerLv;
+        bool finalBattle;
 
 
 
@@ -20,10 +21,12 @@ namespace Sparta2ndTeam_TeamProject.Battle
         {
             currentEnemy = new();
         }
-        
-        public void Battle()
+
+        public void Battle(bool finalTrigger = false)
         {
             towerLv = GameManager.tower.TowerLv;
+
+            finalBattle = finalTrigger;         // 최종 전투 트리거
 
             Console.Clear();
             ConsoleUtility.ShowTitle("■ Battle!! ■\n");
@@ -34,13 +37,38 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 startHp = GameManager.player.Hp;
                 currentEnemy.Clear();
                 defeatCount = 0;            // 적 쓰러뜨림 초기화
-                int enemyCount = CreateEnemyCount();
-
-                for (int i = 0; i < enemyCount; i++)
+                
+                if (!finalBattle)           // 일반 전투
                 {
-                    CreateEnemy();        //어떤 적을 등장시킬 지
+                    int enemyCount = CreateEnemyCount();
 
-                    currentEnemy[i].PrintCurrentEnemies();
+                    for (int i = 0; i < enemyCount; i++)
+                    {
+                        CreateEnemy();        //어떤 적을 등장시킬 지
+
+                        currentEnemy[i].PrintCurrentEnemies();
+                    }
+                }
+                else                           // 최종 전투
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Minotaurs mino = new Minotaurs(towerLv + 1);
+                        currentEnemy.Add(mino);
+                        currentEnemy[i].PrintCurrentEnemies();
+                    }
+
+                    BloodThirster boss = new BloodThirster();
+                    currentEnemy.Add(boss);
+                    currentEnemy[2].PrintCurrentEnemies();
+
+                    for (int i = 3; i < 5; i++)
+                    {
+                        Minotaurs mino = new Minotaurs(towerLv + 1);
+                        currentEnemy.Add(mino);
+                        currentEnemy[i].PrintCurrentEnemies();
+                    }
+
                 }
             }
             else
@@ -199,22 +227,30 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
             else
             {
-                Console.Clear();
-                ConsoleUtility.ShowTitle("■ Battle!! ■ - Result\n");
-                Console.WriteLine("Victory\n");
-                Console.WriteLine("던전에서 몬스터 {0}마리를 잡았습니다.\n", defeatCount);
-                Console.WriteLine("Lv.{0}, {1}", GameManager.player.Level, GameManager.player.Name);
-                Console.WriteLine("HP {0} -> {1}\n", startHp, GameManager.player.Hp);
+                if (!finalBattle)                               // 일반 전투
+                {
+                    Console.Clear();
+                    ConsoleUtility.ShowTitle("■ Battle!! ■ - Result\n");
+                    Console.WriteLine("Victory\n");
+                    Console.WriteLine("던전에서 몬스터 {0}마리를 잡았습니다.\n", defeatCount);
+                    Console.WriteLine("Lv.{0}, {1}", GameManager.player.Level, GameManager.player.Name);
+                    Console.WriteLine("HP {0} -> {1}\n", startHp, GameManager.player.Hp);
 
-                Console.WriteLine("\n[전리품]");                           // 전리품 설정
-                DropItems();
+                    Console.WriteLine("\n[전리품]");                           // 전리품 설정
+                    DropItems();
 
-                Console.WriteLine("\n<Press Any Key>");
-                Console.Write("\n>>");
+                    Console.WriteLine("\n<Press Any Key>");
+                    Console.Write("\n>>");
 
-                ConsoleUtility.PromptMenuChoice(0, 0);
+                    ConsoleUtility.PromptMenuChoice(0, 0);
 
-                GameManager.tower.ClimbCheck(1);
+                    GameManager.tower.ClimbCheck(1);
+                }
+                else                                          // 최종 전투 승리 시 게임 종료
+                {
+                    EndGame();
+                }
+
             }
         }
 
@@ -223,7 +259,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             for (int i = 0; i < defeatCount; i++)
             {
                 int DropCheckPoint = random.Next(0, 10);
-                if (DropCheckPoint < (currentEnemy[i].Lv * 5))             // 레벨 2배수로 확률 증가
+                if (DropCheckPoint < (currentEnemy[i].Lv * 2))             // 레벨 2배수로 확률 증가
                 {
                     Console.WriteLine("{0}", currentEnemy[i].Drops[random.Next(0, 2)]);             // 드랍 아이템 중 무작위 결정
                 }
@@ -293,6 +329,17 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     currentEnemy.Add(mino);
                     break;
             }
+        }
+
+        private void EndGame()
+        {
+            Console.Clear();
+            ConsoleUtility.ShowTitle("■ Battle!! ■ - Result\n");
+            Console.WriteLine("Victory\n");
+            Console.WriteLine("{0} 은(는) 타워를 정복했습니다.");
+            Console.WriteLine("타워는 사라졌고, 당신은 타워 입구가 있던 자리로 이동되었습니다.");
+            Console.WriteLine("Happy Ending?");
+            Environment.Exit(0);
         }
 
 

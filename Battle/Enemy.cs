@@ -197,8 +197,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
                 else                                                    // 플레이어 피격
                 {
-                    float pDefValue = Atk * (1 - (GameManager.player.Def * 0.01f));
-                    int adAtk = (int)Math.Ceiling(pDefValue);             // 플레이어의 방어력만큼 피해 경감
+                    float damageReduce = Atk * (1 - (GameManager.player.Def * 0.01f)); // 플레이어의 방어력%만큼 피해 경감
+                    int damageRange = random.Next((int)Math.Ceiling(damageReduce) - 1, (int)Math.Ceiling(damageReduce) + 2);     // 경감 데미지에서 -1 ~ +1 값 설정
+                    int adAtk = damageRange;             
 
                     Console.Clear();
                     ConsoleUtility.ShowTitle("■ Battle!! ■\n");
