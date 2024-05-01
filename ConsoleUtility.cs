@@ -23,6 +23,12 @@
             Console.ReadKey();
         }
 
+        public static void PromptReturn()
+        {
+            Console.Write("\n\n<Press Any Key>");
+            Console.ReadKey();
+        }
+
         public static int PromptMenuChoice(int min, int max)
         {
             while (true)
@@ -68,6 +74,20 @@
             Console.ResetColor();
             Console.WriteLine(s3);
         }
+
+        internal static void Animation(int left, int top, int start, int target)
+        {
+            // 콘솔창 기준 왼쪽에서 오른쪽으로 0 부터 증가, 위에서 아래로 0 부터 증가
+            // 시작점 -> 목표치
+            while(start < target)
+            {
+                Thread.Sleep(50);
+                start++;
+                Console.SetCursorPosition(left, top);
+                Console.WriteLine($"{start}");
+            }
+        }
+
 
         internal static void ShowTitle(string title)
         {

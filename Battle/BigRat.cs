@@ -14,8 +14,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
             name = "큰 쥐";
             id = 0;
             lv = 0;
-            hp = 10;
-            atk = 5;
+            hp = 7;
+            atk = 4;
+            exp = 0;
+            drops[0] = 0;
+            drops[1] = 0;
 
             int lowLv = Math.Max(_towerLv - 1, 1);
             int highLv = Math.Min(_towerLv + 2, 6);
@@ -33,6 +36,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             lv += 1;
             hp += 3;
             atk += 1;
+            exp += 1;
         }
     }
 }
