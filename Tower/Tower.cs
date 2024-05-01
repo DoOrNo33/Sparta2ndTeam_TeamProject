@@ -27,7 +27,11 @@ namespace Sparta2ndTeam_TeamProject.Tower
             CombatCount += count;
 
             if (CombatCount == 3)   // 3회 전투 했는지 체크
-            {   
+            {
+                //이번 배틀이 종료되면 사용 가능한 회복 수를 충전 
+                Inventory.LimitRecover_HP = Inventory.MAXIMUM;
+                Inventory.LimitRecover_MP = Inventory.MAXIMUM;
+
                 if (TowerLv < 8)
                 {
                     Console.Clear();
@@ -107,7 +111,7 @@ namespace Sparta2ndTeam_TeamProject.Tower
                         break;
 
                     case ClimbSelect.Inventory:
-                        Inventory.InventoryMenu();
+                        Inventory.InventoryMenu(true);
                         ClimbCheck(0);
                         break;
 

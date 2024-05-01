@@ -15,7 +15,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         int towerLv;
         bool finalBattle;
 
-
+       
 
         public BattleMenu()
         {
@@ -108,14 +108,13 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     break;
                 case BattleAction.Inventory:                
                     duringBattle = true;
-                    Inventory.InventoryMenu();
+                    Inventory.InventoryMenu(true);
                     Battle();
                     break;
                 case BattleAction.WrongCommand:
                     duringBattle = true;
                     Battle();
                     break;
-
             }
 
         }
@@ -242,6 +241,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
                     Console.WriteLine("\n[전리품]");                           // 전리품 설정
                     DropItems();
+
 
                     Console.WriteLine("\n<Press Any Key>");
                     Console.Write("\n>>");
