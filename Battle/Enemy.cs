@@ -89,13 +89,16 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
         public int PlayerSkillAttack(int order)
         {
+            int pMp = GameManager.player.Mp;
             string pName = GameManager.player.Name;
             string sName = GameManager.player.skill[order].SkillName;
             int adAtk = (int)Math.Ceiling(GameManager.player.skill[order].SkillDamage * 0.1f);                                   //보정 공격, 10%의 올림치
             int pAtk = random.Next((GameManager.player.skill[order].SkillDamage - adAtk), (GameManager.player.skill[order].SkillDamage + adAtk + 1)); //보정 공격치
             bool isCri = false;
-            bool isAvoid = false;
 
+            if (pMp < GameManager.player.skill[order].SkillMana) {
+                
+            }
             // 치명타 판정
             if (GameManager.player.Critical())
             {

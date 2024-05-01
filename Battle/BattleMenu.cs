@@ -15,7 +15,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
         int towerLv;
         bool finalBattle;
 
-
         public BattleMenu()
         {
             currentEnemy = new();
@@ -81,7 +80,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
             string[] job = { "전사", "마법사" };
             Console.WriteLine("\n[내 정보]");
             Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job - 1]);
-            Console.WriteLine("HP {0}/100", GameManager.player.Hp);
+            Console.WriteLine("HP {0}/{1}}",GameManager.player.Hp, GameManager.player.Max_Hp);
+            Console.WriteLine("MP {0}/{1}}", GameManager.player.Mp, GameManager.player.Max_Mp);
 
             Console.WriteLine("\n1. 기본 공격\n2. 스킬\n3. 인벤토리"); // 스킬, 소모성 아이템 추가 할 수 있음
             Console.WriteLine("\n원하시는 행동을 입력해주세요.");
@@ -144,7 +144,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             Console.WriteLine("\n[내 스킬]", GameManager.player.skill[1].SkillName);
             for (int i = 0; i < GameManager.player.skill.Count; i++)
             {
-                Console.WriteLine("\n{0}. {1} - MP {2} \n{3}의 데미지로 명의 {4}적을 공격합니다",i, GameManager.player.skill[i].SkillName, GameManager.player.skill[i].SkillMana, GameManager.player.skill[i].SkillDamage, GameManager.player.skill[i].SkillOrder);
+                Console.WriteLine("\n{0}. {1} - MP {2} \n{3}의 데미지로 명의 {4}적을 공격합니다",i+1, GameManager.player.skill[i].SkillName, GameManager.player.skill[i].SkillMana, GameManager.player.skill[i].SkillDamage, GameManager.player.skill[i].SkillOrder);
             }
             Console.WriteLine("\n0. 취소");
             Console.WriteLine("\n원하시는 행동을 입력해주세요.");
@@ -162,17 +162,17 @@ namespace Sparta2ndTeam_TeamProject.Battle
             switch ((SkillCount)choice)
             {
                 case SkillCount.FristSkill:
-                    SetSkill = 1;
+                    SetSkill = 0;
                     break;
                 case SkillCount.SecondSkill:
-                    SetSkill = 2;
+                    SetSkill = 1;
                     break;
-                case SkillCount.ThirdSkill:
-                    SetSkill = 3;
-                    break;
-                case SkillCount.FourthSkill:
-                    SetSkill = 4;
-                    break;
+                //case SkillCount.ThirdSkill:
+                //    SetSkill = 3;
+                //    break;
+                //case SkillCount.FourthSkill:
+                //    SetSkill = 4;
+                //    break;
                 case SkillCount.WrongCommand:
                     duringBattle = true;
                     Battle();

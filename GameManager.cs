@@ -168,9 +168,9 @@ namespace Sparta2ndTeam_TeamProject
 
 
                 if (job == 1)
-                    player = new Warrior(name);
+                    player = new Player.Warrior(name);
                 else if (job == 2)
-                    player = new Mage(name);
+                    player = new Player.Mage(name);
 
                 Console.WriteLine();
                 Console.WriteLine("=============================================================================");

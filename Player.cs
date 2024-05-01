@@ -15,8 +15,8 @@ namespace Sparta2ndTeam_TeamProject
         public string Name { get; }
         public int Job { get; set; }
         public int Level { get; } = 1;
-        public int Atk { get; set; } = 10; 
-        public int Def { get;  set; } = 5; 
+        public int Atk { get; set; } = 10;
+        public int Def { get; set; } = 5;
         public int Hp { get; set; } = 100;
         public int Max_Hp { get; set; } = 100;
         public int Mp { get; set; } = 50;
@@ -25,7 +25,7 @@ namespace Sparta2ndTeam_TeamProject
         public int Gold { get; set; } = 1500;
 
 
-       
+
 
         public Player(string name)
         {
@@ -34,7 +34,7 @@ namespace Sparta2ndTeam_TeamProject
 
         public void StatusMenu()
         {
-            
+
             int added_ATK = 0;
             int added_DEF = 0;
             int added_HP = 0;
@@ -105,71 +105,51 @@ namespace Sparta2ndTeam_TeamProject
         {
             return skill[i].SkillDamage;
 
-    }
-    class Warrior : Player
-    {
-        
-        public Warrior(string name) : base(name)
+        }
+        internal class Warrior : Player
         {
-            Job = 1;
-            Atk = 8; // 전사의 공격력 설정
-            Def = 10; // 전사의 방어력 설정
-            //Hp = 150;
-            //Mp = 50;
 
-        public int Alpha_Strike() // 데미지를 반환 ( -1 : 스킬 사용 실패)
-        {
-            if(Mp < 10)
+            public Warrior(string name) : base(name)
             {
-                Console.WriteLine("마나가 부족합니다..");
-                return -1;
+                Job = 1;
+                Atk = 8; // 전사의 공격력 설정
+                Def = 10; // 전사의 방어력 설정
+                Max_Hp = 150;
+                Hp = Max_Hp;
+                Max_Mp = 50;
+                Mp = Max_Mp;
+                skill.Add(new Skill("알파-스트라이크", 10, Atk * 2, 1, 1));
+                skill.Add(new Skill("더블-스트라이크", 25, Atk * 2, 2, 2));
             }
-
-            Mp -= 10;
-            Console.WriteLine("알파-스트라이크 스킬 사용");
-            return Atk * 2;
         }
-
-        public int Double_Strike() // 데미지를 반환 ( -1 : 스킬 사용 실패)
+        internal class Mage : Player
         {
-            if (Mp < 20)
-            {
-                Console.WriteLine("마나가 부족합니다..");
-                return -1;
+                public Mage(string name) : base(name)
+                {
+                    Job = 2;
+                    Atk = 12; // 마법사의 공격력 설정
+                    Def = 6; // 마법사의 방어력 설정
+                    Max_Hp = 100;
+                    Hp = Max_Hp;
+                    Max_Mp = 150;
+                    Mp = Max_Mp;
+                    skill.Add(new Skill("에너지 볼트", 10, Atk * 1, 2, 1));
+                    skill.Add(new Skill("썬더 볼트", 25, Atk * 2, 1, 2));
+
+                }
+
+                public int Thunder_Bolt() // 데미지를 반환 ( -1 : 스킬 사용 실패)
+                {
+                    if (Mp < 25)
+                    {
+                        Console.WriteLine("마나가 부족합니다..");
+                        return -1;
+                    }
+
+                    Mp -= 25;
+                    Console.WriteLine("썬더 볼트 스킬 사용");
+                    return Atk * 2;
+                }
             }
-
         }
-    }
-
-    internal class Mage : Player
-    {
-        public Mage(string name) : base(name)
-        {
-            Job = 2;
-            Atk = 12; // 마법사의 공격력 설정
-            Def = 6; // 마법사의 방어력 설정
-            //Hp = 100;
-            //Mp = 150;
-            skill.Add(new Skill("에너지 볼트", 10, Atk * 1, 2, 1));
-            skill.Add(new Skill("썬더 볼트", 25, Atk * 2, 1, 2));
-        }
-
-            Mp -= 10;
-            Console.WriteLine("에너지 볼트 스킬 사용");
-            return Atk * 1;
-        }
-
-        public int Thunder_Bolt() // 데미지를 반환 ( -1 : 스킬 사용 실패)
-        {
-            if (Mp < 25)
-            {
-                Console.WriteLine("마나가 부족합니다..");
-                return -1;
-            }
-
-            Mp -= 25;
-            Console.WriteLine("썬더 볼트 스킬 사용");
-            return Atk * 2;
-        }
-    }
-}
+ }
