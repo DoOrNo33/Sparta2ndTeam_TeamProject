@@ -8,10 +8,10 @@ namespace Sparta2ndTeam_TeamProject
 
         static int command; 
 
-        //각각 포션과 장비 아이템을 저장하기 위한 리스트 
-        static List<Item> portionItems = new List<Item>();
-        static List<Item> equipmentItems = new List<Item>();
-
+        //아이템을 저장하기 위한 리스트 
+        static List<Item> portionItems = new List<Item>(); //포션
+        static List<Item> equipmentItems = new List<Item>(); //장비
+        static List<Item> monstorDropItems = new List<Item>(); //몬스터 드랍 아이템 
         internal static void InventoryMenu()
         {
 

@@ -18,30 +18,38 @@ namespace Sparta2ndTeam_TeamProject
                 ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
                 for (int i = 0; i < GameManager.items.Count; i++)
                 {
-                    if (i == 0) 
+                    //몬스터로부터 드랍되는 아이템은 상점이 표기 X 
+                    if (GameManager.items[i]._type != ItemType.MONSTER_DROP)
                     {
-                        ConsoleUtility.PrintTextHighlights("++++ ", GameManager.items[i]._type.ToString(), " ++++");
-                    }
-                    else if (i < GameManager.items.Count - 1)
-                    {
-                        if (GameManager.items[i]._type != GameManager.items[i - 1]._type)
+                        //ARMOR, WEAPON, PORTION을 구분하는 선을 그려주는 조건문
+                        if (i == 0)
                         {
-                            ConsoleUtility.PrintTextHighlights("\n++++ ", GameManager.items[i]._type.ToString(), " ++++");
+                            ConsoleUtility.PrintTextHighlights("++++ ", GameManager.items[i]._type.ToString(), " ++++");
                         }
-                    }
+                        else if (i < GameManager.items.Count - 1)
+                        {
+                            if (GameManager.items[i]._type != GameManager.items[i - 1]._type)
+                            {
+                                ConsoleUtility.PrintTextHighlights("\n++++ ", GameManager.items[i]._type.ToString(), " ++++");
+                            }
+                        }
 
-                    GameManager.items[i].PrintItemStatDesc();
-                    //아이템이 아직 구매되지 않은 상태라면, 
-                    if (!GameManager.items[i].isPurchased)
-                    {
-                        Console.Write(" | ");
-                        Console.WriteLine($"{GameManager.items[i].Price} G");
+                        GameManager.items[i].PrintItemStatDesc();
+
+                        //아이템이 아직 구매되지 않은 상태라면, 
+                        if (!GameManager.items[i].isPurchased)
+                        {
+                            Console.Write(" | ");
+                            Console.WriteLine($"{GameManager.items[i].Price} G");
+                        }
+                        //아이템이 구매가 된 상태라면, 
+                        else
+                        {
+                            ConsoleUtility.PrintTextHighlights(" | ", "판매 완료");
+                        }
+
                     }
-                    //아이템이 구매가 된 상태라면, 
-                    else
-                    {
-                        ConsoleUtility.PrintTextHighlights(" | ", "판매 완료");
-                    }
+                        
 
                 }
 
