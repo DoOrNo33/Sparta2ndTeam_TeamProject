@@ -369,11 +369,17 @@
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("체력 회복이 완료되었습니다. {0} → ", GameManager.player.Hp);
+            int prePlayerHP = GameManager.player.Hp;
 
             GameManager.player.Hp += portionItems[command - 1].HP;
             if (GameManager.player.Hp >= 100) GameManager.player.Hp = 100; //최대 체력은 100
 
-            Console.WriteLine($"{GameManager.player.Hp}");
+            // 현재 커서의 위치 확인
+            int cursorLeft = Console.CursorLeft;
+            int cursorTop = Console.CursorTop;
+            ConsoleUtility.Animation(cursorLeft, cursorTop, prePlayerHP, GameManager.player.Hp);
+
+            //Console.WriteLine($"{GameManager.player.Hp}");
             Console.ResetColor();
 
             Thread.Sleep(500);
@@ -408,6 +414,8 @@
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("마나 회복이 완료되었습니다. {0} → ", GameManager.player.Mp);
+            //ConsoleUtility.Animation 
+            int prePlayerMP = GameManager.player.Mp;
 
             if (itemType == ItemType.MONSTER_DROP)
             {
@@ -467,10 +475,13 @@
 
             if (GameManager.player.Mp >= 50) GameManager.player.Mp = 50; //최대 마나는 50
 
-            Console.WriteLine($"{GameManager.player.Mp}");
-            Console.ResetColor();
+            // 현재 커서의 위치 확인
+            int cursorLeft = Console.CursorLeft;
+            int cursorTop = Console.CursorTop;
+            ConsoleUtility.Animation(cursorLeft, cursorTop, prePlayerMP, GameManager.player.Mp);
 
             Thread.Sleep(500);
+            Console.ResetColor();
 
         }
 
