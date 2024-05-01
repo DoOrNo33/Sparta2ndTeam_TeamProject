@@ -79,6 +79,7 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine(s3);
         }
 
+
         internal static void PrintTextBlood(string s1, string s2, string s3 = "")
         {
             Console.Write(s1);
@@ -90,8 +91,7 @@ namespace Sparta2ndTeam_TeamProject
 
         internal static void Animation(int left, int top, int start, int target)
         {
-            // 콘솔창 기준 왼쪽에서 오른쪽으로 0 부터 증가, 위에서 아래로 0 부터 증가
-            // 시작점 -> 목표치
+            // 시작점 -> 목표치까지 50ms 마다 1 씩 증가
             while(start < target)
             {
                 Thread.Sleep(50);
@@ -101,6 +101,19 @@ namespace Sparta2ndTeam_TeamProject
             }
         }
 
+        internal static void Animation2(int left, int top, int start, int target, int seg, int t)
+        {
+            // 시작점 -> 목표치까지 (t)ms 마다 seg 씩 증가
+            while (start < target)
+            {
+                Thread.Sleep(t);
+                start += seg;
+                if (start > target)
+                    start = target;
+                Console.SetCursorPosition(left, top);
+                Console.WriteLine($"{start}");
+            }
+        }
 
         internal static void ShowTitle(string title)
         {

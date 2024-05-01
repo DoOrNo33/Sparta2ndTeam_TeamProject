@@ -19,6 +19,10 @@ namespace Sparta2ndTeam_TeamProject.Tower
         public void EnterTower()
         {
             CombatCount = 0;
+
+            if (GameManager.quests[0].isComplete == false && GameManager.quests[0].isAccept == true)
+                GameManager.quests[0].isComplete = true;
+            
             battleMenu.Battle();
         }
 
