@@ -14,8 +14,8 @@ namespace Sparta2ndTeam_TeamProject
         public string Name { get; }
         public int Job { get; set; }
         public int Level { get; } = 1;
-        public int Atk { get; set; } = 10;
-        public int Def { get; set; } = 5;
+        public int Atk { get; set; } = 10; 
+        public int Def { get;  set; } = 5; 
         public int Hp { get; set; } = 100;
         public int Max_Hp { get; set; } = 100;
         public int Mp { get; set; } = 50;
