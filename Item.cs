@@ -88,5 +88,10 @@ namespace Sparta2ndTeam_TeamProject
         {
             isPurchased = !isPurchased;
         }
+
+        internal void DropItemActive()
+        {
+            isPurchased = true;
+        }
     }
 }

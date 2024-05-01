@@ -263,7 +263,10 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 int DropCheckPoint = random.Next(0, 10);
                 if (DropCheckPoint < (currentEnemy[i].Lv * 2))             // 레벨 2배수로 확률 증가
                 {
-                    Console.WriteLine("{0}", currentEnemy[i].Drops[random.Next(0, 2)]);             // 드랍 아이템 중 무작위 결정
+                    int drop = currentEnemy[i].Drops[random.Next(0, 2)];
+                    Console.WriteLine("{0}", GameManager.dropItems[drop].Name);  // 드랍 아이템 중 무작위 결정
+                    GameManager.dropItems[drop].DropItemActive();
+                    Inventory.dropItemsCnt[drop]++;                         // 드랍 아이템 인벤토리 보유량 증가
                 }
             } 
         }
