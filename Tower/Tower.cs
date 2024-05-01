@@ -31,7 +31,11 @@ namespace Sparta2ndTeam_TeamProject.Tower
             CombatCount += count;
 
             if (CombatCount == 3)   // 3회 전투 했는지 체크
-            {   
+            {
+                //이번 배틀이 종료되면 사용 가능한 회복 수를 충전 
+                Inventory.LimitRecover_HP = Inventory.MAXIMUM;
+                Inventory.LimitRecover_MP = Inventory.MAXIMUM;
+
                 if (TowerLv < 8)
                 {
                     Console.Clear();
@@ -71,8 +75,6 @@ namespace Sparta2ndTeam_TeamProject.Tower
 
                     Console.ReadKey();
                     battleMenu.Battle(true);
-
-
                 }
             }
             else
@@ -89,7 +91,7 @@ namespace Sparta2ndTeam_TeamProject.Tower
                 }
                 Console.WriteLine("(현재 연승 횟수 : {0})", CombatCount);
 
-                Console.WriteLine("\n1. 전투 속행\n2. 아이템 사용\n\n0.후퇴");
+                Console.WriteLine("\n1. 전투 속행\n2. 인벤토리\n\n0.후퇴");
                 Console.Write(">>");
 
                 if (command == (int)ClimbSelect.WrongCommand)
@@ -112,7 +114,9 @@ namespace Sparta2ndTeam_TeamProject.Tower
                         battleMenu.Battle();
                         break;
 
-                    case ClimbSelect.UseItem:
+                    case ClimbSelect.Inventory:
+                        Inventory.InventoryMenu(true);
+                        ClimbCheck(0);
                         break;
 
                     case ClimbSelect.WrongCommand:
@@ -134,7 +138,7 @@ namespace Sparta2ndTeam_TeamProject.Tower
         {
             Retreat,
             AdvanceCombat,
-            UseItem,
+            Inventory,
             WrongCommand = -1
         }
     }

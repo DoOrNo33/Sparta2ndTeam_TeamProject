@@ -1,4 +1,5 @@
 ﻿
+using Sparta2ndTeam_TeamProject.Scenes;
 using Sparta2ndTeam_TeamProject.Tower;
 using System.Numerics;
 
@@ -15,7 +16,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         int towerLv;
         bool finalBattle;
 
-
+       
 
         public BattleMenu()
         {
@@ -81,10 +82,10 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
             string[] job = { "전사", "마법사" };
             Console.WriteLine("\n[내 정보]");
-            Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job - 1]);
+            Console.WriteLine("Lv.{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job - 1]);
             Console.WriteLine("HP {0}/100", GameManager.player.Hp);
 
-            Console.WriteLine("\n1. 평타 사용\n2. 스킬 사용\n3. 아이템 사용"); // 스킬, 소모성 아이템 추가 할 수 있음
+            Console.WriteLine("\n1. 기본 공격\n2. 스킬\n3. 인벤토리"); // 스킬, 소모성 아이템 추가 할 수 있음
             Console.WriteLine("\n원하시는 행동을 입력해주세요.");
             Console.Write(">>");
 
@@ -106,14 +107,15 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 case BattleAction.SkillAttack:
                     AttackAction();
                     break;
-                case BattleAction.UseItems:
-                    AttackAction();
+                case BattleAction.Inventory:                
+                    duringBattle = true;
+                    Inventory.InventoryMenu(true);
+                    Battle();
                     break;
                 case BattleAction.WrongCommand:
                     duringBattle = true;
                     Battle();
                     break;
-
             }
 
         }
@@ -212,7 +214,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
         private void BattleResult(BattleStatus result)
         {
-            duringBattle = false; // 전투 끝날때 초기화하는데로 옮겨주자
+            duringBattle = false; // 전투 초기화
             if (result == BattleStatus.Defeat)
             {
                 Console.Clear();
@@ -240,6 +242,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
                     Console.WriteLine("\n[전리품]");                           // 전리품 설정
                     DropItems();
+                    LevelCheck();
 
                     Console.WriteLine("\n<Press Any Key>");
                     Console.Write("\n>>");
@@ -250,11 +253,13 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 }
                 else                                          // 최종 전투 승리 시 게임 종료
                 {
-                    EndGame();
+                    EndScene endScene = new();
+                    endScene.EndGame();
                 }
 
             }
         }
+
 
         private void DropItems()
         {
@@ -263,10 +268,51 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 int DropCheckPoint = random.Next(0, 10);
                 if (DropCheckPoint < (currentEnemy[i].Lv * 2))             // 레벨 2배수로 확률 증가
                 {
-                    Console.WriteLine("{0}", currentEnemy[i].Drops[random.Next(0, 2)]);             // 드랍 아이템 중 무작위 결정
+                    int drop = currentEnemy[i].Drops[random.Next(0, 2)];
+                    Console.WriteLine("{0}", GameManager.dropItems[drop].Name);  // 드랍 아이템 중 무작위 결정
+                    GameManager.dropItems[drop].DropItemActive();
+                    Inventory.dropItemsCnt[drop]++;                         // 드랍 아이템 인벤토리 보유량 증가
                 }
             } 
         }
+
+        private void LevelCheck(int getExp = 0)
+        {
+            int tempLv = GameManager.player.Level;
+            int tempAtk = GameManager.player.Atk;
+            int tempDef = GameManager.player.Def;            
+
+            for (int i = 0; i < currentEnemy.Count; i++)
+            {
+                getExp += currentEnemy[i].Exp;
+            }
+
+            GameManager.player.LevelUp(getExp);
+
+            if (tempLv != GameManager.player.Level)
+            {
+                Console.WriteLine("\n[획득 경험치]");
+
+                ConsoleUtility.PrintTextHighlights("      ", getExp.ToString());
+
+                Console.WriteLine("\n[레벨 업!]");
+                Console.Write("Lv. {0:D2} -> ", tempLv);
+                ConsoleUtility.PrintTextHighlights("", GameManager.player.Level.ToString("D2"));
+                Console.Write("공격력 : {0} -> ", tempAtk);
+                ConsoleUtility.PrintTextHighlights("", GameManager.player.Atk.ToString("D2"));
+                Console.Write("방어력 : {0} -> ", tempDef);
+                ConsoleUtility.PrintTextHighlights("", GameManager.player.Def.ToString("D2"));
+                Console.WriteLine("경험치 : {0} / {1}", GameManager.player.CurrentExp, GameManager.player.RequiredExp);
+                return;
+            }
+            else
+            {
+                Console.WriteLine("\n[획득 경험치]");
+                ConsoleUtility.PrintTextHighlights("      ", getExp.ToString());
+                Console.WriteLine("경험치 : {0} / {1}", GameManager.player.CurrentExp, GameManager.player.RequiredExp);
+            }
+        }
+
 
         private void EnemyPhase(Enemy enem)
         {
@@ -333,23 +379,13 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
         }
 
-        private void EndGame()
-        {
-            Console.Clear();
-            ConsoleUtility.ShowTitle("■ Battle!! ■ - Result\n");
-            Console.WriteLine("Victory\n");
-            Console.WriteLine("{0} 은(는) 타워를 정복했습니다.");
-            Console.WriteLine("타워는 사라졌고, 당신은 타워 입구가 있던 자리로 이동되었습니다.");
-            Console.WriteLine("Happy Ending?");
-            Environment.Exit(0);
-        }
 
 
         private enum BattleAction
         {
             BasicAttack = 1,
             SkillAttack,
-            UseItems,
+            Inventory,
             WrongCommand = -1
         }
 
@@ -380,15 +416,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
             second,
             third
         }
-
-        //            if (command == (int) SelectInventoryMenu.WrongCommand)
-        //{
-        //    Console.ForegroundColor = ConsoleColor.Red;
-        //    Console.Write("잘못된 입력입니다.");
-        //    Console.ResetColor();
-        //    Console.WriteLine();
-        //}
-
     }
 
 }

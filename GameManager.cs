@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using static System.Net.Mime.MediaTypeNames;
 using System.Threading;
 using Sparta2ndTeam_TeamProject.Tower;
+using Sparta2ndTeam_TeamProject.Scenes;
 
 namespace Sparta2ndTeam_TeamProject
 {
@@ -17,6 +18,7 @@ namespace Sparta2ndTeam_TeamProject
         static public List<Quest> quests = new List<Quest>();
 
         public static Tower.Tower tower = new();
+        public IntroScene introScene = new();
 
         public GameManager()
         {
@@ -142,6 +144,8 @@ namespace Sparta2ndTeam_TeamProject
 
             if (File.Exists(playerDataPath)) // 데이터 존재
             {
+                ConsoleUtility.PrintGameHeader(); // 스타트 화면 출력
+                Console.Clear();
                 string playerJson = File.ReadAllText(playerDataPath);
                 player = JsonConvert.DeserializeObject<Player>(playerJson);
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -174,6 +178,8 @@ namespace Sparta2ndTeam_TeamProject
             }
             else
             {
+                introScene.PlayIntro();
+                Console.Clear();
                 Console.WriteLine("=============================================================================");
                 Console.WriteLine("                     저장된 플레이어 데이터가 없습니다.                      ");
                 Console.WriteLine("=============================================================================");
@@ -211,9 +217,7 @@ namespace Sparta2ndTeam_TeamProject
 
         public void GameStart()
         {
-            Console.Clear();
-           
-            ConsoleUtility.PrintGameHeader(); // 스타트 화면 출력
+            Console.Clear();          
 
             LoadData(); // 세이브 불러오기
 

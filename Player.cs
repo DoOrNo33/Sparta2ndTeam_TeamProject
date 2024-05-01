@@ -13,7 +13,7 @@ namespace Sparta2ndTeam_TeamProject
         Random random = new Random();
         public string Name { get; }
         public int Job { get; set; }
-        public int Level { get; } = 1;
+        public int Level { get; set; } = 1;
         public int Atk { get; set; } = 10; 
         public int Def { get;  set; } = 5; 
         public int Hp { get; set; } = 100;
@@ -22,6 +22,10 @@ namespace Sparta2ndTeam_TeamProject
 
         public int Max_Mp { get; set; } = 50;
         public int Gold { get; set; } = 1500;
+
+        public int RequiredExp { get; set; } = 10;
+        public int CurrentExp { get; set; } = 0;
+
 
         public Player(string name)
         {
@@ -88,7 +92,7 @@ namespace Sparta2ndTeam_TeamProject
             return false;
         }
 
-        public bool Avoid() // 회피
+        public bool Avoid(bool isEnemy = false) // 회피
         {
             int percent = random.Next(0, 10);
 
@@ -96,6 +100,23 @@ namespace Sparta2ndTeam_TeamProject
                 return true;
 
             return false;
+        }
+
+        public virtual void LevelUp(int exp)
+        {
+            CurrentExp += exp;
+            while(CurrentExp > RequiredExp)
+            {
+                CurrentExp -= RequiredExp;
+                RequiredExp += 20 + (Level * 5);
+                Level++;
+                Atk += 2;
+                Def += 1;
+                Hp += 0;
+                Max_Hp += 0;
+                Mp += 0;
+                Max_Mp += 0;
+            }
         }
 
     }
