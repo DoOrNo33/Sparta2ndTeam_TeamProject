@@ -8,6 +8,7 @@ namespace Sparta2ndTeam_TeamProject.skill
 {
     internal class Player
     {
+        static public List<Skill> skill = new List<Skill>();
         Random random = new Random();
         public string Name { get; }
         public int Job { get; protected set; }
@@ -49,6 +50,7 @@ namespace Sparta2ndTeam_TeamProject.skill
     }
     class Warrior : Player
     {
+        
         public Warrior(string name) : base(name)
         {
             Job = 1;
@@ -57,42 +59,9 @@ namespace Sparta2ndTeam_TeamProject.skill
             Hp = 150;
             Mp = 50;
 
+            skill.Add(new Skill("알파-스트라이크", 10, Atk * 2, 1));
+            skill.Add(new Skill("더블-스트라이크", 25, Atk * 2, 2));
 
-        }
-
-        public int Alpha_Strike() // 데미지를 반환 ( -1 : 스킬 사용 실패)
-        {
-            Skill s = new Skill("알파-스트라이크");
-            s.SkillMana = 10;
-            s.SkillDamage = Atk * 2;
-            s.SkillRange = 1;
-
-            if (Mp < s.SkillMana)
-            {
-                Console.WriteLine("마나가 부족합니다..");
-                return -1;
-            }
-
-            Mp -= s.SkillMana;
-            Console.WriteLine($"{0} 스킬 사용",s.SkillName);
-            return s.SkillDamage;
-        }
-
-        public int Double_Strike() // 데미지를 반환 ( -1 : 스킬 사용 실패)
-        {
-            Skill s = new Skill("더블-스트라이크");
-            s.SkillMana = 20;
-            s.SkillDamage = Atk * 2;
-            s.SkillRange = 1;
-            if (Mp < 20)
-            {
-                Console.WriteLine("마나가 부족합니다..");
-                return -1;
-            }
-
-            Mp -= 20;
-            Console.WriteLine("더블-스트라이크 스킬 사용");
-            return s.SkillDamage;
         }
     }
 
@@ -105,32 +74,9 @@ namespace Sparta2ndTeam_TeamProject.skill
             Def = 6; // 마법사의 방어력 설정
             Hp = 100;
             Mp = 150;
+            skill.Add(new Skill("에너지 볼트", 10, Atk * 1, 2));
+            skill.Add(new Skill("썬더 볼트", 25, Atk * 2, 1));
         }
 
-        public int Energy_Bolt() // 데미지를 반환 ( -1 : 스킬 사용 실패)
-        {
-            if (Mp < 10)
-            {
-                Console.WriteLine("마나가 부족합니다..");
-                return -1;
-            }
-
-            Mp -= 10;
-            Console.WriteLine("에너지 볼트 스킬 사용");
-            return Atk * 1;
-        }
-
-        public int Thunder_Bolt() // 데미지를 반환 ( -1 : 스킬 사용 실패)
-        {
-            if (Mp < 25)
-            {
-                Console.WriteLine("마나가 부족합니다..");
-                return -1;
-            }
-
-            Mp -= 25;
-            Console.WriteLine("썬더 볼트 스킬 사용");
-            return Atk * 2;
-        }
     }
 }
