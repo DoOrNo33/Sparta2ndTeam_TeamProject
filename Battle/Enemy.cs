@@ -15,6 +15,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         protected int hp;
         protected int atk;
         protected bool isDead = false;
+        protected int exp;
         protected Random random = new Random();
 
         public string Name { get { return name; } }
@@ -30,6 +31,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             lv += 0;
             hp += 0;
             atk += 0;
+            exp += 0;
         }
 
         public void PrintCurrentEnemies(bool withNumber = false, int idx = 0)
@@ -88,7 +90,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
             int adAtk = (int)Math.Ceiling(GameManager.player.Atk * 0.1f);                                   //보정 공격, 10%의 올림치
             int pAtk = random.Next((GameManager.player.Atk - adAtk), (GameManager.player.Atk + adAtk + 1)); //보정 공격치
             bool isCri = false;
-            bool isAvoid = false;
 
             // 치명타 판정
             if (GameManager.player.Critical())
@@ -175,34 +176,55 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
             if (!isDead && GameManager.player.Hp > 0)
             {
-                Console.Clear();
-                ConsoleUtility.ShowTitle("■ Battle!! ■\n");
-
-                Console.WriteLine("Lv.{0} {1} 의 공격!", Lv, Name);
-                Console.Write("{0} 을(를) 맞췄습니다. ", GameManager.player.Name);
-                Console.WriteLine("[데미지 : {0}]", Atk);
-
-                int tempHp = GameManager.player.Hp;
-                GameManager.player.Hp -= Atk;
-
-                if (GameManager.player.Hp > 0)   // 플레이어의 남은 hp가 0보다 큰지 작은지
+                if (GameManager.player.Avoid())                         // 플레이어 회피
                 {
-                    Console.WriteLine("HP {0} -> {1}", tempHp, GameManager.player.Hp);
-                }
-                if (GameManager.player.Hp <= 0)
-                {
-                    GameManager.player.Hp = 0;
-                    Console.WriteLine("HP {0} -> {1}", tempHp, GameManager.player.Hp);
+                    Console.Clear();
+                    ConsoleUtility.ShowTitle("■ Battle!! ■\n");
+                    Console.WriteLine("Lv.{0} {1} 의 공격!", Lv, Name);
+                    Console.WriteLine("{0} 을(를) 공격했지만 아무일도 일어나지 않았습니다.", GameManager.player.Name);
+                    //Console.WriteLine("\n0. 다음");
+                    Console.Write("\n<Press Any Key>");
+
+                    switch ((EnemyPhase)ConsoleUtility.PromptMenuChoice(0, 0))
+                    {
+                        case EnemyPhase.Next:
+                            break;
+                    }
                 }
 
-                Console.WriteLine("0. 다음");
-                Console.WriteLine("\n 대상을 선택해주세요.");
-                Console.Write(">>");
-
-                switch ((EnemyPhase)ConsoleUtility.PromptMenuChoice(0, 0))
+                else                                                    // 플레이어 피격
                 {
-                    case EnemyPhase.Next:
-                        break;
+                    float pDefValue = Atk * (1 - (GameManager.player.Def * 0.01f));
+                    int adAtk = (int)Math.Ceiling(pDefValue);             // 플레이어의 방어력만큼 피해 경감
+
+                    Console.Clear();
+                    ConsoleUtility.ShowTitle("■ Battle!! ■\n");
+                    Console.WriteLine("Lv.{0} {1} 의 공격!", Lv, Name);
+                    Console.Write("{0} 을(를) 맞췄습니다. ", GameManager.player.Name);
+                    Console.WriteLine("[데미지 : {0}]", adAtk);
+
+                    int tempHp = GameManager.player.Hp;
+                    GameManager.player.Hp -= adAtk;
+
+                    if (GameManager.player.Hp > 0)   // 플레이어의 남은 hp가 0보다 큰지 작은지
+                    {
+                        Console.WriteLine("HP {0} -> {1}", tempHp, GameManager.player.Hp);
+                    }
+                    if (GameManager.player.Hp <= 0)
+                    {
+                        GameManager.player.Hp = 0;
+                        Console.WriteLine("HP {0} -> {1}", tempHp, GameManager.player.Hp);
+                    }
+
+                    //Console.WriteLine("0. 다음");
+                    Console.WriteLine("\n<Press Any Key>");
+                    //Console.Write(">>");
+
+                    switch ((EnemyPhase)ConsoleUtility.PromptMenuChoice(0, 0))
+                    {
+                        case EnemyPhase.Next:
+                            break;
+                    }
                 }
             }
         }

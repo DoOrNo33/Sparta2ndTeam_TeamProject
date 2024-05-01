@@ -13,8 +13,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
             name = "늑대";
             id = 2;
             lv = 0;
-            hp = 30;
-            atk = 10;
+            hp = 20;
+            atk = 7;
+            exp = 3;
 
             int lowLv = Math.Max(_towerLv - 2, 1);
             int highLv = Math.Min(_towerLv + 1, 6);
@@ -32,6 +33,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             lv += 1;            
             hp += 10;
             atk += 3;
+            exp += 1;
         }
     }
 }
