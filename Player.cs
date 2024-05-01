@@ -88,7 +88,7 @@ namespace Sparta2ndTeam_TeamProject
             return false;
         }
 
-        public bool Avoid() // 회피
+        public bool Avoid(bool isEnemy = false) // 회피
         {
             int percent = random.Next(0, 10);
 
