@@ -106,7 +106,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 case BattleAction.SkillAttack:
                     AttackAction();
                     break;
-                case BattleAction.Inventory:
+                case BattleAction.Inventory:                
                     duringBattle = true;
                     Inventory.InventoryMenu();
                     Battle();
@@ -214,7 +214,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
         private void BattleResult(BattleStatus result)
         {
-            duringBattle = false; // 전투 끝날때 초기화하는데로 옮겨주자
+            duringBattle = false; // 전투 초기화
             if (result == BattleStatus.Defeat)
             {
                 Console.Clear();
@@ -385,15 +385,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
             second,
             third
         }
-
-        //            if (command == (int) SelectInventoryMenu.WrongCommand)
-        //{
-        //    Console.ForegroundColor = ConsoleColor.Red;
-        //    Console.Write("잘못된 입력입니다.");
-        //    Console.ResetColor();
-        //    Console.WriteLine();
-        //}
-
     }
 
 }
