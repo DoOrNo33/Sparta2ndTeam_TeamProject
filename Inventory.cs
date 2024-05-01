@@ -15,8 +15,15 @@
         static List<Item> portionItems = new List<Item>(); //포션
         static List<Item> equipmentItems = new List<Item>(); //장비
         static public List<Item> monstorDropItems = new List<Item>(); //몬스터 드랍 아이템 
-        internal static void InventoryMenu()
+
+        public const int MAXIMUM = 3;
+        static public int LimitRecover_HP = MAXIMUM;
+        static public int LimitRecover_MP = MAXIMUM;
+
+        static bool isFromBattle = false;
+        internal static void InventoryMenu(bool callFromBattle = false)
         {
+            isFromBattle = callFromBattle;
             while (true)
             {
                 //매 반복마다 아이템들에 대한 정보를 갱신 
@@ -190,7 +197,19 @@
                         Thread.Sleep(500);
                         break;
                     default:
-                        useMpPotion(command, ItemType.MONSTER_DROP);
+                        if(LimitRecover_MP>0)
+                        {
+                            useMpPotion(command, ItemType.MONSTER_DROP);
+                            LimitRecover_MP--;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("이번 대전에서는 더 이상 MP를 회복할 수 없습니다!");
+                            Console.ResetColor();
+                            Console.WriteLine();
+                            Thread.Sleep(500);
+                        }
                         break;
                 }
             }
@@ -253,15 +272,56 @@
                     case (int)SelectInventoryMenu.WrongCommand:
                         break;
                     default:
-                        if (portionItems[command - 1].Name == "소형 HP 포션" || portionItems[command - 1].Name == "대형 HP 포션")
-                            useHpPotion(command);
+                        //배틀 중인 상태에서만 회복에 제한을 둠. 
+                        if(isFromBattle)
+                            CheckPossiblePortion(command);
                         else
-                            useMpPotion(command, ItemType.PORTION);
+                        {
+                            if (portionItems[command - 1].Name == "소형 HP 포션" || portionItems[command - 1].Name == "대형 HP 포션")
+                                useHpPotion(command);
+                            else
+                                useMpPotion(command, ItemType.PORTION);
+                        }
                         break;
                 }
             }
         }
-
+        static void CheckPossiblePortion(int command)
+        {
+            if (portionItems[command - 1].Name == "소형 HP 포션" || portionItems[command - 1].Name == "대형 HP 포션")
+            {
+                //회복할 수 있는 기회가 남아있다면 회복 기능을 실행
+                if (LimitRecover_HP > 0)
+                {
+                    useHpPotion(command);
+                    LimitRecover_HP--;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("이번 대전에서는 더 이상 HP를 회복할 수 없습니다!");
+                    Console.ResetColor();
+                    Console.WriteLine();
+                    Thread.Sleep(500);
+                }
+            }
+            else
+            {
+                if (LimitRecover_MP > 0)
+                {
+                    useMpPotion(command, ItemType.PORTION);
+                    LimitRecover_MP--;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("이번 대전에서는 더 이상 MP를 회복할 수 없습니다!");
+                    Console.ResetColor();
+                    Console.WriteLine();
+                    Thread.Sleep(500);
+                }
+            }
+        }
         private static void EquipMenu()
         {
             while(true)
