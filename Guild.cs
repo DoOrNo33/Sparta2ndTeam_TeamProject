@@ -127,14 +127,16 @@ namespace Sparta2ndTeam_TeamProject
 
                 Console.Write($"체 력 {GameManager.player.Hp} -> ");
 
-                while (GameManager.player.Hp < 100) // 100 대신 max_hp 로 수정 필요
-                {
-                    Thread.Sleep(50);
-                    GameManager.player.Hp++;
-                    Console.SetCursorPosition(12, 8);
-                    Console.Write($"{GameManager.player.Hp}");
-                }
+                //while (GameManager.player.Hp < GameManager.player.Max_Hp)
+                //{
+                //    Thread.Sleep(50);
+                //    GameManager.player.Hp++;
+                //    Console.SetCursorPosition(12, 8);
+                //    Console.Write($"{GameManager.player.Hp}");
+                //}
 
+                ConsoleUtility.Animation(12,8,GameManager.player.Hp,GameManager.player.Max_Hp);
+                
                 Thread.Sleep(300);
                 GameManager.player.Gold -= 500;
                 Console.WriteLine($"\n\n남은 골드 : {GameManager.player.Gold}");
