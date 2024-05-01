@@ -280,7 +280,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
         {
             int tempLv = GameManager.player.Level;
             int tempAtk = GameManager.player.Atk;
-            int tempDef = GameManager.player.Def;            
+            int tempDef = GameManager.player.Def;
+            int tempMaxHp = GameManager.player.Max_Hp;
+            int tempMaxMp = GameManager.player.Max_Mp;
 
             for (int i = 0; i < currentEnemy.Count; i++)
             {
@@ -299,9 +301,13 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 Console.Write("Lv. {0:D2} -> ", tempLv);
                 ConsoleUtility.PrintTextHighlights("", GameManager.player.Level.ToString("D2"));
                 Console.Write("공격력 : {0} -> ", tempAtk);
-                ConsoleUtility.PrintTextHighlights("", GameManager.player.Atk.ToString("D2"));
+                ConsoleUtility.PrintTextHighlights("", GameManager.player.Atk.ToString());
                 Console.Write("방어력 : {0} -> ", tempDef);
-                ConsoleUtility.PrintTextHighlights("", GameManager.player.Def.ToString("D2"));
+                ConsoleUtility.PrintTextHighlights("", GameManager.player.Def.ToString());
+                Console.Write("체  력 : {0}/{1} -> {2}/", GameManager.player.Hp, tempMaxHp, GameManager.player.Hp);
+                ConsoleUtility.PrintTextHighlights("", GameManager.player.Def.ToString());
+                Console.Write("마  나 : {0}/{1} -> {2}/", GameManager.player.Mp, tempMaxMp, GameManager.player.Mp);
+                ConsoleUtility.PrintTextHighlights("", GameManager.player.Def.ToString());
                 Console.WriteLine("경험치 : {0} / {1}", GameManager.player.CurrentExp, GameManager.player.RequiredExp);
                 return;
             }
