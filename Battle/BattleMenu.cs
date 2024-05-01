@@ -51,9 +51,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 }
                 
             }
-
+            string[] job = { "전사", "마법사" };
             Console.WriteLine("\n[내 정보]");
-            Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, GameManager.player.Job);
+            Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job - 1]);
             Console.WriteLine("HP {0}/100", GameManager.player.Hp);
 
             Console.WriteLine("\n1. 평타 사용\n2. 스킬 사용\n3. 아이템 사용"); // 스킬, 소모성 아이템 추가 할 수 있음
@@ -100,8 +100,10 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 currentEnemy[i].PrintCurrentEnemies(true, i + 1);
             }
 
+            string[] job = { "전사", "마법사" };
+
             Console.WriteLine("\n[내 정보]");
-            Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, GameManager.player.Job);
+            Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job-1]);
             Console.WriteLine("HP {0}/100", GameManager.player.Hp);
 
             Console.WriteLine("\n0. 취소"); 

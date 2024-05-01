@@ -13,7 +13,6 @@ namespace Sparta2ndTeam_TeamProject
     internal class GameManager
     {
         static public List<Item> items = new List<Item>();
-        // ◆ ↓ GameManager 최상단에 이부분도 추가 !!!! ◆
         static public List<Item> dropItems = new List<Item>();
 
         public static Tower.Tower tower = new();
@@ -24,6 +23,7 @@ namespace Sparta2ndTeam_TeamProject
         }
 
         private static GameManager instance;
+        public static Player player;
 
         public static GameManager Instance
         {
@@ -31,13 +31,13 @@ namespace Sparta2ndTeam_TeamProject
             {
                 if (instance == null)
                 {
-                    instance = new GameManager();                    
+                    instance = new GameManager();
                 }
                 return instance;
             }
         }
 
-        public static Player player;
+
         private void InitializeGame()
         {
             // 방어구 인덱스 0~3                                       공격 | 방어 | 체력 | 마나 | 판매 가격 | 아이템 타입
@@ -64,14 +64,14 @@ namespace Sparta2ndTeam_TeamProject
             dropItems.Add(new Item("거대한 혈석", "일반 혈석과는 달리 거대한 크기의 자색 혈석입니다.", 0, 0, 0, 50, 5000, ItemType.MONSTER_DROP));
 
         }
-        public void SaveData()
+
+
+        static public void SaveData()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("=============================================================================");
             Console.WriteLine("                         플레이어 데이터 저장 중...!                         ");
             Console.WriteLine("=============================================================================");
-            Console.ResetColor();
             Thread.Sleep(300);
 
             string playerDataName = "playerStatData.json";
@@ -86,17 +86,38 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("=============================================================================");
             Console.WriteLine("                플레이어 데이터를 성공적으로 저장하였습니다!                 ");
             Console.WriteLine("=============================================================================");
-            Console.ReadKey();
+            Thread.Sleep(300);
+            Console.WriteLine();
+            Console.WriteLine("=============================================================================");
+            Console.WriteLine("                          아이템 데이터 저장 중...!                          ");
+            Console.WriteLine("=============================================================================");
+            Thread.Sleep(300);
 
+            string itemDataName = "itemData.json";
+            // 데이터 경로 저장. (C드라이브, Documents)
+            string itemDataPath = Path.Combine(path, itemDataName);
+
+            string itemJson = JsonConvert.SerializeObject(items, Formatting.Indented);
+
+            File.WriteAllText(itemDataPath, itemJson);
+
+            Console.WriteLine("=============================================================================");
+            Console.WriteLine("                 아이템 데이터를 성공적으로 저장하였습니다!                  ");
+            Console.WriteLine("=============================================================================");
+            Thread.Sleep(300);
         }
+
+
         public void LoadData()
         {
             Console.Clear();
             string playerDataName = "playerStatData.json";
+            string itemDataName = "itemData.json";
 
             // C 드라이브 - MyDocuments 폴더
             string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string playerDataPath = Path.Combine(path, playerDataName);
+            string itemDataPath = Path.Combine(path, itemDataName);
 
             if (File.Exists(playerDataPath)) // 데이터 존재
             {
@@ -107,8 +128,21 @@ namespace Sparta2ndTeam_TeamProject
                 Console.WriteLine("=============================================================================");
                 Console.WriteLine("                 플레이어 데이터를 성공적으로 불러왔습니다!                  ");
                 Console.WriteLine("=============================================================================");
-                Console.ReadKey();
+                Console.ResetColor();
+                Thread.Sleep(300);
+                
+                if(File.Exists(itemDataPath))
+                {
+                    string itemJson = File.ReadAllText(itemDataPath);
+                    items = JsonConvert.DeserializeObject<List<Item>>(itemJson);
+                    Console.ForegroundColor = ConsoleColor.Yellow;
 
+                    Console.WriteLine("=============================================================================");
+                    Console.WriteLine("             플레이어의 아이템 데이터를 성공적으로 불러왔습니다!             ");
+                    Console.WriteLine("=============================================================================");
+                    Console.ResetColor();
+                    Thread.Sleep(300);
+                }
             }
             else
             {
@@ -121,21 +155,23 @@ namespace Sparta2ndTeam_TeamProject
                 string name = Console.ReadLine();
                 int job;
                 bool isInt;
+
                 do
                 {
-
                     Console.WriteLine();
                     Console.WriteLine("=============================================================================");
                     Console.WriteLine("          생성할 캐릭터의 직업을 선택해주세요 (전사 : 1 / 마법사 : 2)        ");
                     Console.WriteLine("=============================================================================");
 
                     isInt = int.TryParse(Console.ReadLine(), out job);
-                } while (isInt == false);
+                } while (isInt == false || job > 2 || job < 1);
+
 
                 if (job == 1)
                     player = new Warrior(name);
                 else if (job == 2)
                     player = new Mage(name);
+
                 Console.WriteLine();
                 Console.WriteLine("=============================================================================");
                 Console.WriteLine("                        캐릭터를 생성하고 있습니다..                         ");
@@ -148,13 +184,12 @@ namespace Sparta2ndTeam_TeamProject
         public void GameStart()
         {
             Console.Clear();
-            // 스타트 화면
-            ConsoleUtility.PrintGameHeader();
+           
+            ConsoleUtility.PrintGameHeader(); // 스타트 화면 출력
 
-            // 세이브 불러오기
-            LoadData();
+            LoadData(); // 세이브 불러오기
 
-            MainMenu();
+            MainMenu(); // 메인 화면 출력
         }
 
         public void MainMenu()
@@ -172,14 +207,16 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("2. 인벤토리");
             Console.WriteLine("3. 상점");
             Console.WriteLine("4. 탑 입장 (현재 진행 : {0}층)", tower.TowerLv);
+            Console.WriteLine("5. 탐험가 길드");
 
             // 2. 선택한 결과를 검증함
-            Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 4);
+            Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 5);
 
             // 3. 선택한 결과에 따라 보내줌
             switch (choice)
             {
                 case SelectMainMenu.StatusMenu:
+                    player.StatusMenu();
                     // 스태이터스 메뉴 이동
                     break;
                 case SelectMainMenu.InventoryMenu:
@@ -191,7 +228,10 @@ namespace Sparta2ndTeam_TeamProject
                     // 스토어 메뉴 이동
                     break;
                 case SelectMainMenu.EnterTower:
-                    tower.EnterTower();                   
+                    tower.EnterTower();
+                    break;
+                case SelectMainMenu.GuildMenu:
+                    Guild.GuildMenu();
                     break;
             }
             MainMenu();
@@ -202,7 +242,8 @@ namespace Sparta2ndTeam_TeamProject
             StatusMenu = 1,
             InventoryMenu,
             StoreMenu,
-            EnterTower
+            EnterTower,
+            GuildMenu,
         }
     }
 }

@@ -155,6 +155,7 @@ namespace Sparta2ndTeam_TeamProject
                     Console.WriteLine();
                 }
 
+                Console.WriteLine("\n\n\n0. 나가기\n\n");
                 command = ConsoleUtility.PromptMenuChoice(0, GameManager.items.Count);
 
                 if (command == (int)SelectStoreMenu.PreviousPage) return;
@@ -256,8 +257,7 @@ namespace Sparta2ndTeam_TeamProject
                     Console.WriteLine("~~ 보유중인 아이템이 없습니다. ~~");
 
 
-                Console.WriteLine();
-
+                Console.WriteLine("\n0. 나가기\n\n");
                 if (command == (int)SelectStoreMenu.WrongCommand)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;

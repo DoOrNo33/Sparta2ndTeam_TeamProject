@@ -230,7 +230,8 @@
                     Console.WriteLine();
                 }
 
-                Console.WriteLine();
+                Console.WriteLine("\n\n\n0. 나가기\n");
+                
 
                 switch (command)
                 {
@@ -277,7 +278,7 @@
                     Console.WriteLine();
                 }
 
-                Console.WriteLine();
+                Console.WriteLine("\n\n\n0. 나가기\n");
 
                 switch (command)
                 {
@@ -418,6 +419,12 @@
         {
             equipmentItems[command - 1].ToggleEquipStatus();
 
+            if (equipmentItems[command-1].Atk!=0 || equipmentItems[command-1].Def!=0 || equipmentItems[command-1].HP!=0) 
+            {
+                GameManager.player.Atk += equipmentItems[command - 1].Atk;
+                GameManager.player.Def += equipmentItems[command - 1].Def;
+                GameManager.player.Hp += equipmentItems[command - 1].HP;
+            }
             //현재 인벤토리에 있는 아이템 중, 
             for (int i = 0; i < equipmentItems.Count; i++)
             {
@@ -429,6 +436,13 @@
                     {
                         //장착 상태를 해제
                         equipmentItems[i].ToggleEquipStatus();
+                        if (equipmentItems[command - 1].Atk != 0 || equipmentItems[command - 1].Def != 0 || equipmentItems[command - 1].HP != 0)
+                        {
+                            GameManager.player.Atk -= equipmentItems[i].Atk;
+                            GameManager.player.Def -= equipmentItems[i].Def;
+                            GameManager.player.Hp -= equipmentItems[i].HP;
+                        }
+
                     }
                 }
             }
