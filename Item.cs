@@ -71,6 +71,8 @@ namespace Sparta2ndTeam_TeamProject
                     Console.Write(ConsoleUtility.PadRightForMixedText(($"방어력 {_MarkDef}{Def}"), 22));
                 if (HP != 0)
                     Console.Write(ConsoleUtility.PadRightForMixedText(($"체  력 +{HP}"), 22));
+                if (MP != 0)
+                    Console.Write(ConsoleUtility.PadRightForMixedText(($"마  나 +{MP}"), 22));
 
             }
 
