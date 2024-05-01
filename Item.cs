@@ -21,13 +21,15 @@ namespace Sparta2ndTeam_TeamProject
 
         public bool isEquipped { get; private set; }
         public bool isPurchased { get; private set; }
+        public bool isInitItem { get; private set; }
 
         public Item(string Name, string Desc, int Atk, int Def, int HP, int Price,
-            ItemType _type, bool isEquipped = false, bool isPurchased = false)
+            ItemType _type, bool isEquipped = false, bool isPurchased = false, bool isInitItem = false)
         {
             this.Name = Name; this.Desc = Desc; this.Atk = Atk;
             this.Def = Def; this.HP = HP; this.Price = Price; this._type = _type;
             this.isEquipped = isEquipped; this.isPurchased = isPurchased;
+            this.isInitItem = isInitItem;
         }
 
         internal void PrintItemStatDesc(bool withNumber = false, int idx = 0)
@@ -72,7 +74,6 @@ namespace Sparta2ndTeam_TeamProject
 
             Console.Write(" | ");
             Console.Write(ConsoleUtility.PadRightForMixedText(Desc, 55));
-            //Console.Write(Desc);
         }
 
         internal void ToggleEquipStatus()

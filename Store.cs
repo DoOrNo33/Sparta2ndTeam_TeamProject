@@ -173,8 +173,13 @@ namespace Sparta2ndTeam_TeamProject
 
                             //현재 구매한 아이템의 종류가 포션이라면, 
                             if (GameManager.items[command - 1]._type == ItemType.PORTION)
+                            {
                                 //인벤토리에 포션의 수를 추가
-                                Inventory.PortionCnt++;
+                                if (GameManager.items[command - 1].Name == "소형 HP 포션")
+                                    Inventory.SmallPortionCnt++;
+                                else if (GameManager.items[command - 1].Name == "대형 HP 포션")
+                                    Inventory.LargePortionCnt++;
+                            }
                         }
                         else
                         {
@@ -221,7 +226,20 @@ namespace Sparta2ndTeam_TeamProject
                     {
                         storeItems[i].PrintItemStatDesc(true, i + 1);
                         Console.Write(" | ");
-                        Console.WriteLine($"{(int)Math.Round(0.85 * storeItems[i].Price)} G"); //아이템의 판매 가격을 화면에 표시
+                        Console.Write($"{(int)Math.Round(0.85 * storeItems[i].Price)} G"); //아이템의 판매 가격을 화면에 표시
+
+                        if (storeItems[i]._type == ItemType.PORTION)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+
+                            if (storeItems[i].Name == "소형 HP 포션")
+                                Console.Write($"\t| {Inventory.SmallPortionCnt}개 보유중");
+                            else if (storeItems[i].Name == "대형 HP 포션")
+                                Console.Write($"\t| {Inventory.LargePortionCnt}개 보유중");
+
+                            Console.ResetColor();
+                        }
+                        Console.WriteLine();
                     }
                 }
                 else
@@ -251,24 +269,56 @@ namespace Sparta2ndTeam_TeamProject
                 {
                     foreach (Item item in storeItems)
                     {
+                        //판매 관련 작업 
                         if ((command - 1) == storeItems.IndexOf(item))
                         {
-                            if (item.isEquipped) 
-                            { 
-                                item.ToggleEquipStatus();
-                                if (item.Atk != 0 || item.Def != 0 || item.HP != 0)
+                            //현재 판매하려는 아이템이 포션이라면, 
+                            if(item._type == ItemType.PORTION)
+                            {
+                                //포션의 종류를 파악한 개수가 2개 이상이라면 개수를 차감하는 방식으로,
+                                //개수가 1개라면 다른 아이템과 동일한 방식으로 판매 기능을 작업
+                                if (item.Name == "소형 HP 포션")
                                 {
-                                    GameManager.player.Atk -= item.Atk;
-                                    GameManager.player.Def -= item.Def;
-                                    GameManager.player.Hp -= item.HP;
+                                    Inventory.SmallPortionCnt--; 
+
+                                    //아이템을 모두 팔았을 경우 storeItems 리스트에서 해당 정보를 삭제 
+                                    if(Inventory.SmallPortionCnt <= 0)
+                                    {
+                                        Inventory.SmallPortionCnt = 0;
+                                        item.TogglePurchaseStatus();
+                                    }
+                                }
+                                else if (item.Name == "대형 HP 포션" )
+                                {
+                                    Inventory.LargePortionCnt--;
+
+                                    //아이템을 모두 팔았을 경우 storeItems 리스트에서 해당 정보를 삭제 
+                                    if (Inventory.LargePortionCnt <= 0)
+                                    {
+                                        Inventory.LargePortionCnt = 0;
+                                        item.TogglePurchaseStatus();
+                                    }
                                 }
                             }
+                            else
+                            {
+                                if (item.isEquipped)
+                                {
+                                    item.ToggleEquipStatus();
+                                    if (item.Atk != 0 || item.Def != 0 || item.HP != 0)
+                                    {
+                                        GameManager.player.Atk -= item.Atk;
+                                        GameManager.player.Def -= item.Def;
+                                        GameManager.player.Hp -= item.HP;
+                                    }
+                                }
+                                item.TogglePurchaseStatus();
+                            }
 
-                            item.TogglePurchaseStatus();
-                            int refund = (int)Math.Round(0.85 * storeItems[command - 1].Price);
+                            int refund = (int)Math.Round(0.85 * item.Price);
                             GameManager.player.Gold += refund;
-
                             sellComplete = true;
+                            
                         }
                     }
                 }

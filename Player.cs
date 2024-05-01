@@ -10,10 +10,10 @@ namespace Sparta2ndTeam_TeamProject
     {
         Random random = new Random();
         public string Name { get; }
-        public int Job { get; protected set; }
+        public int Job { get; set; }
         public int Level { get; } = 1;
-        public int Atk { get; protected set; } = 10; 
-        public int Def { get; protected set; } = 5; 
+        public int Atk { get; set; } = 10; 
+        public int Def { get;  set; } = 5; 
         public int Hp { get; set; } = 100;
         public int Mp { get; set; } = 50;
         public int Gold { get; set; } = 1500;
