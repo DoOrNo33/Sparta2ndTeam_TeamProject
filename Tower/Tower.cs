@@ -22,7 +22,7 @@ namespace Sparta2ndTeam_TeamProject.Tower
 
             if (GameManager.quests[0].isComplete == false && GameManager.quests[0].isAccept == true)
                 GameManager.quests[0].isComplete = true;
-            
+
             battleMenu.Battle();
         }
 
@@ -53,7 +53,7 @@ namespace Sparta2ndTeam_TeamProject.Tower
                     ConsoleUtility.ShowTitle("■ 전투결과 ■\n");
                     Console.WriteLine("3회 연승 시 타워 정복?!");
                     Console.WriteLine("(현재 연승 횟수 : {0})", CombatCount);
-                    Console.WriteLine("\n아무일도 일어나지 않았습니다.", TowerLv + 1);                    
+                    Console.WriteLine("\n아무일도 일어나지 않았습니다.", TowerLv + 1);
                     Thread.Sleep(1000);
                     Console.Write("\n.");
                     Thread.Sleep(1000);
@@ -124,6 +124,7 @@ namespace Sparta2ndTeam_TeamProject.Tower
         public void ClimbTower()
         {
             TowerLv++;
+            GameManager.player.towerLv++;
         }
 
         private enum ClimbSelect

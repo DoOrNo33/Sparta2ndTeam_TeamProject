@@ -12,7 +12,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
     internal class Enemy
     {
         protected string name;
-        protected int id;
+        public int id;
         protected int lv;
         protected int hp;
         protected int atk;

@@ -184,7 +184,42 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     break;
 
                 default:
-                    defeatCount += currentEnemy[keyInput - 1].PlayerAttack();     // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
+                    int ret = currentEnemy[keyInput - 1].PlayerAttack();
+                    defeatCount += ret;     // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
+
+                    if (ret == 1)
+                        foreach (Quest q in GameManager.quests)
+                        {
+                            if (q.type == 1)
+                            {
+                                if (q.id == 10) // 적 종류에 상관없이
+                                {
+                                    if ((q.isComplete == false) && (q.isAccept == true))
+                                    {
+                                        if (q.cur < q.cnt)
+                                            q.cur++;
+
+                                        if (q.cur == q.cnt)
+                                            q.isComplete = true;
+                                    }
+                                }
+
+                                else // 적 종류에 맞게
+                                {
+                                    if ((q.id == currentEnemy[keyInput - 1].id) && (q.isComplete == false) && (q.isAccept == true))
+                                    {
+                                        if (q.cur < q.cnt)
+                                            q.cur++;
+
+                                        if (q.cur == q.cnt)
+                                            q.isComplete = true;
+                                    }
+                                }
+
+                            }
+
+                        }
+
 
                     foreach (Pet pet in PetCave.myPets)// 펫 스킬 들어갈 타이밍
                     {

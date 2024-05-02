@@ -15,8 +15,8 @@ namespace Sparta2ndTeam_TeamProject
         public string Name { get; }
         public int Job { get; set; }
         public int Level { get; set; } = 1;
-        public int Atk { get; set; } = 10; 
-        public int Def { get;  set; } = 5; 
+        public int Atk { get; set; } = 10;
+        public int Def { get; set; } = 5;
         public int Hp { get; set; } = 100;
         public int Max_Hp { get; set; } = 100;
         public int Mp { get; set; } = 50;
@@ -27,6 +27,7 @@ namespace Sparta2ndTeam_TeamProject
         public int RequiredExp { get; set; } = 10;
         public int CurrentExp { get; set; } = 0;
 
+        public int towerLv { get; set; } = 1;
 
         public Player(string name)
         {
@@ -35,7 +36,7 @@ namespace Sparta2ndTeam_TeamProject
 
         public void StatusMenu()
         {
-            
+
             int added_ATK = 0;
             int added_DEF = 0;
             int added_HP = 0;
@@ -129,7 +130,7 @@ namespace Sparta2ndTeam_TeamProject
         public virtual void LevelUp(int exp)
         {
             CurrentExp += exp;
-            while(CurrentExp > RequiredExp)
+            while (CurrentExp > RequiredExp)
             {
                 CurrentExp -= RequiredExp;
                 RequiredExp += 20 + (Level * 5);
