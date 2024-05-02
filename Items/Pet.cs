@@ -72,7 +72,7 @@ ItemType _type, bool isEquipped = false, bool isPurchased = false, bool isInitIt
             Console.WriteLine("{0} 의 공격!", Name);
             Console.Write("Lv. {0} {1} 을(를) 맞췄습니다.", weakest[0].Lv, weakest[0].Name);
             Console.Write(" [데미지 : {0}]", pDamage);
-            Console.WriteLine("\n\nLv. {0} {1}", weakest[0].Lv, currentEnemy[i].Name);
+            Console.WriteLine("\n\nLv. {0} {1}", weakest[0].Lv, weakest[0].Name);
             int tempHp = weakest[0].Hp;
             weakest[0].PetDamage(pDamage);
 
