@@ -137,26 +137,9 @@ namespace Sparta2ndTeam_TeamProject
                             if (GameManager.items[command - 1]._type == ItemType.PORTION)
                             {
                                 //인벤토리에 포션의 수를 추가
-                                if (GameManager.items[command - 1].Name == "소형 HP 포션")
-                                {
-                                    Inventory.portionCnt[idx]++;
-                                    storePortionCnt[idx]--;
-                                }
-                                else if (GameManager.items[command - 1].Name == "대형 HP 포션")
-                                {
-                                    Inventory.portionCnt[idx]++;
-                                    storePortionCnt[idx]--;
-                                }
-                                else if (GameManager.items[command - 1].Name == "소형 MP 포션")
-                                { 
-                                    Inventory.portionCnt[idx]++;
-                                    storePortionCnt[idx]--;
-                                }
-                                else if (GameManager.items[command - 1].Name == "대형 MP 포션")
-                                {
-                                    Inventory.portionCnt[idx]++;
-                                    storePortionCnt[idx]--;
-                                }
+                                Inventory.portionCnt[idx]++;
+                                storePortionCnt[idx]--;
+                                
                             }
                         }
                         else
