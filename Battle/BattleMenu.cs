@@ -206,7 +206,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                         Console.Write("마나가 부족합니다.");
                         Console.ResetColor();
                         Console.WriteLine();
-                        Thread.Sleep(2000);
+                        Thread.Sleep(1000);
                         SkillAction();
                         break;
                     }
