@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sparta2ndTeam_TeamProject.Items;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
@@ -92,9 +93,9 @@ namespace Sparta2ndTeam_TeamProject
             return false;
         }
 
-        public bool Avoid(bool petAvoid = false, bool isEnemy = false) // 회피
+        public bool Avoid(int? petAvoid = null, bool isEnemy = false) // 회피
         {
-            if (petAvoid)
+            if (petAvoid != null)
             {
                 int percent = random.Next(0, 10);
 

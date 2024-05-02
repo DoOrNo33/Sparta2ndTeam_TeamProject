@@ -11,6 +11,7 @@ namespace Sparta2ndTeam_TeamProject.Items
     internal class Pet : Item
     {
         protected PetType petType { get; set; }
+        protected int petAvoid {  get; set; }
         public Pet(string Name, string Desc, int Atk, int Def, int HP, int MP, int Price,
     ItemType _type, bool isEquipped = false, bool isPurchased = false, bool isInitItem = false) : base(Name, Desc, Atk, Def, HP, MP, Price, _type, isEquipped, isPurchased, isInitItem)
         {
@@ -24,6 +25,7 @@ namespace Sparta2ndTeam_TeamProject.Items
         }
 
         public PetType PetType {  get { return petType; } }
+        public int PetAvoid { get { return petAvoid; } }
 
         public virtual int PetAttack(List<Enemy> currentEnemy)
         {
@@ -104,6 +106,7 @@ ItemType _type, bool isEquipped = false, bool isPurchased = false, bool isInitIt
             this.isPurchased = isPurchased;
             this.isInitItem = isInitItem;
             petType = PetType.Defense;
+            petAvoid = 1; // 1당 10%증가
         }
 
 

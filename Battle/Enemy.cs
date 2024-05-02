@@ -151,7 +151,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
             if (!isDead && GameManager.player.Hp > 0)
             {
-                bool petAvoid = false;
+                int? petAvoid = null;
 
                 foreach (Pet pet in GameManager.pets)// 펫 스킬 들어갈 타이밍
                 {
@@ -159,7 +159,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     {
                         if (pet.PetType == Items.PetType.Defense)
                         {
-                            petAvoid = true;
+                            petAvoid = pet.PetAvoid;
                         }
                     }
                 }
