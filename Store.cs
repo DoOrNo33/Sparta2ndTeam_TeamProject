@@ -3,6 +3,9 @@ namespace Sparta2ndTeam_TeamProject
 {
     internal class Store
     {
+        //인덱스 순서대로 소형 hp 포션, 대형 hp 포션, 소형 mp 포션, 대형 mp 포션
+        static public int[] storePortionCnt = { 3, 3, 3, 3 };
+
         static int command = 0;
         static public void StoreMenu()
         {
@@ -16,36 +19,8 @@ namespace Sparta2ndTeam_TeamProject
                 Console.WriteLine($"{GameManager.player.Gold} G\n");
 
                 ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
-                for (int i = 0; i < GameManager.items.Count; i++)
-                {
-                    //ARMOR, WEAPON, PORTION을 구분하는 선을 그려주는 조건문
-                    if (i == 0)
-                    {
-                        ConsoleUtility.PrintTextHighlights("++++ ", GameManager.items[i]._type.ToString(), " ++++");
-                    }
-                    else if (i < GameManager.items.Count - 1)
-                    {
-                        if (GameManager.items[i]._type != GameManager.items[i - 1]._type)
-                        {
-                            ConsoleUtility.PrintTextHighlights("\n++++ ", GameManager.items[i]._type.ToString(), " ++++");
-                        }
-                    }
 
-                    GameManager.items[i].PrintItemStatDesc();
-
-                    //아이템이 아직 구매되지 않은 상태라면, 
-                    if (!GameManager.items[i].isPurchased)
-                    {
-                        Console.Write(" | ");
-                        Console.WriteLine($"{GameManager.items[i].Price} G");
-                    }
-                    //아이템이 구매가 된 상태라면, 
-                    else
-                    {
-                        ConsoleUtility.PrintTextHighlights(" | ", "판매 완료");
-                    }
-
-                }
+                drawCurrentShoppingList(false);
 
                 Console.WriteLine("\n\n1. 아이템 구매\n2. 아이템 판매\n0. 나가기\n");
 
@@ -92,37 +67,110 @@ namespace Sparta2ndTeam_TeamProject
 
                 ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
 
-                for (int i = 0; i < GameManager.items.Count; i++)
-                {
-                    if (i == 0)
-                    {
-                        ConsoleUtility.PrintTextHighlights("++++ ", GameManager.items[i]._type.ToString(), " ++++");
-                    }
-                    else if (i < GameManager.items.Count - 1)
-                    {
-                        if (GameManager.items[i]._type != GameManager.items[i - 1]._type)
-                        {
-                            ConsoleUtility.PrintTextHighlights("\n++++ ", GameManager.items[i]._type.ToString(), " ++++");
-                        }
-                    }
 
-                    GameManager.items[i].PrintItemStatDesc(true, i + 1);
-                    //아이템이 아직 구매되지 않은 상태라면, 
-                    if (!GameManager.items[i].isPurchased)
-                    {
-                        Console.Write(" | ");
-                        Console.WriteLine($"{GameManager.items[i].Price} G");
-                    }
-                    //아이템이 구매가 된 상태라면, 
-                    else
-                    {
-                        ConsoleUtility.PrintTextHighlights(" | ", "판매 완료");
-                    }
-                }
+                drawCurrentShoppingList(true);
                 
                 Console.WriteLine();
 
-                if(currentShopState != null)
+                
+
+                if (command == (int)SelectStoreMenu.WrongCommand)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("잘못된 입력입니다.");
+                    Console.ResetColor();
+                    Console.WriteLine();
+                }
+
+                Console.WriteLine("\n\n\n0. 나가기\n");
+                command = ConsoleUtility.PromptMenuChoice(0, GameManager.items.Count);
+
+                if (command == (int)SelectStoreMenu.PreviousPage) return;
+                else if(command != (int) SelectStoreMenu.WrongCommand)
+                {
+                    if (!GameManager.items[command - 1].isPurchased)
+                    {
+                        string str = GameManager.items[command - 1].Name;
+                        int idx = -1;
+
+                        //현재 소지 금액이 아이템의 판매 금액보다 많다면, 
+                        if (GameManager.player.Gold >= GameManager.items[command - 1].Price)
+                        {
+                            //현재 아이템의 판매 상태를 true로 변경
+                            if (GameManager.items[command-1]._type != ItemType.PORTION)
+                            {
+                                GameManager.items[command - 1].TogglePurchaseStatus();
+                            }
+                            //현재 아이템 타입이 포션일 경우,
+                            //재고가 0이 될 때 판매 완료 표시를 해주어야 함
+                            else
+                            {
+                                switch (str)
+                                {
+                                    case "소형 HP 포션":
+                                        idx = 0;
+                                        break;
+                                    case "대형 HP 포션":
+                                        idx = 1;
+                                        break;
+                                    case "소형 MP 포션":
+                                        idx = 2;
+                                        break;
+                                    case "대형 MP 포션":
+                                        idx = 3;
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                if (storePortionCnt[idx] <= 1)
+                                {
+                                    GameManager.items[command - 1].TogglePurchaseStatus();
+                                }
+                            }
+
+                            //캐릭터의 소지 금액에서 아이템의 가격만큼 차감
+                            GameManager.player.Gold -= GameManager.items[command - 1].Price;
+
+                            currentShopState = CurrentShopState.Success;
+
+                            //현재 구매한 아이템의 종류가 포션이라면, 
+                            if (GameManager.items[command - 1]._type == ItemType.PORTION)
+                            {
+                                //인벤토리에 포션의 수를 추가
+                                if (GameManager.items[command - 1].Name == "소형 HP 포션")
+                                {
+                                    Inventory.portionCnt[idx]++;
+                                    storePortionCnt[idx]--;
+                                }
+                                else if (GameManager.items[command - 1].Name == "대형 HP 포션")
+                                {
+                                    Inventory.portionCnt[idx]++;
+                                    storePortionCnt[idx]--;
+                                }
+                                else if (GameManager.items[command - 1].Name == "소형 MP 포션")
+                                { 
+                                    Inventory.portionCnt[idx]++;
+                                    storePortionCnt[idx]--;
+                                }
+                                else if (GameManager.items[command - 1].Name == "대형 MP 포션")
+                                {
+                                    Inventory.portionCnt[idx]++;
+                                    storePortionCnt[idx]--;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            currentShopState = CurrentShopState.InsufficientGold;
+                        }
+                    }
+                    else
+                    {
+                        currentShopState = CurrentShopState.SoldOut;
+                    }
+                }
+
+                if (currentShopState != null)
                 {
                     switch (currentShopState)
                     {
@@ -144,60 +192,9 @@ namespace Sparta2ndTeam_TeamProject
                         default:
                             break;
                     }
+                    Thread.Sleep(500);
                 }
                 currentShopState = null;
-
-                if (command == (int)SelectStoreMenu.WrongCommand)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("잘못된 입력입니다.");
-                    Console.ResetColor();
-                    Console.WriteLine();
-                }
-
-                Console.WriteLine("\n\n\n0. 나가기\n\n");
-                command = ConsoleUtility.PromptMenuChoice(0, GameManager.items.Count);
-
-                if (command == (int)SelectStoreMenu.PreviousPage) return;
-                else if(command != (int) SelectStoreMenu.WrongCommand)
-                {
-                    if (!GameManager.items[command - 1].isPurchased)
-                    {
-                        //현재 소지 금액이 아이템의 판매 금액보다 많다면, 
-                        if (GameManager.player.Gold >= GameManager.items[command - 1].Price)
-                        {
-                            //현재 아이템의 판매 상태를 true로 변경
-                            GameManager.items[command - 1].TogglePurchaseStatus();
-
-                            //캐릭터의 소지 금액에서 아이템의 가격만큼 차감
-                            GameManager.player.Gold -= GameManager.items[command - 1].Price;
-
-                            currentShopState = CurrentShopState.Success;
-
-                            //현재 구매한 아이템의 종류가 포션이라면, 
-                            if (GameManager.items[command - 1]._type == ItemType.PORTION)
-                            {
-                                //인벤토리에 포션의 수를 추가
-                                if (GameManager.items[command - 1].Name == "소형 HP 포션")
-                                    Inventory.portionCnt[0]++;
-                                else if (GameManager.items[command - 1].Name == "대형 HP 포션")
-                                    Inventory.portionCnt[1]++;
-                                else if (GameManager.items[command - 1].Name == "소형 MP 포션")
-                                    Inventory.portionCnt[2]++;
-                                else if (GameManager.items[command - 1].Name == "대형 MP 포션")
-                                    Inventory.portionCnt[3]++;
-                            }
-                        }
-                        else
-                        {
-                            currentShopState = CurrentShopState.InsufficientGold;
-                        }
-                    }
-                    else
-                    {
-                        currentShopState = CurrentShopState.SoldOut;
-                    }
-                }
 
             }
         }
@@ -390,6 +387,85 @@ namespace Sparta2ndTeam_TeamProject
                     Console.ResetColor();
                     sellComplete = false;
                     Thread.Sleep(500);
+                }
+            }
+        }
+
+        private static void drawCurrentShoppingList(bool isPurchaseActive)
+        {
+            for (int i = 0; i < GameManager.items.Count; i++)
+            {
+                //ARMOR, WEAPON, PORTION을 구분하는 선을 그려주는 조건문
+                if (i == 0)
+                {
+                    ConsoleUtility.PrintTextHighlights("[", GameManager.items[i]._type.ToString(), "]");
+                }
+                else if (i < GameManager.items.Count - 1)
+                {
+                    if (GameManager.items[i]._type != GameManager.items[i - 1]._type)
+                    {
+                        ConsoleUtility.PrintTextHighlights("\n[", GameManager.items[i]._type.ToString(), "]");
+                    }
+                }
+
+                if (!isPurchaseActive)
+                    GameManager.items[i].PrintItemStatDesc();
+                else
+                    GameManager.items[i].PrintItemStatDesc(true, i + 1);
+
+                //포션의 경우 아이템의 재고를 보여줌 
+                if (GameManager.items[i]._type == ItemType.PORTION)
+                {
+                    string str = GameManager.items[i].Name;
+                    int idx = 0;
+
+                    //아이템이 아직 구매되지 않은 상태라면, 
+                    if (!GameManager.items[i].isPurchased)
+                    {
+                        Console.Write(" | ");
+                        Console.Write($"{GameManager.items[i].Price} G");
+
+                        switch (str)
+                        {
+                            case "소형 HP 포션":
+                                idx = 0;
+                                break;
+                            case "대형 HP 포션":
+                                idx = 1;
+                                break;
+                            case "소형 MP 포션":
+                                idx = 2;
+                                break;
+                            case "대형 MP 포션":
+                                idx = 3;
+                                break;
+                            default:
+                                break;
+                        }
+
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"\t| 재고: {storePortionCnt[idx]}개");
+                        Console.ResetColor();
+                    }
+                    //아이템이 구매가 된 상태라면, 
+                    else
+                    {
+                        ConsoleUtility.PrintTextHighlights(" | ", "판매 완료");
+                    }
+                }
+                else
+                {
+                    //아이템이 아직 구매되지 않은 상태라면, 
+                    if (!GameManager.items[i].isPurchased)
+                    {
+                        Console.Write(" | ");
+                        Console.WriteLine($"{GameManager.items[i].Price} G");
+                    }
+                    //아이템이 구매가 된 상태라면, 
+                    else
+                    {
+                        ConsoleUtility.PrintTextHighlights(" | ", "판매 완료");
+                    }
                 }
             }
         }
