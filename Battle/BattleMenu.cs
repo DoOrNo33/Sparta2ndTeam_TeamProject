@@ -15,6 +15,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         int startMp = 0;
         int startMaxHp = 0;
         int startMaxMp = 0;
+        int startGold = 0;
         int choice = 0;
         int towerLv;
         bool finalBattle;
@@ -42,6 +43,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 startMp = GameManager.player.Mp;
                 startMaxHp = GameManager.player.Max_Hp;
                 startMaxMp = GameManager.player.Max_Mp;
+                startGold = GameManager.player.Gold;
                 currentEnemy.Clear();
                 defeatCount = 0;            // 적 쓰러뜨림 초기화
 
@@ -143,11 +145,10 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
             Console.WriteLine("\n0. 취소");
             Console.WriteLine("\n대상을 선택해주세요.");
-            Console.Write(">>");
 
             int keyInput = 0;
 
-            while (true) // 대상이 죽었는지 체크
+            while (true)                                // 대상이 죽었는지 체크
             {
                 keyInput = ConsoleUtility.PromptMenuChoice(0, currentEnemy.Count);
 
@@ -164,8 +165,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 }
                 else if (currentEnemy[keyInput - 1].IsDead)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("이미 죽은 대상입니다.");
-                    Console.Write(">>");
+                    Console.ResetColor();
                 }
                 else
                 {
@@ -256,14 +258,23 @@ namespace Sparta2ndTeam_TeamProject.Battle
             duringBattle = false; // 전투 초기화
             if (result == BattleStatus.Defeat)
             {
+                GameManager.player.Hp = 1;                      // 체력1, 마나1, 골드 절반
+                GameManager.player.Mp = 1;
+                GameManager.player.Gold = (int)Math.Truncate(GameManager.player.Gold * 0.5);
+
                 Console.Clear();
                 ConsoleUtility.ShowTitle("■ 전투결과 ■\n");
                 Console.WriteLine("You Lose\n");
                 Console.WriteLine("Lv. {0:D2}, {1}", GameManager.player.Level, GameManager.player.Name);
-                Console.WriteLine("체  력 : {0} -> 0", startHp);
-                Console.WriteLine("마  나 : {0} -> {1}\n", startMp, GameManager.player.Mp);
+                Console.WriteLine("체  력 : {0} -> 1", startHp);
+                Console.WriteLine("마  나 : {0} -> 1", startMp);
+                Console.WriteLine("Gold : {0} -> {1}", startGold, GameManager.player.Gold);
+
+                Inventory.LimitRecover_HP = Inventory.MAXIMUM;
+                Inventory.LimitRecover_MP = Inventory.MAXIMUM;
+
                 ConsoleUtility.PromptReturn();
-                Environment.Exit(0);                                    // 패배 시 게임 종료
+                GameManager.Instance.MainMenu();                                   // 패배 시 마을로
             }
             else
             {
@@ -326,9 +337,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
             if (tempLv != GameManager.player.Level)
             {
-                Console.WriteLine("\n[획득 경험치]");
+                Console.Write("\n획득 경험치: ");
 
-                ConsoleUtility.PrintTextHighlights("      ", getExp.ToString());
+                ConsoleUtility.PrintTextHighlights("", getExp.ToString());
 
                 Console.WriteLine("\n[레벨 업!]");
                 Console.Write("Lv. {0:D2} -> ", tempLv);
@@ -338,17 +349,17 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 Console.Write("방어력 : {0} -> ", tempDef);
                 ConsoleUtility.PrintTextHighlights("", GameManager.player.Def.ToString());
                 Console.Write("체  력 : {0}/{1} -> {2}/", GameManager.player.Hp, tempMaxHp, GameManager.player.Hp);
-                ConsoleUtility.PrintTextHighlights("", GameManager.player.Def.ToString());
+                ConsoleUtility.PrintTextHighlights("", GameManager.player.Max_Hp.ToString());
                 Console.Write("마  나 : {0}/{1} -> {2}/", GameManager.player.Mp, tempMaxMp, GameManager.player.Mp);
-                ConsoleUtility.PrintTextHighlights("", GameManager.player.Def.ToString());
-                Console.WriteLine("경험치 : {0} / {1}", GameManager.player.CurrentExp, GameManager.player.RequiredExp);
+                ConsoleUtility.PrintTextHighlights("", GameManager.player.Max_Mp.ToString());
+                Console.WriteLine("경험치 : {0}/{1}", GameManager.player.CurrentExp, GameManager.player.RequiredExp);
                 return;
             }
             else
             {
-                Console.WriteLine("\n[획득 경험치]");
-                ConsoleUtility.PrintTextHighlights("      ", getExp.ToString());
-                Console.WriteLine("경험치 : {0} / {1}", GameManager.player.CurrentExp, GameManager.player.RequiredExp);
+                Console.Write("\n획득 경험치 : ");
+                ConsoleUtility.PrintTextHighlights("", getExp.ToString());
+                Console.WriteLine("경험치 : {0}/{1}", GameManager.player.CurrentExp, GameManager.player.RequiredExp);
             }
         }
 

@@ -45,11 +45,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 if (withNumber)
                 {
-                    Console.Write(" {0} ", idx);
+                    Console.Write("{0:D2} ", idx);
                 }
                 else
                 {
-                    Console.Write(" - ");
+                    Console.Write("-  ");
                 }
                 Console.Write("Lv. {0} ", Lv);
                 Console.Write(ConsoleUtility.PadRightForMixedText(Name, 13));
@@ -60,13 +60,13 @@ namespace Sparta2ndTeam_TeamProject.Battle
             {
                 if (withNumber)
                 {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.Write(" {0} ", idx);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("{0:D2} ", idx);
                     Console.ResetColor();
                 }
                 else
                 {
-                    Console.Write(" - ");
+                    Console.Write("-  ");
                 }
                 Console.Write("Lv. {0} ", Lv);
                 Console.Write(ConsoleUtility.PadRightForMixedText(Name, 13));
@@ -121,6 +121,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 if (hp > 0)   // 적의 남은 hp가 0보다 큰지 작은지
                 {
                     Console.WriteLine("HP {0} -> {1}", tempHp, hp);
+                    //Console.Write("HP {0} -> ", tempHp);
+                    //ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, hp);
                     ConsoleUtility.PromptReturn();
                     return 0;
                 }
@@ -129,6 +131,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     hp = 0;
                     Dead();
                     Console.WriteLine("HP {0} -> {1}", tempHp, hp);
+                    //Console.Write("HP {0} -> ", tempHp);
+                    //ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, hp);
                     ConsoleUtility.PromptReturn();
                     return 1;
                 }

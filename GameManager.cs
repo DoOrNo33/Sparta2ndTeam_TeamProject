@@ -8,6 +8,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Threading;
 using Sparta2ndTeam_TeamProject.Tower;
 using Sparta2ndTeam_TeamProject.Scenes;
+using Sparta2ndTeam_TeamProject.Items;
 
 namespace Sparta2ndTeam_TeamProject
 {
@@ -16,6 +17,7 @@ namespace Sparta2ndTeam_TeamProject
         static public List<Item> items = new List<Item>();
         static public List<Item> dropItems = new List<Item>();
         static public List<Quest> quests = new List<Quest>();
+        static public List<Pet> pets = new List<Pet>();
 
         public static Tower.Tower tower = new();
         public IntroScene introScene = new();
@@ -67,6 +69,10 @@ namespace Sparta2ndTeam_TeamProject
             dropItems.Add(new Item("일반 혈석", "몬스터에게서 떨어져 나온 의문의 혈석입니다.", 0, 0, 0, 30, 3000, ItemType.MONSTER_DROP, false, true));
             dropItems.Add(new Item("거대한 혈석", "일반 혈석과는 달리 거대한 크기의 자색 혈석입니다.", 0, 0, 0, 50, 5000, ItemType.MONSTER_DROP));
 
+            //펫 종류
+            pets.Add(new Pet("붉은 슬라임","가장 취약한 적을 공격하는 본능적인 펫 입니다.", 0, 0, 0, 0, 3000, ItemType.Pet));
+            pets.Add(new Pet("초록 슬라임","적의 공격을 대신 맞아주는 충실한 펫 입니다.", 0, 0, 0, 0, 3000, ItemType.Pet));
+            pets.Add(new Pet("푸른 슬라임","상처 부위를 진정시켜주는 부착용 펫 입니다.", 0, 0, 0, 0, 3000, ItemType.Pet));
 
 
             // 퀘스트 목록
@@ -180,7 +186,7 @@ namespace Sparta2ndTeam_TeamProject
             }
             else
             {
-                introScene.PlayIntro();
+                //introScene.PlayIntro();
                 Console.Clear();
                 Console.WriteLine("=============================================================================");
                 Console.WriteLine("                     저장된 플레이어 데이터가 없습니다.                      ");
@@ -242,9 +248,10 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("3. 상점");
             Console.WriteLine("4. 탑 입장 (현재 진행 : {0}층)", tower.TowerLv);
             Console.WriteLine("5. 모험가 길드");
+            Console.WriteLine("6. 수상한 동굴");
 
             // 2. 선택한 결과를 검증함
-            Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 5);
+            Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 6);
 
             // 3. 선택한 결과에 따라 보내줌
             switch (choice)
@@ -267,6 +274,9 @@ namespace Sparta2ndTeam_TeamProject
                 case SelectMainMenu.GuildMenu:
                     Guild.GuildMenu();
                     break;
+                case SelectMainMenu.PetCave:
+                    PetCave.PetCaveMenu();
+                    break;
             }
             MainMenu();
         }
@@ -278,6 +288,7 @@ namespace Sparta2ndTeam_TeamProject
             StoreMenu,
             EnterTower,
             GuildMenu,
+            PetCave,
         }
     }
 }
