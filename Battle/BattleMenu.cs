@@ -149,8 +149,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
             Console.WriteLine("체  력 : {0}/{1}", GameManager.player.Hp, GameManager.player.Max_Hp);
             Console.WriteLine("마  나 : {0}/{1}", GameManager.player.Mp, GameManager.player.Max_Mp);
 
-            Console.WriteLine("\n0. 취소");
-            Console.WriteLine("\n대상을 선택해주세요.");
         }
 
         private void SkillAction()
@@ -173,11 +171,10 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
             }
             Console.WriteLine("\n0. 취소");
-            Console.WriteLine("\n원하시는 행동을 입력해주세요.");
             Console.Write("");
 
 
-            choice = ConsoleUtility.PromptMenuChoice(1, GameManager.player.skill.Count);
+            choice = ConsoleUtility.PromptMenuChoice(0, GameManager.player.skill.Count);
 
             if (choice == (int)SkillCount.WrongCommand)
             {
@@ -188,6 +185,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
             switch ((SkillCount)choice)
             {
+                case 0:
+                    Battle();
+                    break;
                 case SkillCount.FristSkill:
                     SetSkill = 0;
                     sMp = GameManager.player.skill[SetSkill].SkillMana;
