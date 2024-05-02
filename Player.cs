@@ -155,7 +155,7 @@ namespace Sparta2ndTeam_TeamProject
         public Warrior(string name) : base(name)
         {
             Job = 1;
-            Atk = 80; // 전사의 공격력 설정
+            Atk = 8; // 전사의 공격력 설정
             Def = 10; // 전사의 방어력 설정
             Max_Hp = 150; // 전사의 최대체력 설정
             Hp = Max_Hp;
