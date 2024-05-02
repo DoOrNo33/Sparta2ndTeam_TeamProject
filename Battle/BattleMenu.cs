@@ -1,13 +1,17 @@
 ﻿
+using Sparta2ndTeam_TeamProject.Items;
 using Sparta2ndTeam_TeamProject.Scenes;
 using Sparta2ndTeam_TeamProject.Tower;
+using System;
 using System.Numerics;
+using System.Runtime.InteropServices;
 
 namespace Sparta2ndTeam_TeamProject.Battle
 {
     internal class BattleMenu
     {
         private List<Enemy> currentEnemy;
+        private Enemy enemy = new Enemy();
         Random random = new Random();
         private bool duringBattle = false;
         int defeatCount = 0;        // 적 쓰러뜨림 확인용
@@ -19,9 +23,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
         int choice = 0;
         int towerLv;
         bool finalBattle;
-
-
-
+        bool skill;
+        int SetSkill = 0;
         public BattleMenu()
         {
             currentEnemy = new();
@@ -93,7 +96,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             Console.WriteLine("체  력 : {0}/{1}", GameManager.player.Hp, GameManager.player.Max_Hp);
             Console.WriteLine("마  나 : {0}/{1}", GameManager.player.Mp, GameManager.player.Max_Mp);
 
-            Console.WriteLine("\n1. 기본 공격\n2. 스킬\n3. 인벤토리\n"); // 스킬, 소모성 아이템 추가 할 수 있음
+            Console.WriteLine("\n1. 기본 공격\n2. 스킬\n"); // 스킬, 소모성 아이템 추가 할 수 있음
 
             if (choice == (int)BattleAction.WrongCommand)
             {
@@ -103,31 +106,34 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 Console.WriteLine();
             }
 
-            choice = ConsoleUtility.PromptMenuChoice(1, 3);
-
+            choice = ConsoleUtility.PromptMenuChoice(1, 2);
             switch ((BattleAction)choice)
             {
                 case BattleAction.BasicAttack:
                     AttackAction();
                     break;
                 case BattleAction.SkillAttack:
-                    AttackAction();
+                    skill = true;
+                    SkillAction();
                     break;
-                case BattleAction.Inventory:
-                    duringBattle = true;
-                    Inventory.InventoryMenu(true);
-                    Battle();
-                    break;
+                //case BattleAction.Inventory:
+                //    duringBattle = true;
+                //    Inventory.InventoryMenu(true);
+                //    Battle();
+                //    break;
                 case BattleAction.WrongCommand:
                     duringBattle = true;
                     Battle();
                     break;
             }
-
         }
 
 
-        private void AttackAction()
+        private void SetMana(int mp)
+        {
+            GameManager.player.Mp = GameManager.player.Mp - mp;
+        }
+        private void BattleSet()
         {
             Console.Clear();
             ConsoleUtility.ShowTitle("■ 전  투 ■\n");
@@ -145,11 +151,309 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
             Console.WriteLine("\n0. 취소");
             Console.WriteLine("\n대상을 선택해주세요.");
+        }
+
+        private void SkillAction()
+        {
+            int sMp = 0;
+            bool Mp = true;
+            bool Range = false;
+            BattleSet();
+            Console.WriteLine("\n[내 스킬]", GameManager.player.skill[1].SkillName);
+            for (int i = 0; i < GameManager.player.skill.Count; i++)
+            {
+                if (GameManager.player.skill[i].SkillRange)
+                {
+                    Console.WriteLine("\n{0}. {1} - MP {2} \n{3}의 데미지로 모든 적을 공격합니다", i + 1, GameManager.player.skill[i].SkillName, GameManager.player.skill[i].SkillMana, GameManager.player.skill[i].SkillDamage, GameManager.player.skill[i].SkillRange);
+                }
+                else
+                {
+                    Console.WriteLine("\n{0}. {1} - MP {2} \n{3}의 데미지로 적 1명을 공격합니다", i + 1, GameManager.player.skill[i].SkillName, GameManager.player.skill[i].SkillMana, GameManager.player.skill[i].SkillDamage, GameManager.player.skill[i].SkillRange);
+                }
+
+            }
+            Console.WriteLine("\n0. 취소");
+            Console.WriteLine("\n원하시는 행동을 입력해주세요.");
+            Console.Write("");
+
+
+            choice = ConsoleUtility.PromptMenuChoice(1, GameManager.player.skill.Count);
+
+            if (choice == (int)SkillCount.WrongCommand)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("잘못된 입력입니다.");
+                Console.ResetColor();
+                Console.WriteLine();
+            }
+            switch ((SkillCount)choice)
+            {
+                case SkillCount.FristSkill:
+                    SetSkill = 0;
+                    sMp = GameManager.player.skill[SetSkill].SkillMana;
+                    if (GameManager.player.Mp < GameManager.player.skill[SetSkill].SkillMana)
+                    {
+                        Mp = false;
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("마나가 부족합니다.");
+                        Console.ResetColor();
+                        Console.WriteLine();
+                        Thread.Sleep(500);
+                        SkillAction();
+                        break;
+                    }
+                    else
+                    {
+                        Range = GameManager.player.skill[SetSkill].SkillRange;
+                    }
+                    break;
+                case SkillCount.SecondSkill:
+                    SetSkill = 1;
+                    sMp = GameManager.player.skill[SetSkill].SkillMana;
+                    if (GameManager.player.Mp < GameManager.player.skill[SetSkill].SkillMana)
+                    {
+                        Mp = false;
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("마나가 부족합니다.");
+                        Console.ResetColor();
+                        Console.WriteLine();
+                        Thread.Sleep(500);
+                        SkillAction();
+                        break;
+                    }
+                    else
+                    {
+                        Range = GameManager.player.skill[SetSkill].SkillRange;
+                    }
+                    break;
+                //case SkillCount.ThirdSkill:
+                //    SetSkill = 3;
+                //    break;
+                //case SkillCount.FourthSkill:
+                //    SetSkill = 4;
+                //    break;
+                case SkillCount.WrongCommand:
+                    duringBattle = true;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.ResetColor();
+                    Console.WriteLine();
+                    Thread.Sleep(500);
+                    SkillAction();
+                    break;
+            }
+            if (Mp)
+            {
+
+                Console.Clear();
+                ConsoleUtility.ShowTitle("■ Battle!! ■\n");
+                for (int i = 0; i < currentEnemy.Count; i++)
+                {
+                    currentEnemy[i].PrintCurrentEnemies(true, i + 1);
+                }
+
+                if (!Range)
+                {
+                    Console.WriteLine("\n[내 정보]");
+                    Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, GameManager.player.Job);
+                    Console.WriteLine("HP {0}/{1}", GameManager.player.Hp, GameManager.player.Max_Hp);
+                    Console.WriteLine("MP {0}/{1}", GameManager.player.Mp, GameManager.player.Max_Mp);
+
+                    Console.WriteLine("\n0. 취소");
+                    Console.WriteLine("\n대상을 선택해주세요.");
+                    Console.Write(">>");
+
+                    int keyInput = 0;
+
+                    while (true) // 대상이 죽었는지 체크
+                    {
+                        keyInput = ConsoleUtility.PromptMenuChoice(0, currentEnemy.Count);
+
+                        if (keyInput == (int)BattleAction.WrongCommand)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("잘못된 입력입니다.");
+                            Console.ResetColor();
+                            Console.WriteLine();
+                        }
+                        else if (keyInput == 0)
+                        {
+                            break;
+                        }
+                        else if (currentEnemy[keyInput - 1].IsDead)
+                        {
+                            Console.WriteLine("이미 죽은 대상입니다.");
+                            Console.Write(">>");
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    switch (keyInput)
+                    {
+                        case 0:
+                            duringBattle = true;
+                            Battle();
+                            break;
+                        default:
+                            int i = keyInput - 1;
+                            defeatCount += currentEnemy[i].PlayerSkillAttack(SetSkill); // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
+                            SetMana(sMp);
+                            foreach (Enemy enem in currentEnemy)
+                            {
+                                if (enem.Hp <= 0)               // 적 체력 0이라면 건너뜀
+                                {
+                                    continue;
+                                }
+
+                                EnemyPhase(enem);
+
+                                if (GameManager.player.Hp <= 0)     // 플레이어 체력 0이라면 적 페이즈 멈춤
+                                {
+                                    break;
+                                }
+
+                            }
+
+                            if (GameManager.player.Hp <= 0)
+                            {
+                                BattleResult(BattleStatus.Defeat);
+                            }
+                            else if ((defeatCount == currentEnemy.Count) && (GameManager.player.Hp > 0))
+                            {
+                                BattleResult(BattleStatus.Win);
+                            }
+                            else
+                            {
+                                SkillAction();
+                            }
+
+                            break;
+                    }
+                }
+                else
+                {
+                    int i = 0;
+                    SetMana(sMp);
+                    foreach (Enemy enem in currentEnemy)
+                    {
+                        defeatCount += currentEnemy[i].PlayerSkillAttack(SetSkill); // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
+                        i++;
+                    }
+                    foreach (Enemy enem in currentEnemy)
+                    {
+                        if (enem.Hp <= 0)               // 적 체력 0이라면 건너뜀
+                        {
+                            continue;
+                        }
+
+                        EnemyPhase(enem);
+
+                        if (GameManager.player.Hp <= 0)     // 플레이어 체력 0이라면 적 페이즈 멈춤
+                        {
+                            break;
+                        }
+
+                    }
+
+                    if (GameManager.player.Hp <= 0)
+                    {
+                        BattleResult(BattleStatus.Defeat);
+                    }
+                    else if ((defeatCount == currentEnemy.Count) && (GameManager.player.Hp > 0))
+                    {
+                        BattleResult(BattleStatus.Win);
+                    }
+                    else
+                    {
+                        SkillAction();
+                    }
+                }
+
+            }
+
+        }
+
+        //private void StartBattel(bool skill)
+        //{
+        //    int keyInput = 0;
+        //    while (true) // 대상이 죽었는지 체크
+        //    {
+
+        //        keyInput = ConsoleUtility.PromptMenuChoice(0, currentEnemy.Count);
+
+        //        if (keyInput == (int)BattleAction.WrongCommand)
+        //        {
+        //            Console.ForegroundColor = ConsoleColor.Red;
+        //            Console.Write("잘못된 입력입니다.");
+        //            Console.ResetColor();
+        //            Console.WriteLine();
+        //        }
+        //        else if (keyInput == 0)
+        //        {
+        //            break;
+        //        }
+        //        else if (currentEnemy[keyInput - 1].IsDead)
+        //        {
+        //            Console.WriteLine("이미 죽은 대상입니다.");
+        //            Console.Write(">>");
+        //        }
+        //        else
+        //        {
+        //            break;
+        //        }
+        //    }
+        //    switch (keyInput)
+        //    {
+        //        case 0:
+        //            duringBattle = true;
+        //            Battle();
+        //            break;
+        //        default:
+
+        //            defeatCount += currentEnemy[keyInput - 1].PlayerAttack(); // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
+
+        //            foreach (Enemy enem in currentEnemy)
+        //            {
+        //                if (enem.Hp <= 0)               // 적 체력 0이라면 건너뜀
+        //                {
+        //                    continue;
+        //                }
+
+        //                EnemyPhase(enem);
+
+        //                if (GameManager.player.Hp <= 0)     // 플레이어 체력 0이라면 적 페이즈 멈춤
+        //                {
+        //                    break;
+        //                }
+
+        //            }
+
+        //            if (GameManager.player.Hp <= 0)
+        //            {
+        //                BattleResult(BattleStatus.Defeat);
+        //            }
+        //            else if ((defeatCount == currentEnemy.Count) && (GameManager.player.Hp > 0))
+        //            {
+        //                BattleResult(BattleStatus.Win);
+        //            }
+        //            else
+        //            {
+        //                AttackAction();
+        //            }
+
+        //            break;
+        //    }
+        //}
+
+        private void AttackAction()
+        {
+            BattleSet();
 
             int keyInput = 0;
-
-            while (true)                                // 대상이 죽었는지 체크
+            while (true) // 대상이 죽었는지 체크
             {
+
                 keyInput = ConsoleUtility.PromptMenuChoice(0, currentEnemy.Count);
 
                 if (keyInput == (int)BattleAction.WrongCommand)
@@ -174,7 +478,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     break;
                 }
             }
-
             switch (keyInput)
             {
                 case 0:
@@ -220,6 +523,22 @@ namespace Sparta2ndTeam_TeamProject.Battle
                         }
 
 
+                    foreach (Pet pet in PetCave.myPets)     // 펫 스킬 들어갈 타이밍
+                    {
+                        if (pet.isEquipped)
+                        {
+                            if (pet.PetType == Items.PetType.Attack)
+                            {
+                                defeatCount += pet.PetAttack(currentEnemy);
+                            }
+
+                            if (pet.PetType == Items.PetType.Heal)
+                            {
+                                pet.PetHeal();
+                            }
+                        }
+                    }
+
                     foreach (Enemy enem in currentEnemy)
                     {
                         if (enem.Hp <= 0)               // 적 체력 0이라면 건너뜀
@@ -251,7 +570,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
                     break;
             }
+
+
+
         }
+
 
         private void BattleResult(BattleStatus result)
         {
@@ -466,6 +789,21 @@ namespace Sparta2ndTeam_TeamProject.Battle
             second,
             third
         }
-    }
+        private enum SkillCount 
+        {
+            FristSkill = 1,
+            SecondSkill,
+            ThirdSkill,
+            FourthSkill,
+            WrongCommand = -1
+        }
 
+        public enum PetType
+        {
+            Attack,
+            Defense,
+            Heal
+        }
+
+    }
 }

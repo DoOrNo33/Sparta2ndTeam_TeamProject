@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Sparta2ndTeam_TeamProject.Items;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Sparta2ndTeam_TeamProject.Battle
 {
@@ -74,6 +77,90 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
         }
 
+
+        public (bool, int) Critical(int Atk) // 치명타 판정
+        {
+            bool isCri = false;
+            if (GameManager.player.Critical())
+            {
+                Atk = (int)Math.Ceiling(Atk * 1.6f);                                                      // 치명타 데미지
+                isCri = true;
+            }
+            return (isCri, Atk);
+        }
+
+
+        public int PlayerSkillAttack(int order)
+        {
+            int pMp = GameManager.player.Mp;
+            string pName = GameManager.player.Name;
+            string sName = GameManager.player.skill[order].SkillName;
+            int Damege = GameManager.player.Atk;
+            int adAtk;
+            int pAtk;
+            
+            bool isCri;
+            if (pMp < GameManager.player.skill[order].SkillMana) //마나가 부족하면
+            {
+                return -1;
+            }
+            else //마나가 있다면 공격
+            {
+                Damege = GameManager.player.skill[order].SkillDamage;
+
+
+                adAtk = (int)Math.Ceiling(Damege * 0.1f);                                   //보정 공격, 10%의 올림치
+                pAtk = random.Next((Damege - adAtk), (Damege + adAtk + 1)); //보정 공격치
+
+
+                Console.Clear();
+                ConsoleUtility.ShowTitle("■ Battle!! ■\n");
+                Console.WriteLine("{0} 의 {1} 공격!", pName, sName);
+                Console.Write("Lv.{0} {1} 을(를) 맞췄습니다.", Lv, Name);
+                (isCri, pAtk) = Critical(pAtk);  //치명타 유무,치명타 공격력 받기
+                if (isCri)
+                {
+                    Console.Write(" - 치명타 공격!!");
+                }
+                Console.Write(" [데미지 : {0}]", pAtk);
+                Console.WriteLine("\n\nLv.{0} {1}", Lv, Name);
+
+                int tempHp = hp;
+                hp -= pAtk;
+
+                if (hp > 0)   // 적의 남은 hp가 0보다 큰지 작은지
+                {
+                    Console.WriteLine("HP {0} -> {1}", tempHp, hp);
+                    Console.WriteLine("\n0. 다음");
+                    Console.Write("\n>>");
+
+                    switch ((PlayerPhase)ConsoleUtility.PromptMenuChoice(0, 0))
+                    {
+                        case PlayerPhase.ToEnemyPhase:
+                            break;
+                    }
+                    return 0;
+                }
+                else
+                {
+                    hp = 0;
+                    Dead();
+                    Console.WriteLine("HP {0} -> {1}", tempHp, hp);
+                    Console.WriteLine("\n0. 다음");
+                    Console.Write("\n>>");
+
+                    switch ((PlayerPhase)ConsoleUtility.PromptMenuChoice(0, 0))
+                    {
+                        case PlayerPhase.ToEnemyPhase:
+                            break;
+                    }
+                    return 1;
+                }
+            }
+            
+
+        }
+
         public int PlayerAttack()                  // 플레이어 공격 체크
         {
             string pName = GameManager.player.Name;
@@ -138,7 +225,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
             
 
-
+            
 
 
         }
@@ -148,7 +235,20 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
             if (!isDead && GameManager.player.Hp > 0)
             {
-                if (GameManager.player.Avoid())                         // 플레이어 회피
+                int? petAvoid = null;
+
+                foreach (Pet pet in PetCave.myPets)// 펫 스킬 들어갈 타이밍
+                {
+                    if (pet.isEquipped)
+                    {
+                        if (pet.PetType == Items.PetType.Defense)
+                        {
+                            petAvoid = pet.PetAvoid;
+                        }
+                    }
+                }
+
+                if (GameManager.player.Avoid(petAvoid))                         // 플레이어 회피
                 {
                     Console.Clear();
                     ConsoleUtility.ShowTitle("■ 전  투 ■\n");
@@ -193,7 +293,16 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
         }
 
-        private void Dead()
+        public void PetDamage(int damage)           // 펫 데미지 적용 용
+        {
+            hp -= damage;
+            if (hp < 0)
+            {
+                hp = 0;
+            }
+        }
+
+        public void Dead()
         {
             isDead = true;
         }
@@ -207,7 +316,12 @@ namespace Sparta2ndTeam_TeamProject.Battle
         {
             Next
         }
+        public enum SkillList
+        {
+            Skillone,
+            Skilltwo
 
+        }
 
     }
 }

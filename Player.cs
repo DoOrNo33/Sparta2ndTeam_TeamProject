@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sparta2ndTeam_TeamProject.Items;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
@@ -10,17 +11,17 @@ namespace Sparta2ndTeam_TeamProject
 {
     internal class Player
     {
+        public List<Skill> skill = new List<Skill>();
         Random random = new Random();
         public string Name { get; }
         public int Job { get; set; }
         public int Level { get; set; } = 1;
         public int Atk { get; set; } = 10;
         public int Def { get; set; } = 5;
-        public int Hp { get; set; } = 100;
-        public int Max_Hp { get; set; } = 100;
-        public int Mp { get; set; } = 50;
-
-        public int Max_Mp { get; set; } = 50;
+        public int Hp { get; set; } 
+        public int Max_Hp { get; set; } 
+        public int Mp { get; set; } 
+        public int Max_Mp { get; set; }
         public int Gold { get; set; } = 1500;
 
         public int RequiredExp { get; set; } = 10;
@@ -93,14 +94,41 @@ namespace Sparta2ndTeam_TeamProject
             return false;
         }
 
-        public bool Avoid(bool isEnemy = false) // 회피
+        public bool Avoid(int? petAvoid = null, bool isEnemy = false) // 회피
         {
-            int percent = random.Next(0, 10);
+            if (petAvoid != null)
+            {
+                int percent = random.Next(0, 10);
 
-            if (percent < 1)
-                return true;
+                if (percent < 1)
+                    return true;
 
-            return false;
+                else if (percent < (1 + petAvoid))                                           //초록 슬라임 확인
+                {
+                    Console.Clear();
+                    ConsoleUtility.ShowTitle("■ 전  투 ■\n");
+                    Console.WriteLine("초록 슬라임이 당신을 감쌉니다!");
+                    ConsoleUtility.PromptReturn();
+                    return true;
+                }
+
+                return false;
+            }
+
+            else
+            {
+                int percent = random.Next(0, 10);
+
+                if (percent < 1)
+                    return true;
+
+                return false;
+            }
+        }
+        public int Skill(int i)
+        {
+            return skill[i].SkillDamage;
+
         }
 
         public virtual void LevelUp(int exp)
@@ -129,33 +157,15 @@ namespace Sparta2ndTeam_TeamProject
             Job = 1;
             Atk = 8; // 전사의 공격력 설정
             Def = 10; // 전사의 방어력 설정
+            Max_Hp = 150; // 전사의 최대체력 설정
+            Hp = Max_Hp;
+            Max_Mp = 50;// 전사의 최대 마나 설정
+            Mp = Max_Mp;
+            skill.Add(new Skill("알파-스트라이크", 10, Atk * 2, false, 1));//전사 스킬 1
+            skill.Add(new Skill("더블-스트라이크", 25, Atk * 2, true, 2));//전사 스킬 2
         }
 
-        public int Alpha_Strike() // 데미지를 반환 ( -1 : 스킬 사용 실패)
-        {
-            if (Mp < 10)
-            {
-                Console.WriteLine("마나가 부족합니다..");
-                return -1;
-            }
 
-            Mp -= 10;
-            Console.WriteLine("알파-스트라이크 스킬 사용");
-            return Atk * 2;
-        }
-
-        public int Double_Strike() // 데미지를 반환 ( -1 : 스킬 사용 실패)
-        {
-            if (Mp < 20)
-            {
-                Console.WriteLine("마나가 부족합니다..");
-                return -1;
-            }
-
-            Mp -= 20;
-            Console.WriteLine("더블-스트라이크 스킬 사용");
-            return Atk * 2;
-        }
 
         public override void LevelUp(int exp)
         {
@@ -182,33 +192,14 @@ namespace Sparta2ndTeam_TeamProject
             Job = 2;
             Atk = 12; // 마법사의 공격력 설정
             Def = 6; // 마법사의 방어력 설정
+            Max_Hp = 100; // 마법사의 최대 체력 설정
+            Hp = Max_Hp;
+            Max_Mp = 150;// 마법사의 최대 마나 설정
+            Mp = Max_Mp;
+            skill.Add(new Skill("에너지 볼트", 10, Atk * 1, true, 1)); //마법사 스킬 1
+            skill.Add(new Skill("썬더 볼트", 25, Atk * 3, false, 2)); //마법사 스킬 2
         }
 
-        public int Energy_Bolt() // 데미지를 반환 ( -1 : 스킬 사용 실패)
-        {
-            if (Mp < 10)
-            {
-                Console.WriteLine("마나가 부족합니다..");
-                return -1;
-            }
-
-            Mp -= 10;
-            Console.WriteLine("에너지 볼트 스킬 사용");
-            return Atk * 1;
-        }
-
-        public int Thunder_Bolt() // 데미지를 반환 ( -1 : 스킬 사용 실패)
-        {
-            if (Mp < 25)
-            {
-                Console.WriteLine("마나가 부족합니다..");
-                return -1;
-            }
-
-            Mp -= 25;
-            Console.WriteLine("썬더 볼트 스킬 사용");
-            return Atk * 2;
-        }
         public override void LevelUp(int exp)
         {
             CurrentExp += exp;

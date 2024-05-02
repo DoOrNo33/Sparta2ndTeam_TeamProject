@@ -404,9 +404,6 @@
                     case "대형 HP 포션":
                         idx = 1;
                         break;
-                    case "소형 MP 포션":
-                        idx = 2;
-                        break;
                     default:
                         break;
                 }
