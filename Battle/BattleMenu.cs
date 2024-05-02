@@ -13,6 +13,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         private List<Enemy> currentEnemy;
         private Enemy enemy = new Enemy();
         Random random = new Random();
+        //Skill();
         private bool duringBattle = false;
         int defeatCount = 0;        // 적 쓰러뜨림 확인용
         int startHp = 0;
@@ -23,7 +24,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         int choice = 0;
         int towerLv;
         bool finalBattle;
-        bool skill;
+        //bool skill;
         int SetSkill = 0;
         public BattleMenu()
         {
@@ -114,7 +115,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     AttackAction();
                     break;
                 case BattleAction.SkillAttack:
-                    skill = true;
+                    //skill = true;
                     SkillAction();
                     break;
                 //case BattleAction.Inventory:
@@ -159,16 +160,16 @@ namespace Sparta2ndTeam_TeamProject.Battle
             bool Mp = true;
             bool Range = false;
             BattleSet();
-            Console.WriteLine("\n[내 스킬]", GameManager.player.skill[1].SkillName);
-            for (int i = 0; i < GameManager.player.skill.Count; i++)
+            Console.WriteLine("\n[내 스킬]");
+            for (int i = 0; i < GameManager.skill.Count; i++)
             {
-                if (GameManager.player.skill[i].SkillRange)
+                if (GameManager.skill[i].SkillRange)
                 {
-                    Console.WriteLine("\n{0}. {1} - MP {2} \n{3}의 데미지로 모든 적을 공격합니다", i + 1, GameManager.player.skill[i].SkillName, GameManager.player.skill[i].SkillMana, GameManager.player.skill[i].SkillDamage, GameManager.player.skill[i].SkillRange);
-                }
+                    Console.WriteLine("\n{0}. {1} - MP {2} \n{3}의 데미지로 모든 적을 공격합니다", i + 1, GameManager.skill[i].SkillName, GameManager.skill[i].SkillMana, GameManager.skill[i].SkillDamage, GameManager.skill[i].SkillRange);
+                }   
                 else
                 {
-                    Console.WriteLine("\n{0}. {1} - MP {2} \n{3}의 데미지로 적 1명을 공격합니다", i + 1, GameManager.player.skill[i].SkillName, GameManager.player.skill[i].SkillMana, GameManager.player.skill[i].SkillDamage, GameManager.player.skill[i].SkillRange);
+                    Console.WriteLine("\n{0}. {1} - MP {2} \n{3}의 데미지로 적 1명을 공격합니다", i + 1, GameManager.skill[i].SkillName, GameManager.skill[i].SkillMana, GameManager.skill[i].SkillDamage, GameManager.skill[i].SkillRange);
                 }
 
             }
@@ -176,7 +177,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             Console.WriteLine("");
 
 
-            choice = ConsoleUtility.PromptMenuChoice(0, GameManager.player.skill.Count);
+            choice = ConsoleUtility.PromptMenuChoice(0, GameManager.skill.Count);
 
             if (choice == (int)SkillCount.WrongCommand)
             {
@@ -192,8 +193,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     break;
                 case SkillCount.FristSkill:
                     SetSkill = 0;
-                    sMp = GameManager.player.skill[SetSkill].SkillMana;
-                    if (GameManager.player.Mp < GameManager.player.skill[SetSkill].SkillMana)
+                    sMp = GameManager.skill[SetSkill].SkillMana;
+                    if (GameManager.player.Mp < GameManager.skill[SetSkill].SkillMana)
                     {
                         Mp = false;
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -206,13 +207,13 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     }
                     else
                     {
-                        Range = GameManager.player.skill[SetSkill].SkillRange;
+                        Range = GameManager.skill[SetSkill].SkillRange;
                     }
                     break;
                 case SkillCount.SecondSkill:
                     SetSkill = 1;
-                    sMp = GameManager.player.skill[SetSkill].SkillMana;
-                    if (GameManager.player.Mp < GameManager.player.skill[SetSkill].SkillMana)
+                    sMp = GameManager.skill[SetSkill].SkillMana;
+                    if (GameManager.player.Mp < GameManager.skill[SetSkill].SkillMana)
                     {
                         Mp = false;
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -225,7 +226,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     }
                     else
                     {
-                        Range = GameManager.player.skill[SetSkill].SkillRange;
+                        Range = GameManager.skill[SetSkill].SkillRange;
                     }
                     break;
                 //case SkillCount.ThirdSkill:
