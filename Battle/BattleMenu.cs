@@ -175,7 +175,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
             choice = ConsoleUtility.PromptMenuChoice(0, GameManager.skill.Count);
 
-            choice = ConsoleUtility.PromptMenuChoice(0, GameManager.player.skill.Count);
+            choice = ConsoleUtility.PromptMenuChoice(0, GameManager.skill.Count);
 
             if (choice == (int)SkillCount.WrongCommand)
             {
