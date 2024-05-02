@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sparta2ndTeam_TeamProject.Items;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
@@ -23,8 +24,10 @@ namespace Sparta2ndTeam_TeamProject
         public int Max_Mp { get; set; }
         public int Gold { get; set; } = 1500;
 
+        public int RequiredExp { get; set; } = 10;
+        public int CurrentExp { get; set; } = 0;
 
-
+        public int towerLv { get; set; } = 1;
 
         public Player(string name)
         {
@@ -91,12 +94,33 @@ namespace Sparta2ndTeam_TeamProject
             return false;
         }
 
-        public bool Avoid() // 회피
+        public bool Avoid(int? petAvoid = null, bool isEnemy = false) // 회피
         {
-            int percent = random.Next(0, 10);
+            if (petAvoid != null)
+            {
+                int percent = random.Next(0, 10);
 
-            if (percent < 1)
-                return true;
+                if (percent < 1)
+                    return true;
+
+                else if (percent < (1 + petAvoid))                                           //초록 슬라임 확인
+                {
+                    Console.Clear();
+                    ConsoleUtility.ShowTitle("■ 전  투 ■\n");
+                    Console.WriteLine("초록 슬라임이 당신을 감쌉니다!");
+                    ConsoleUtility.PromptReturn();
+                    return true;
+                }
+
+                return false;
+            }
+
+            else
+            {
+                int percent = random.Next(0, 10);
+
+                if (percent < 1)
+                    return true;
 
             return false;
         }
@@ -105,35 +129,87 @@ namespace Sparta2ndTeam_TeamProject
             return skill[i].SkillDamage;
 
         }
-        internal class Warrior : Player
-        {
 
-            public Warrior(string name) : base(name)
+        public virtual void LevelUp(int exp)
+        {
+            CurrentExp += exp;
+            while (CurrentExp > RequiredExp)
             {
-                Job = 1;
-                Atk = 8; // 전사의 공격력 설정
-                Def = 10; // 전사의 방어력 설정
-                Max_Hp = 150;
-                Hp = Max_Hp;
-                Max_Mp = 50;
-                Mp = Max_Mp;
-                skill.Add(new Skill("알파-스트라이크", 10, Atk * 2, false, 1));//전사 스킬 1
-                skill.Add(new Skill("더블-스트라이크", 25, Atk * 2, true, 2));//전사 스킬 2
+                CurrentExp -= RequiredExp;
+                RequiredExp += 20 + (Level * 5);
+                Level++;
+                Atk += 2;
+                Def += 1;
+                Hp += 0;
+                Max_Hp += 0;
+                Mp += 0;
+                Max_Mp += 0;
             }
         }
-        internal class Mage : Player
+
+    }
+
+    class Warrior : Player
+    {
+        public Warrior(string name) : base(name)
         {
-                public Mage(string name) : base(name)
-                {
-                    Job = 2;
-                    Atk = 12; // 마법사의 공격력 설정
-                    Def = 6; // 마법사의 방어력 설정
-                    Max_Hp = 100;
-                    Hp = Max_Hp;
-                    Max_Mp = 150;
-                    Mp = Max_Mp;
-                    skill.Add(new Skill("에너지 볼트", 10, Atk * 1, true, 1)); //마법사 스킬 1
-                    skill.Add(new Skill("썬더 볼트", 25, Atk * 3, false, 2)); //마법사 스킬 2
+            Job = 1;
+            Atk = 8; // 전사의 공격력 설정
+            Def = 10; // 전사의 방어력 설정
+        }
+
+        public int Alpha_Strike() // 데미지를 반환 ( -1 : 스킬 사용 실패)
+        {
+            if (Mp < 10)
+            {
+                Console.WriteLine("마나가 부족합니다..");
+                return -1;
+            }
+
+            Mp -= 10;
+            Console.WriteLine("알파-스트라이크 스킬 사용");
+            return Atk * 2;
+        }
+
+        public int Double_Strike() // 데미지를 반환 ( -1 : 스킬 사용 실패)
+        {
+            if (Mp < 20)
+            {
+                Console.WriteLine("마나가 부족합니다..");
+                return -1;
+            }
+
+            Mp -= 20;
+            Console.WriteLine("더블-스트라이크 스킬 사용");
+            return Atk * 2;
+        }
+
+        public override void LevelUp(int exp)
+        {
+            CurrentExp += exp;
+            while (CurrentExp > RequiredExp)
+            {
+                CurrentExp -= RequiredExp;
+                RequiredExp += 20 + (Level * 5);
+                Level++;
+                Atk += 1;
+                Def += 2;
+                Hp += 0;
+                Max_Hp += 5;
+                Mp += 0;
+                Max_Mp += 0;
+            }
+        }
+    }
+
+    internal class Mage : Player
+    {
+        public Mage(string name) : base(name)
+        {
+            Job = 2;
+            Atk = 12; // 마법사의 공격력 설정
+            Def = 6; // 마법사의 방어력 설정
+        }
 
             }
 
@@ -145,10 +221,31 @@ namespace Sparta2ndTeam_TeamProject
                 //        return -1;
                 //    }
 
-                //    Mp -= 25;
-                //    Console.WriteLine("썬더 볼트 스킬 사용");
-                //    return Atk * 2;
-                //}
+            Mp -= 25;
+            Console.WriteLine("썬더 볼트 스킬 사용");
+            return Atk * 2;
+        }
+        public override void LevelUp(int exp)
+        {
+            CurrentExp += exp;
+            while (CurrentExp > RequiredExp)
+            {
+                CurrentExp -= RequiredExp;
+                RequiredExp += 20 + (Level * 5);
+                Level++;
+                Atk += 1;
+                Def += 1;
+                Hp += 0;
+                Max_Hp += 0;
+                Mp += 0;
+                Max_Mp += 5;
             }
         }
- }
+    }
+
+    enum SelectStatusMenu
+    {
+        PreviousPage = 0,
+        WrongCommand = -1,
+    }
+}

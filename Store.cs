@@ -211,7 +211,7 @@ namespace Sparta2ndTeam_TeamProject
 
                 Console.Clear();
                 ConsoleUtility.ShowTitle("■ 상점 - 아이템 판매 ■");
-                Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
+                Console.WriteLine("아이템을 판매하여 골드를 획득할 수 있습니다.\n");
 
                 ConsoleUtility.PrintTextHighlights("", "[보유 골드]");
                 Console.WriteLine($"{GameManager.player.Gold} G\n");
@@ -221,9 +221,16 @@ namespace Sparta2ndTeam_TeamProject
 
                 for (int i = 0; i < GameManager.items.Count; i++)
                 {
-                    if (GameManager.items[i].isPurchased)
+                    if (GameManager.items[i].isPurchased || GameManager.items[i].isInitItem)
                     {
                         storeItems.Add(GameManager.items[i]);
+                    }
+                }
+                for(int i=0;i<GameManager.dropItems.Count;i++)
+                {
+                    if (GameManager.dropItems[i].isPurchased)
+                    {
+                        storeItems.Add(GameManager.dropItems[i]);
                     }
                 }
 
@@ -258,11 +265,123 @@ namespace Sparta2ndTeam_TeamProject
 
 
                 Console.WriteLine("\n0. 나가기\n\n");
+                
+
+                command = ConsoleUtility.PromptMenuChoice(0, storeItems.Count);
+
+
                 if (command == (int)SelectStoreMenu.WrongCommand)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("잘못된 입력입니다.");
                     Console.ResetColor();
+                    Thread.Sleep(500);
+                }
+                else if (command == (int)SelectStoreMenu.PreviousPage) return;
+                else
+                //if (command != (int)SelectStoreMenu.WrongCommand)
+                {
+                    foreach (Item item in storeItems)
+                    {
+                        //판매 관련 작업 
+                        if ((command - 1) == storeItems.IndexOf(item))
+                        {
+                            ConsoleUtility.PrintTextHighlights("정말로 ", item.Name, "을(를) 판매하시겠습니까? ('예'입력 시 그대로 진행.) ");
+
+                            Console.Write(">> ");
+                            if("예" == Console.ReadLine())
+                            {
+                                //현재 판매하려는 아이템이 포션이라면, 
+                                if (item._type == ItemType.PORTION)
+                                {
+                                    //포션의 종류를 파악한 개수가 2개 이상이라면 개수를 차감하는 방식으로,
+                                    //개수가 1개라면 다른 아이템과 동일한 방식으로 판매 기능을 작업
+                                    if (item.Name == "소형 HP 포션")
+                                    {
+                                        Inventory.portionCnt[0]--;
+
+                                        //아이템을 모두 팔았을 경우 storeItems 리스트에서 해당 정보를 삭제 
+                                        if (Inventory.portionCnt[0] <= 0)
+                                        {
+                                            Inventory.portionCnt[0] = 0;
+                                            item.TogglePurchaseStatus();
+                                        }
+                                    }
+                                    else if (item.Name == "대형 HP 포션")
+                                    {
+                                        Inventory.portionCnt[1]--;
+
+                                        //아이템을 모두 팔았을 경우 storeItems 리스트에서 해당 정보를 삭제 
+                                        if (Inventory.portionCnt[1] <= 0)
+                                        {
+                                            Inventory.portionCnt[1] = 0;
+                                            item.TogglePurchaseStatus();
+                                        }
+                                    }
+                                }
+                                //판매하려는 아이템이 혈석이라면, 
+                                else if (item._type == ItemType.MONSTER_DROP)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Cyan;
+                                    Console.Write("나보고 ");
+                                    Thread.Sleep(300);
+                                    Console.Write("이런 ");
+                                    Thread.Sleep(300);
+                                    Console.Write("돌 덩어리를 ");
+                                    Thread.Sleep(300);
+                                    Console.Write("사라고? \n");
+                                    Thread.Sleep(500);
+                                    Console.Write("누굴 ");
+                                    Thread.Sleep(300);
+                                    Console.Write("바보로 ");
+                                    Thread.Sleep(300);
+                                    Console.Write("아나! \n");
+                                    Thread.Sleep(500);
+                                    Console.Write("길드 사람들은 ");
+                                    Thread.Sleep(300);
+                                    Console.Write("꼭 이런 돌에 ");
+                                    Thread.Sleep(300);
+                                    Console.Write("환장을 하던데 ");
+                                    Thread.Sleep(300);
+                                    Console.Write("... \n");
+                                    Thread.Sleep(500);
+                                    Console.Write("마을에 ");
+                                    Thread.Sleep(300);
+                                    Console.Write("괴짜가 ");
+                                    Thread.Sleep(300);
+                                    Console.Write("늘었구만. ");
+                                    Thread.Sleep(500);
+                                    Console.Write("*쯧*\n ");
+                                    Thread.Sleep(2000);
+                                    continue;
+                                }
+                                else
+                                {
+                                    if (item.isEquipped)
+                                    {
+                                        item.ToggleEquipStatus();
+                                        if (item.Atk != 0 || item.Def != 0 || item.HP != 0)
+                                        {
+                                            GameManager.player.Atk -= item.Atk;
+                                            GameManager.player.Def -= item.Def;
+                                            GameManager.player.Hp -= item.HP;
+                                        }
+                                    }
+                                    item.TogglePurchaseStatus();
+                                }
+
+                                int refund = (int)Math.Round(0.85 * item.Price);
+                                GameManager.player.Gold += refund;
+                                sellComplete = true;
+                            }
+                            else
+                            {
+                                ConsoleUtility.PrintTextHighlights("", "판매 작업을 취소합니다. ");
+                                Thread.Sleep(500);
+                            }
+
+                        }
+                    }
                 }
                 if (sellComplete)
                 {
@@ -270,67 +389,7 @@ namespace Sparta2ndTeam_TeamProject
                     Console.WriteLine("!! 판매를 완료하였습니다. !!");
                     Console.ResetColor();
                     sellComplete = false;
-                }
-
-                command = ConsoleUtility.PromptMenuChoice(0, storeItems.Count);
-
-                if (command == (int)SelectStoreMenu.PreviousPage) return;
-                else if (command != (int)SelectStoreMenu.WrongCommand)
-                {
-                    foreach (Item item in storeItems)
-                    {
-                        //판매 관련 작업 
-                        if ((command - 1) == storeItems.IndexOf(item))
-                        {
-                            //현재 판매하려는 아이템이 포션이라면, 
-                            if(item._type == ItemType.PORTION)
-                            {
-                                //포션의 종류를 파악한 개수가 2개 이상이라면 개수를 차감하는 방식으로,
-                                //개수가 1개라면 다른 아이템과 동일한 방식으로 판매 기능을 작업
-                                if (item.Name == "소형 HP 포션")
-                                {
-                                    Inventory.portionCnt[0]--; 
-
-                                    //아이템을 모두 팔았을 경우 storeItems 리스트에서 해당 정보를 삭제 
-                                    if(Inventory.portionCnt[0] <= 0)
-                                    {
-                                        Inventory.portionCnt[0] = 0;
-                                        item.TogglePurchaseStatus();
-                                    }
-                                }
-                                else if (item.Name == "대형 HP 포션" )
-                                {
-                                    Inventory.portionCnt[1]--;
-
-                                    //아이템을 모두 팔았을 경우 storeItems 리스트에서 해당 정보를 삭제 
-                                    if (Inventory.portionCnt[1] <= 0)
-                                    {
-                                        Inventory.portionCnt[1] = 0;
-                                        item.TogglePurchaseStatus();
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (item.isEquipped)
-                                {
-                                    item.ToggleEquipStatus();
-                                    if (item.Atk != 0 || item.Def != 0 || item.HP != 0)
-                                    {
-                                        GameManager.player.Atk -= item.Atk;
-                                        GameManager.player.Def -= item.Def;
-                                        GameManager.player.Hp -= item.HP;
-                                    }
-                                }
-                                item.TogglePurchaseStatus();
-                            }
-
-                            int refund = (int)Math.Round(0.85 * item.Price);
-                            GameManager.player.Gold += refund;
-                            sellComplete = true;
-                            
-                        }
-                    }
+                    Thread.Sleep(500);
                 }
             }
         }
@@ -348,6 +407,7 @@ namespace Sparta2ndTeam_TeamProject
             InsufficientGold,
             SoldOut,
         }
+
     }
 
 }
