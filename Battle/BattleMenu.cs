@@ -93,6 +93,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             string[] job = { "전사", "마법사" };
             Console.WriteLine("\n[내 정보]");
             Console.WriteLine("Lv. {0:D2} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job - 1]);
+            Console.WriteLine();
             Console.WriteLine("체  력 : {0}/{1}", GameManager.player.Hp, GameManager.player.Max_Hp);
             Console.WriteLine("마  나 : {0}/{1}", GameManager.player.Mp, GameManager.player.Max_Mp);
 
@@ -146,6 +147,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
             Console.WriteLine("\n[내 정보]");
             Console.WriteLine("Lv. {0:D2} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job - 1]);
+            Console.WriteLine();
             Console.WriteLine("체  력 : {0}/{1}", GameManager.player.Hp, GameManager.player.Max_Hp);
             Console.WriteLine("마  나 : {0}/{1}", GameManager.player.Mp, GameManager.player.Max_Mp);
 
@@ -171,7 +173,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
             }
             Console.WriteLine("\n0. 취소");
-            Console.Write("");
+            Console.WriteLine("");
 
 
             choice = ConsoleUtility.PromptMenuChoice(0, GameManager.player.skill.Count);
@@ -257,10 +259,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, GameManager.player.Job);
                     Console.WriteLine("HP {0}/{1}", GameManager.player.Hp, GameManager.player.Max_Hp);
                     Console.WriteLine("MP {0}/{1}", GameManager.player.Mp, GameManager.player.Max_Mp);
-
-                    Console.WriteLine("\n0. 취소");
                     Console.WriteLine("\n대상을 선택해주세요.");
-                    Console.Write(">>");
+                    Console.WriteLine("\n0. 취소\n");
+
 
                     int keyInput = 0;
 
@@ -282,7 +283,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
                         else if (currentEnemy[keyInput - 1].IsDead)
                         {
                             Console.WriteLine("이미 죽은 대상입니다.");
-                            Console.Write(">>");
                         }
                         else
                         {
@@ -449,6 +449,10 @@ namespace Sparta2ndTeam_TeamProject.Battle
         private void AttackAction()
         {
             BattleSet();
+
+            Console.WriteLine("\n대상을 선택해주세요.");
+            Console.WriteLine("0. 취소\n");
+
 
             int keyInput = 0;
             while (true) // 대상이 죽었는지 체크
