@@ -110,7 +110,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             int Damege = GameManager.player.Atk;
             int adAtk;
             int pAtk;
-            int Range;
+            
             bool isCri;
             if (pMp < GameManager.player.skill[order].SkillMana) //마나가 부족하면
             {
@@ -139,7 +139,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 else                                            // 적이 맞았다면
                 {
                     Damege = GameManager.player.skill[order].SkillDamage;
-                    Range = GameManager.player.skill[order].SkillRange;
+
 
                     adAtk = (int)Math.Ceiling(Damege * 0.1f);                                   //보정 공격, 10%의 올림치
                     pAtk = random.Next((Damege - adAtk), (Damege + adAtk + 1)); //보정 공격치

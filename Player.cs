@@ -117,8 +117,8 @@ namespace Sparta2ndTeam_TeamProject
                 Hp = Max_Hp;
                 Max_Mp = 50;
                 Mp = Max_Mp;
-                skill.Add(new Skill("알파-스트라이크", 10, Atk * 2, 1, 1));//전사 스킬 1
-                skill.Add(new Skill("더블-스트라이크", 25, Atk * 2, 2, 2));//전사 스킬 2
+                skill.Add(new Skill("알파-스트라이크", 10, Atk * 2, false, 1));//전사 스킬 1
+                skill.Add(new Skill("더블-스트라이크", 25, Atk * 2, true, 2));//전사 스킬 2
             }
         }
         internal class Mage : Player
@@ -132,8 +132,8 @@ namespace Sparta2ndTeam_TeamProject
                     Hp = Max_Hp;
                     Max_Mp = 150;
                     Mp = Max_Mp;
-                    skill.Add(new Skill("에너지 볼트", 10, Atk * 1, 2, 1)); //마법사 스킬 1
-                    skill.Add(new Skill("썬더 볼트", 25, Atk * 2, 1, 2)); //마법사 스킬 2
+                    skill.Add(new Skill("에너지 볼트", 10, Atk * 1, true, 1)); //마법사 스킬 1
+                    skill.Add(new Skill("썬더 볼트", 25, Atk * 3, false, 2)); //마법사 스킬 2
 
             }
 

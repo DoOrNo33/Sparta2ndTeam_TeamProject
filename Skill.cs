@@ -12,10 +12,10 @@ namespace Sparta2ndTeam_TeamProject
         public string SkillName { get; }
         public int SkillMana { get; }
         public int SkillDamage { get; }
-        public int SkillRange { get; }
+        public bool SkillRange { get; }
         public int SkillOrder { get; set; }
 
-        public Skill(string Name, int Mana, int Damage, int Range, int order)
+        public Skill(string Name, int Mana, int Damage, bool Range, int order)
         {
             SkillName = Name; SkillMana = Mana; SkillDamage = Damage; SkillRange = Range; SkillOrder = order;
         }
