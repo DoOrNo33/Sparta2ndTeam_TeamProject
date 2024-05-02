@@ -172,10 +172,7 @@ namespace Sparta2ndTeam_TeamProject
                         Console.WriteLine("... [진행중]");
 
                     else if (GameManager.quests[i].type == 1 && GameManager.quests[i].isAccept == true)
-                    {
                         Console.WriteLine($"... [진행중] {GameManager.quests[i].cur} / {GameManager.quests[i].cnt}");
-                    }
-
 
                     else
                         Console.WriteLine("");

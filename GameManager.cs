@@ -194,10 +194,23 @@ namespace Sparta2ndTeam_TeamProject
                 Console.WriteLine("                     생성할 캐릭터의 이름을 정해주세요.                      ");
                 Console.WriteLine("=============================================================================");
 
-                string name = Console.ReadLine();
-                int job;
                 bool isInt;
+                int command;
 
+                string name = Console.ReadLine();
+                while(true)
+                {
+                    Console.WriteLine($"{name} 이(가) 맞나요? (예 : 1 / 아니요 : 0");
+                    isInt = int.TryParse(Console.ReadLine(), out command);
+                    if(command == 1)
+                        break;
+
+                    Console.WriteLine("다시 작성해주세요.");
+                    name = Console.ReadLine();
+                }
+
+                int job;
+                
                 do
                 {
                     Console.WriteLine();

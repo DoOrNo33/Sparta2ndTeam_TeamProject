@@ -131,9 +131,21 @@ namespace Sparta2ndTeam_TeamProject
                 start -= seg;
                 if (start < target)
                     start = target;
+                
+                string s = new string(' ', (Console.CursorLeft - left));
                 Console.SetCursorPosition(left, top);
-                Console.WriteLine($"{start}");
+                Console.Write(s);
+                Console.SetCursorPosition(left, top);
+                Console.Write("{0}", start);
+
             }
+        }
+        static void clearCurrentLine()
+        {
+            string s = "\r";
+            s += new string(' ', Console.CursorLeft);
+            s += "\r";
+            Console.Write(s);
         }
     }
 }
