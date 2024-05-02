@@ -165,7 +165,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 }
                 else if (currentEnemy[keyInput - 1].IsDead)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("이미 죽은 대상입니다.");
+                    Console.ResetColor();
                 }
                 else
                 {
@@ -300,9 +302,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
             if (tempLv != GameManager.player.Level)
             {
-                Console.WriteLine("\n[획득 경험치]");
+                Console.Write("\n획득 경험치: ");
 
-                ConsoleUtility.PrintTextHighlights("     ", getExp.ToString());
+                ConsoleUtility.PrintTextHighlights("", getExp.ToString());
 
                 Console.WriteLine("\n[레벨 업!]");
                 Console.Write("Lv. {0:D2} -> ", tempLv);
@@ -320,8 +322,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
             else
             {
-                Console.WriteLine("\n[획득 경험치]");
-                ConsoleUtility.PrintTextHighlights("     ", getExp.ToString());
+                Console.Write("\n획득 경험치 : ");
+                ConsoleUtility.PrintTextHighlights("", getExp.ToString());
                 Console.WriteLine("경험치 : {0}/{1}", GameManager.player.CurrentExp, GameManager.player.RequiredExp);
             }
         }
