@@ -96,7 +96,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             Console.WriteLine("체  력 : {0}/{1}", GameManager.player.Hp, GameManager.player.Max_Hp);
             Console.WriteLine("마  나 : {0}/{1}", GameManager.player.Mp, GameManager.player.Max_Mp);
 
-            Console.WriteLine("\n1. 기본 공격\n2. 스킬\n3. 인벤토리\n"); // 스킬, 소모성 아이템 추가 할 수 있음
+            Console.WriteLine("\n1. 기본 공격\n2. 스킬\n"); // 스킬, 소모성 아이템 추가 할 수 있음
 
             if (choice == (int)BattleAction.WrongCommand)
             {
@@ -106,7 +106,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 Console.WriteLine();
             }
 
-            choice = ConsoleUtility.PromptMenuChoice(1, 3);
+            choice = ConsoleUtility.PromptMenuChoice(1, 2);
             switch ((BattleAction)choice)
             {
                 case BattleAction.BasicAttack:
@@ -116,17 +116,16 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     skill = true;
                     SkillAction();
                     break;
-                case BattleAction.Inventory:
-                    duringBattle = true;
-                    Inventory.InventoryMenu(true);
-                    Battle();
-                    break;
+                //case BattleAction.Inventory:
+                //    duringBattle = true;
+                //    Inventory.InventoryMenu(true);
+                //    Battle();
+                //    break;
                 case BattleAction.WrongCommand:
                     duringBattle = true;
                     Battle();
                     break;
             }
-
         }
 
 
@@ -175,7 +174,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
             Console.WriteLine("\n0. 취소");
             Console.WriteLine("\n원하시는 행동을 입력해주세요.");
-            Console.Write(">>");
+            Console.Write("");
 
 
             choice = ConsoleUtility.PromptMenuChoice(1, GameManager.player.skill.Count);
@@ -470,8 +469,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 }
                 else if (currentEnemy[keyInput - 1].IsDead)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("이미 죽은 대상입니다.");
-                    Console.Write(">>");
+                    Console.ResetColor();
                 }
                 else
                 {
@@ -484,9 +484,60 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     duringBattle = true;
                     Battle();
                     break;
-                default:
 
-                    defeatCount += currentEnemy[keyInput - 1].PlayerAttack(); // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
+                default:
+                    int ret = currentEnemy[keyInput - 1].PlayerAttack();
+                    defeatCount += ret;     // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
+
+                    if (ret == 1)
+                        foreach (Quest q in GameManager.quests)
+                        {
+                            if (q.type == 1)
+                            {
+                                if (q.id == 10) // 적 종류에 상관없이
+                                {
+                                    if ((q.isComplete == false) && (q.isAccept == true))
+                                    {
+                                        if (q.cur < q.cnt)
+                                            q.cur++;
+
+                                        if (q.cur == q.cnt)
+                                            q.isComplete = true;
+                                    }
+                                }
+
+                                else // 적 종류에 맞게
+                                {
+                                    if ((q.id == currentEnemy[keyInput - 1].id) && (q.isComplete == false) && (q.isAccept == true))
+                                    {
+                                        if (q.cur < q.cnt)
+                                            q.cur++;
+
+                                        if (q.cur == q.cnt)
+                                            q.isComplete = true;
+                                    }
+                                }
+
+                            }
+
+                        }
+
+
+                    foreach (Pet pet in PetCave.myPets)     // 펫 스킬 들어갈 타이밍
+                    {
+                        if (pet.isEquipped)
+                        {
+                            if (pet.PetType == Items.PetType.Attack)
+                            {
+                                defeatCount += pet.PetAttack(currentEnemy);
+                            }
+
+                            if (pet.PetType == Items.PetType.Heal)
+                            {
+                                pet.PetHeal();
+                            }
+                        }
+                    }
 
                     foreach (Enemy enem in currentEnemy)
                     {
