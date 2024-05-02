@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Sparta2ndTeam_TeamProject.Items;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +12,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
     internal class Enemy
     {
         protected string name;
-        protected int id;
+        public int id;
         protected int lv;
         protected int hp;
         protected int atk;
@@ -139,7 +141,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
             
 
-
+            
 
 
         }
@@ -149,7 +151,20 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
             if (!isDead && GameManager.player.Hp > 0)
             {
-                if (GameManager.player.Avoid())                         // 플레이어 회피
+                int? petAvoid = null;
+
+                foreach (Pet pet in PetCave.myPets)// 펫 스킬 들어갈 타이밍
+                {
+                    if (pet.isEquipped)
+                    {
+                        if (pet.PetType == Items.PetType.Defense)
+                        {
+                            petAvoid = pet.PetAvoid;
+                        }
+                    }
+                }
+
+                if (GameManager.player.Avoid(petAvoid))                         // 플레이어 회피
                 {
                     Console.Clear();
                     ConsoleUtility.ShowTitle("■ 전  투 ■\n");
@@ -191,7 +206,16 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
         }
 
-        private void Dead()
+        public void PetDamage(int damage)           // 펫 데미지 적용 용
+        {
+            hp -= damage;
+            if (hp < 0)
+            {
+                hp = 0;
+            }
+        }
+
+        public void Dead()
         {
             isDead = true;
         }

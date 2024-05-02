@@ -54,7 +54,7 @@ namespace Sparta2ndTeam_TeamProject
             // 무기 인덱스 4~7
             items.Add(new Item("낡은 검", "쉽게 볼 수 있는 낡은 검입니다.", 2, 0, 0, 0, 600, ItemType.WEAPON));
             items.Add(new Item("청동 도끼", "어디선가 사용됐던거 같은 도끼입니다.", 5, 0, 0, 0, 1500, ItemType.WEAPON));
-            items.Add(new Item("스파르타의 창", "스파르타의 전사들이 사용했다는 전설의 창입니다.", 7, 0, 0, 0,2000, ItemType.WEAPON));
+            items.Add(new Item("스파르타의 창", "스파르타의 전사들이 사용했다는 전설의 창입니다.", 7, 0, 0, 0, 2000, ItemType.WEAPON));
             items.Add(new Item("타노스의 건틀렛", "큰 힘에는 큰 책임이 따릅니다.", 20, -10, 0, 0, 5000, ItemType.WEAPON));
             // 포션 인덱스 8~9                  공격 | 방어 | 체력 | 마나 | 판매 가격 | 아이템 타입 | 착용 여부 | 판매 여부 | 초기 지급 아이템 여부
             items.Add(new Item("소형 HP 포션", "HP를 30만큼 회복합니다.", 0, 0, 30, 0, 50, ItemType.PORTION, false, false, true));
@@ -70,19 +70,19 @@ namespace Sparta2ndTeam_TeamProject
             dropItems.Add(new Item("거대한 혈석", "일반 혈석과는 달리 거대한 크기의 자색 혈석입니다.", 0, 0, 0, 50, 5000, ItemType.MONSTER_DROP));
 
             //펫 종류
-            pets.Add(new Pet("붉은 슬라임","가장 취약한 적을 공격하는 본능적인 펫 입니다.", 0, 0, 0, 0, 3000, ItemType.Pet));
-            pets.Add(new Pet("초록 슬라임","적의 공격을 대신 맞아주는 충실한 펫 입니다.", 0, 0, 0, 0, 3000, ItemType.Pet));
-            pets.Add(new Pet("푸른 슬라임","상처 부위를 진정시켜주는 부착용 펫 입니다.", 0, 0, 0, 0, 3000, ItemType.Pet));
+            pets.Add(new RedSlime("붉은 슬라임","가장 취약한 적을 공격하는 본능적인 펫 입니다.", 0, 0, 0, 0, 4000, ItemType.Pet));
+            pets.Add(new GreenSlime("초록 슬라임","적의 공격을 대신 맞아주는 충실한 펫 입니다.", 0, 0, 0, 0, 3000, ItemType.Pet));
+            pets.Add(new BlueSlime("푸른 슬라임","상처 부위를 진정시켜주는 부착용 펫 입니다.", 0, 0, 0, 0, 5000, ItemType.Pet));
 
 
             // 퀘스트 목록
-            quests.Add(new Tutorial("미궁 속으로", "어느 날, 의문의 탑이 생겼다.\n소문에 의하면 금은보화가 나온다고 하니 얼른 들어가보자.",100, 0));
-            quests.Add(new Tutorial("더욱 더 단단해지기", "안 아프게 맞기\n방어구를 착용하여 공격으로부터 몸을 보호해야겠다.", 200,0));
-            quests.Add(new Tutorial("더욱 더 강해지기", "선빵 필승이다.\n무기를 착용하여 적들을 혼내주자.", 200, 0));
+            quests.Add(new Quest("미궁 속으로", "어느 날, 의문의 탑이 생겼다.\n소문에 의하면 금은보화가 나온다고 하니 얼른 들어가보자.", 0, 100));
+            quests.Add(new Quest("더욱 더 단단해지기", "안 아프게 맞기\n방어구를 착용하여 공격으로부터 몸을 보호해야겠다.", 0, 200));
+            quests.Add(new Quest("더욱 더 강해지기", "선빵 필승이다.\n무기를 착용하여 적들을 혼내주자.", 0, 200));
 
-            quests.Add(new Mission("쥐 잡이", "탑에서 풀려나온 쥐들이 마을의 식량 창고를 털고 있다네.\n본보기로 큰 쥐 10 마리를 처치해주게나.",1, 0, 10, 500));
-            quests.Add(new Mission("보름달이 오기전에", "보름달이 오면 늑대들이 더 강해질거야.\n보름달이 오기전에 늑대 개체 수를 줄여줘!\n5 마리 정도만 처치해줘",1, 0, 5, 1500));
-            quests.Add(new Mission("전설의 모험가", "탑에서 끝도 없이 나오는 몬스터때문에 항상 마을 사람들이 겁에 떨고 있어.\n종류에 상관 없이 100 마리 정도만 처치해주자.",1, 10, 5, 500));
+            quests.Add(new Quest("쥐 잡이", "탑에서 풀려나온 쥐들이 마을의 식량 창고를 털고 있다네.\n본보기로 큰 쥐 5 마리를 처치해주게나.", 1, 500, 0, 5));
+            quests.Add(new Quest("보름달이 오기전에", "보름달이 오면 늑대들이 더 강해질거야.\n보름달이 오기전에 늑대 개체 수를 줄여줘!\n3 마리 정도만 처치해줘", 1, 500, 2, 3));
+            quests.Add(new Quest("전설의 모험가", "탑에서 끝도 없이 나오는 몬스터때문에 항상 마을 사람들이 겁에 떨고 있어.\n종류에 상관 없이 30 마리 정도만 처치해주자.", 1, 1000, 10, 30));
         }
 
 
@@ -95,6 +95,7 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("=============================================================================");
             Thread.Sleep(300);
 
+            player.towerLv = tower.TowerLv;
             string playerDataName = "playerStatData.json";
             // 데이터 경로 저장. (C드라이브, Documents)
             string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -155,14 +156,15 @@ namespace Sparta2ndTeam_TeamProject
                 string playerJson = File.ReadAllText(playerDataPath);
                 player = JsonConvert.DeserializeObject<Player>(playerJson);
                 Console.ForegroundColor = ConsoleColor.Yellow;
+                tower.TowerLv = player.towerLv;
 
                 Console.WriteLine("=============================================================================");
                 Console.WriteLine("                 플레이어 데이터를 성공적으로 불러왔습니다!                  ");
                 Console.WriteLine("=============================================================================");
                 Console.ResetColor();
                 Thread.Sleep(300);
-                
-                if(File.Exists(itemDataPath))
+
+                if (File.Exists(itemDataPath))
                 {
                     string itemJson = File.ReadAllText(itemDataPath);
                     items = JsonConvert.DeserializeObject<List<Item>>(itemJson);
@@ -174,8 +176,8 @@ namespace Sparta2ndTeam_TeamProject
                     Console.ResetColor();
                     Thread.Sleep(300);
                 }
- 
-                
+
+
                 if (File.Exists(questDataPath))
                 {
                     string questJson = File.ReadAllText(questDataPath);
@@ -223,7 +225,7 @@ namespace Sparta2ndTeam_TeamProject
 
         public void GameStart()
         {
-            Console.Clear();          
+            Console.Clear();
 
             LoadData(); // 세이브 불러오기
 
@@ -278,7 +280,7 @@ namespace Sparta2ndTeam_TeamProject
             }
             MainMenu();
         }
-        
+
         private enum SelectMainMenu
         {
             StatusMenu = 1,

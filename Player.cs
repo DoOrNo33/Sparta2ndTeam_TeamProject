@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sparta2ndTeam_TeamProject.Items;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
@@ -14,8 +15,8 @@ namespace Sparta2ndTeam_TeamProject
         public string Name { get; }
         public int Job { get; set; }
         public int Level { get; set; } = 1;
-        public int Atk { get; set; } = 10; 
-        public int Def { get;  set; } = 5; 
+        public int Atk { get; set; } = 10;
+        public int Def { get; set; } = 5;
         public int Hp { get; set; } = 100;
         public int Max_Hp { get; set; } = 100;
         public int Mp { get; set; } = 50;
@@ -26,6 +27,7 @@ namespace Sparta2ndTeam_TeamProject
         public int RequiredExp { get; set; } = 10;
         public int CurrentExp { get; set; } = 0;
 
+        public int towerLv { get; set; } = 1;
 
         public Player(string name)
         {
@@ -34,7 +36,7 @@ namespace Sparta2ndTeam_TeamProject
 
         public void StatusMenu()
         {
-            
+
             int added_ATK = 0;
             int added_DEF = 0;
             int added_HP = 0;
@@ -92,20 +94,43 @@ namespace Sparta2ndTeam_TeamProject
             return false;
         }
 
-        public bool Avoid(bool isEnemy = false) // 회피
+        public bool Avoid(int? petAvoid = null, bool isEnemy = false) // 회피
         {
-            int percent = random.Next(0, 10);
+            if (petAvoid != null)
+            {
+                int percent = random.Next(0, 10);
 
-            if (percent < 1)
-                return true;
+                if (percent < 1)
+                    return true;
 
-            return false;
+                else if (percent < (1 + petAvoid))                                           //초록 슬라임 확인
+                {
+                    Console.Clear();
+                    ConsoleUtility.ShowTitle("■ 전  투 ■\n");
+                    Console.WriteLine("초록 슬라임이 당신을 감쌉니다!");
+                    ConsoleUtility.PromptReturn();
+                    return true;
+                }
+
+                return false;
+            }
+
+            else
+            {
+                int percent = random.Next(0, 10);
+
+                if (percent < 1)
+                    return true;
+
+                return false;
+            }
+
         }
 
         public virtual void LevelUp(int exp)
         {
             CurrentExp += exp;
-            while(CurrentExp > RequiredExp)
+            while (CurrentExp > RequiredExp)
             {
                 CurrentExp -= RequiredExp;
                 RequiredExp += 20 + (Level * 5);
