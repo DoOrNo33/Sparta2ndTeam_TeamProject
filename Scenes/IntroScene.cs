@@ -10,8 +10,9 @@ namespace Sparta2ndTeam_TeamProject.Scenes
     {
         public void PlayIntro()
         {
+            Console.Clear();
             Thread.Sleep(1000);
-
+            
             Console.WriteLine("");
             Console.Write("                          언제");
             Thread.Sleep(100);

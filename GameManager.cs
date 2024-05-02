@@ -245,10 +245,11 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("3. 상점");
             Console.WriteLine("4. 탑 입장 (현재 진행 : {0}층)", tower.TowerLv);
             Console.WriteLine("5. 모험가 길드");
-            Console.WriteLine("6. 수상한 동굴\n");
+            Console.WriteLine("6. 수상한 동굴");
+            Console.WriteLine("7. 인트로 다시보기\n");
 
             // 2. 선택한 결과를 검증함
-            Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 6);
+            Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 7);
 
             // 3. 선택한 결과에 따라 보내줌
             switch (choice)
@@ -274,6 +275,11 @@ namespace Sparta2ndTeam_TeamProject
                 case SelectMainMenu.PetCave:
                     PetCave.PetCaveMenu();
                     break;
+                case SelectMainMenu.Intro:
+                    IntroScene intro = new IntroScene();
+                    intro.PlayIntro();
+                    break;
+                    
             }
             MainMenu();
         }
@@ -286,6 +292,7 @@ namespace Sparta2ndTeam_TeamProject
             EnterTower,
             GuildMenu,
             PetCave,
+            Intro
         }
     }
 }
