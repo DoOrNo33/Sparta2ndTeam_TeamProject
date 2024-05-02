@@ -184,7 +184,7 @@ namespace Sparta2ndTeam_TeamProject
             }
             else
             {
-                introScene.PlayIntro();
+                //introScene.PlayIntro();
                 Console.Clear();
                 Console.WriteLine("=============================================================================");
                 Console.WriteLine("                     저장된 플레이어 데이터가 없습니다.                      ");
@@ -246,9 +246,10 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("3. 상점");
             Console.WriteLine("4. 탑 입장 (현재 진행 : {0}층)", tower.TowerLv);
             Console.WriteLine("5. 모험가 길드");
+            Console.WriteLine("6. 수상한 동굴");
 
             // 2. 선택한 결과를 검증함
-            Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 5);
+            Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 6);
 
             // 3. 선택한 결과에 따라 보내줌
             switch (choice)
@@ -271,6 +272,9 @@ namespace Sparta2ndTeam_TeamProject
                 case SelectMainMenu.GuildMenu:
                     Guild.GuildMenu();
                     break;
+                case SelectMainMenu.PetCave:
+                    PetCave.PetCaveMenu();
+                    break;
             }
             MainMenu();
         }
@@ -282,6 +286,7 @@ namespace Sparta2ndTeam_TeamProject
             StoreMenu,
             EnterTower,
             GuildMenu,
+            PetCave,
         }
     }
 }
