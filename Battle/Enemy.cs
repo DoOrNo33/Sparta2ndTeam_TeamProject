@@ -94,19 +94,19 @@ namespace Sparta2ndTeam_TeamProject.Battle
         {
             int pMp = GameManager.player.Mp;
             string pName = GameManager.player.Name;
-            string sName = GameManager.player.skill[order].SkillName;
+            string sName = GameManager.skill[order].SkillName;
             int Damege = GameManager.player.Atk;
             int adAtk;
             int pAtk;
             
             bool isCri;
-            if (pMp < GameManager.player.skill[order].SkillMana) //마나가 부족하면
+            if (pMp < GameManager.skill[order].SkillMana) //마나가 부족하면
             {
                 return -1;
             }
             else //마나가 있다면 공격
             {
-                Damege = GameManager.player.skill[order].SkillDamage;
+                Damege = GameManager.skill[order].SkillDamage;
 
 
                 adAtk = (int)Math.Ceiling(Damege * 0.1f);                                   //보정 공격, 10%의 올림치
