@@ -19,7 +19,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         int towerLv;
         bool finalBattle;
 
-       
+
 
         public BattleMenu()
         {
@@ -36,7 +36,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             ConsoleUtility.ShowTitle("■ 전  투 ■\n");
 
             // 전투 돌입 or 전투 중
-            if (!duringBattle)      
+            if (!duringBattle)
             {
                 startHp = GameManager.player.Hp;
                 startMp = GameManager.player.Mp;
@@ -44,7 +44,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 startMaxMp = GameManager.player.Max_Mp;
                 currentEnemy.Clear();
                 defeatCount = 0;            // 적 쓰러뜨림 초기화
-                
+
                 if (!finalBattle)           // 일반 전투
                 {
                     int enemyCount = CreateEnemyCount();
@@ -83,7 +83,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 {
                     currentEnemy[i].PrintCurrentEnemies();
                 }
-                
+
             }
             string[] job = { "전사", "마법사" };
             Console.WriteLine("\n[내 정보]");
@@ -111,7 +111,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 case BattleAction.SkillAttack:
                     AttackAction();
                     break;
-                case BattleAction.Inventory:                
+                case BattleAction.Inventory:
                     duringBattle = true;
                     Inventory.InventoryMenu(true);
                     Battle();
@@ -137,11 +137,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
             string[] job = { "전사", "마법사" };
 
             Console.WriteLine("\n[내 정보]");
-            Console.WriteLine("Lv. {0:D2} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job-1]);
+            Console.WriteLine("Lv. {0:D2} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job - 1]);
             Console.WriteLine("체  력 : {0}/{1}", GameManager.player.Hp, GameManager.player.Max_Hp);
             Console.WriteLine("마  나 : {0}/{1}", GameManager.player.Mp, GameManager.player.Max_Mp);
 
-            Console.WriteLine("\n0. 취소"); 
+            Console.WriteLine("\n0. 취소");
             Console.WriteLine("\n대상을 선택해주세요.");
             Console.Write(">>");
 
@@ -150,7 +150,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             while (true) // 대상이 죽었는지 체크
             {
                 keyInput = ConsoleUtility.PromptMenuChoice(0, currentEnemy.Count);
-                
+
                 if (keyInput == (int)BattleAction.WrongCommand)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -172,7 +172,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     break;
                 }
             }
-            
+
             switch (keyInput)
             {
                 case 0:
@@ -181,7 +181,42 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     break;
 
                 default:
-                    defeatCount += currentEnemy[keyInput - 1].PlayerAttack();     // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
+                    int ret = currentEnemy[keyInput - 1].PlayerAttack();
+                    defeatCount += ret;     // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
+
+                    if (ret == 1)
+                        foreach (Quest q in GameManager.quests)
+                        {
+                            if (q.type == 1)
+                            {
+                                if (q.id == 10) // 적 종류에 상관없이
+                                {
+                                    if ((q.isComplete == false) && (q.isAccept == true))
+                                    {
+                                        if (q.cur < q.cnt)
+                                            q.cur++;
+
+                                        if (q.cur == q.cnt)
+                                            q.isComplete = true;
+                                    }
+                                }
+
+                                else // 적 종류에 맞게
+                                {
+                                    if ((q.id == currentEnemy[keyInput - 1].id) && (q.isComplete == false) && (q.isAccept == true))
+                                    {
+                                        if (q.cur < q.cnt)
+                                            q.cur++;
+
+                                        if (q.cur == q.cnt)
+                                            q.isComplete = true;
+                                    }
+                                }
+
+                            }
+
+                        }
+
 
                     foreach (Enemy enem in currentEnemy)
                     {
@@ -198,7 +233,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                         }
 
                     }
-                    
+
                     if (GameManager.player.Hp <= 0)
                     {
                         BattleResult(BattleStatus.Defeat);
@@ -271,7 +306,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     GameManager.dropItems[drop].DropItemActive();
                     Inventory.dropItemsCnt[drop]++;                         // 드랍 아이템 인벤토리 보유량 증가
                 }
-            } 
+            }
         }
 
         private void LevelCheck(int getExp = 0)
@@ -372,7 +407,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     break;
 
                 case EnemyType.Orc:                // 오크 3~7층
-                     Orc orc = new Orc(towerLv);
+                    Orc orc = new Orc(towerLv);
                     currentEnemy.Add(orc);
                     break;
 
@@ -396,7 +431,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
         private enum BattleStatus
         {
             Win,
-            Defeat               
+            Defeat
         }
 
         private enum NextButton
