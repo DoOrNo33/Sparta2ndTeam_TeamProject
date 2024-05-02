@@ -19,7 +19,7 @@ namespace Sparta2ndTeam_TeamProject
         public int SkillOrder { get; set; }
 
 
-        public Skill(string Name, int Mana, int Damage, bool Range, int order)
+        public Skill(string Name, int Mana, int Damage, bool Range, int Order)
         {
             this.SkillName = Name;
             this.SkillMana = Mana;
