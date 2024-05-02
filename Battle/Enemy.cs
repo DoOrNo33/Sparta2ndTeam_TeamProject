@@ -21,7 +21,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
         protected int exp;
         protected int[] drops = new int[2];
         protected Random random = new Random();
-        private List<Skill> skill;
 
         public string Name { get { return name; } }
         public int Id { get { return id; } }
@@ -95,19 +94,19 @@ namespace Sparta2ndTeam_TeamProject.Battle
         {
             int pMp = GameManager.player.Mp;
             string pName = GameManager.player.Name;
-            string sName = skill[order].SkillName;
+            string sName = GameManager.skill[order].SkillName;
             int Damege = GameManager.player.Atk;
             int adAtk;
             int pAtk;
             
             bool isCri;
-            if (pMp < skill[order].SkillMana) //마나가 부족하면
+            if (pMp < GameManager.skill[order].SkillMana) //마나가 부족하면
             {
                 return -1;
             }
             else //마나가 있다면 공격
             {
-                Damege = skill[order].SkillDamage;
+                Damege = GameManager.skill[order].SkillDamage;
 
 
                 adAtk = (int)Math.Ceiling(Damege * 0.1f);                                   //보정 공격, 10%의 올림치
