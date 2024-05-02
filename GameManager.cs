@@ -70,7 +70,7 @@ namespace Sparta2ndTeam_TeamProject
             dropItems.Add(new Item("거대한 혈석", "일반 혈석과는 달리 거대한 크기의 자색 혈석입니다.", 0, 0, 0, 15, 1000, ItemType.MONSTER_DROP));
 
             //펫 종류
-            pets.Add(new RedSlime("붉은 슬라임","가장 취약한 적을 본능적으로 공격합니다.", 0, 0, 0, 0, 4000, ItemType.Pet));
+            pets.Add(new RedSlime("붉은 슬라임","가장 취약한 적을 본능적으로 공격합니다.", 0, 0, 0, 0, 400, ItemType.Pet));
             pets.Add(new GreenSlime("초록 슬라임","적의 공격을 맞아 주곤 합니다.", 0, 0, 0, 0, 3000, ItemType.Pet));
             pets.Add(new BlueSlime("푸른 슬라임","상처 부위에 달라붙곤 합니다.", 0, 0, 0, 0, 5000, ItemType.Pet));
 
@@ -213,7 +213,6 @@ namespace Sparta2ndTeam_TeamProject
                     player = new Warrior(name);
                 else if (job == 2)
                     player = new Mage(name);
-
                 Console.WriteLine();
                 Console.WriteLine("=============================================================================");
                 Console.WriteLine("                        캐릭터를 생성하고 있습니다..                         ");
@@ -245,10 +244,11 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("3. 상점");
             Console.WriteLine("4. 탑 입장 (현재 진행 : {0}층)", tower.TowerLv);
             Console.WriteLine("5. 모험가 길드");
-            Console.WriteLine("6. 수상한 동굴\n");
+            Console.WriteLine("6. 수상한 동굴");
+            Console.WriteLine("7. 인트로 다시보기\n");
 
             // 2. 선택한 결과를 검증함
-            Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 6);
+            Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 7);
 
             // 3. 선택한 결과에 따라 보내줌
             switch (choice)
@@ -274,6 +274,11 @@ namespace Sparta2ndTeam_TeamProject
                 case SelectMainMenu.PetCave:
                     PetCave.PetCaveMenu();
                     break;
+                case SelectMainMenu.Intro:
+                    IntroScene intro = new IntroScene();
+                    intro.PlayIntro();
+                    break;
+                    
             }
             MainMenu();
         }
@@ -286,6 +291,7 @@ namespace Sparta2ndTeam_TeamProject
             EnterTower,
             GuildMenu,
             PetCave,
+            Intro
         }
     }
 }
