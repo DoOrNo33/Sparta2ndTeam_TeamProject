@@ -94,31 +94,6 @@ namespace Sparta2ndTeam_TeamProject
 
                 Console.WriteLine();
 
-                if (currentShopState != null)
-                {
-                    switch (currentShopState)
-                    {
-                        case CurrentShopState.Success:
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("!! 구매를 완료했습니다. !!");
-                            Console.ResetColor();
-                            break;
-                        case CurrentShopState.InsufficientGold:
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("!! Gold가 부족합니다 !!");
-                            Console.ResetColor();
-                            break;
-                        case CurrentShopState.SoldOut:
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("!! 이미 구매한 펫입니다. !!");
-                            Console.ResetColor();
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                currentShopState = null;
-
                 Console.WriteLine("\n\n\n0. 나가기\n\n");
                 command = ConsoleUtility.PromptMenuChoice(0, GameManager.pets.Count);
 
@@ -164,23 +139,21 @@ namespace Sparta2ndTeam_TeamProject
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine("!! 구매를 완료했습니다. !!");
                             Console.ResetColor();
-                            Thread.Sleep(500);
                             break;
                         case CurrentShopState.InsufficientGold:
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("!! Gold가 부족합니다 !!");
                             Console.ResetColor();
-                            Thread.Sleep(500);
                             break;
                         case CurrentShopState.SoldOut:
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("!! 이미 구매한 펫입니다. !!");
                             Console.ResetColor();
-                            Thread.Sleep(500);
                             break;
                         default:
                             break;
                     }
+                    Thread.Sleep(500);
                 }
                 currentShopState = null;
             }
