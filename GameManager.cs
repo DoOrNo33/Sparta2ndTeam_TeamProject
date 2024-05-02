@@ -180,7 +180,7 @@ namespace Sparta2ndTeam_TeamProject
             }
             else
             {
-                //introScene.PlayIntro();
+                introScene.PlayIntro();
                 Console.Clear();
                 Console.WriteLine("=============================================================================");
                 Console.WriteLine("                     저장된 플레이어 데이터가 없습니다.                      ");
