@@ -162,10 +162,6 @@ namespace Sparta2ndTeam_TeamProject
             Hp = Max_Hp;
             Max_Mp = 50;// 전사의 최대 마나 설정
             Mp = Max_Mp;
-
-            GameManager.skill.Add(new Skill("알파-스트라이크", 10, Atk * 2, false, 1));//전사 스킬 1
-            GameManager.skill.Add(new Skill("더블-스트라이크", 25, Atk * 2, true, 2));//전사 스킬 2
-            
         }
 
 
@@ -199,9 +195,6 @@ namespace Sparta2ndTeam_TeamProject
             Hp = Max_Hp;
             Max_Mp = 150;// 마법사의 최대 마나 설정
             Mp = Max_Mp;
-
-            GameManager.skill.Add(new Skill("에너지 볼트", 10, Atk * 1, true, 1)); //마법사 스킬 1
-            GameManager.skill.Add(new Skill("썬더 볼트", 25, Atk * 3, false, 2)); //마법사 스킬 2
         }
 
         public override void LevelUp(int exp)
