@@ -70,9 +70,9 @@ namespace Sparta2ndTeam_TeamProject
             dropItems.Add(new Item("거대한 혈석", "일반 혈석과는 달리 거대한 크기의 자색 혈석입니다.", 0, 0, 0, 50, 5000, ItemType.MONSTER_DROP));
 
             //펫 종류
-            pets.Add(new Pet("붉은 슬라임","가장 취약한 적을 공격하는 본능적인 펫 입니다.", 0, 0, 0, 0, 3000, ItemType.Pet));
-            pets.Add(new Pet("초록 슬라임","적의 공격을 대신 맞아주는 충실한 펫 입니다.", 0, 0, 0, 0, 3000, ItemType.Pet));
-            pets.Add(new Pet("푸른 슬라임","상처 부위를 진정시켜주는 부착용 펫 입니다.", 0, 0, 0, 0, 3000, ItemType.Pet));
+            pets.Add(new RedSlime("붉은 슬라임","가장 취약한 적을 공격하는 본능적인 펫 입니다.", 0, 0, 0, 0, 4000, ItemType.Pet));
+            pets.Add(new GreenSlime("초록 슬라임","적의 공격을 대신 맞아주는 충실한 펫 입니다.", 0, 0, 0, 0, 3000, ItemType.Pet));
+            pets.Add(new BlueSlime("푸른 슬라임","상처 부위를 진정시켜주는 부착용 펫 입니다.", 0, 0, 0, 0, 5000, ItemType.Pet));
 
 
             // 퀘스트 목록

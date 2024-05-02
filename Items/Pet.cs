@@ -34,6 +34,7 @@ namespace Sparta2ndTeam_TeamProject.Items
 
         public virtual void PetHeal() { }
 
+
     }
 
     internal class RedSlime : Pet
@@ -54,16 +55,39 @@ ItemType _type, bool isEquipped = false, bool isPurchased = false, bool isInitIt
         public override int PetAttack(List<Enemy> currentEnemy)
         {
             Enemy[] weakest = new Enemy[1];
-            int weakestHp = 0;
-            int pDamage = 10;
+            List<Enemy> petTarget = new List<Enemy>();
+            petTarget.Clear();
+            int deathCount = 0;
 
-            for (int i = 0; i < currentEnemy.Count; i++)        // 누가 제일 Hp가 적은가?
+
+            for (int i = 0; i < currentEnemy.Count; i++)        // 죽지 않은 적 리스트에 담기
             {
                 if (!currentEnemy[i].IsDead)
                 {
-                    if (currentEnemy[i].Hp < weakestHp)
+                    petTarget.Add(currentEnemy[i]);
+                }
+                else
+                {
+                    deathCount++;
+                }
+            }
+
+            if (deathCount == currentEnemy.Count)
+            {
+                return 0;
+            }
+
+            int weakestHp = petTarget[0].Hp;
+            weakest[0] = petTarget[0];
+            int pDamage = 10;
+
+            for (int i = 0; i < petTarget.Count; i++)        // 누가 제일 Hp가 적은가?
+            {
+                if (!petTarget[i].IsDead)
+                {
+                    if (petTarget[i].Hp < weakestHp)
                     {
-                        weakest[0] = currentEnemy[i];
+                        weakest[0] = petTarget[i];
                         weakestHp = weakest[0].Hp;
                     }
                 }
@@ -106,9 +130,8 @@ ItemType _type, bool isEquipped = false, bool isPurchased = false, bool isInitIt
             this.isPurchased = isPurchased;
             this.isInitItem = isInitItem;
             petType = PetType.Defense;
-            petAvoid = 1; // 1당 10%증가
+            petAvoid = 1; //                        펫 회피율 1당 10%증가
         }
-
 
     }
 

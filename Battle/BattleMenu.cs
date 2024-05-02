@@ -186,7 +186,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 default:
                     defeatCount += currentEnemy[keyInput - 1].PlayerAttack();     // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
 
-                    foreach (Pet pet in GameManager.pets)// 펫 스킬 들어갈 타이밍
+                    foreach (Pet pet in PetCave.myPets)// 펫 스킬 들어갈 타이밍
                     {
                         if (pet.isEquipped)
                         {

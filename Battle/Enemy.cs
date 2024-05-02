@@ -153,7 +153,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             {
                 int? petAvoid = null;
 
-                foreach (Pet pet in GameManager.pets)// 펫 스킬 들어갈 타이밍
+                foreach (Pet pet in PetCave.myPets)// 펫 스킬 들어갈 타이밍
                 {
                     if (pet.isEquipped)
                     {

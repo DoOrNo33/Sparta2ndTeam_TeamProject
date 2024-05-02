@@ -101,7 +101,8 @@ namespace Sparta2ndTeam_TeamProject
 
                 if (percent < 1)
                     return true;
-                else if (percent < 2)                                           //초록 슬라임 확인
+
+                else if (percent < (1 + petAvoid))                                           //초록 슬라임 확인
                 {
                     Console.Clear();
                     ConsoleUtility.ShowTitle("■ 전  투 ■\n");
