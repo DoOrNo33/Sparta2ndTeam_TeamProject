@@ -8,6 +8,7 @@
 
         //인덱스 순서대로 소형 hp 포션, 대형 hp 포션, 소형 mp 포션, 대형 mp 포션
         static public int[] portionCnt = { 3, 0, 0, 0 };
+        static public string[] portionName = { "소형 체력 포션", "대형 체력 포션", "소형 마나 포션", "대형 마나 포션" };
 
         static int command; 
 
@@ -37,26 +38,49 @@
                 ConsoleUtility.ShowTitle("■ 인벤토리 ■");
                 Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
 
-
                 for (int i = 0; i < GameManager.items.Count; i++)
                 {
-                    //현재 아이템이 초기에 지급되는 아이템인 경우(현재는 우선 소형 포션만 이에 해당) 이면서,
-                    if (GameManager.items[i].isInitItem)
+                    //현재 아이템이 포션이면서, 
+                    if (GameManager.items[i]._type == ItemType.PORTION)
                     {
-                        //현재 포션의 개수가 0보다 클 때에만 상태를 유지
-                        if (portionCnt[0] > 0)
-                            portionItems.Add(GameManager.items[i]);
-                    }
-                    else if (GameManager.items[i].isPurchased)
-                    {
-                        if (GameManager.items[i]._type == ItemType.PORTION)
+                        int idx = -1;
+
+                        //어떤 포션인지 파악하기 위한 반복문(소형 체력, 소형 마나 등등...)
+                        for (int j = 0; j < portionName.Length; j++)
                         {
-                            portionItems.Add(GameManager.items[i]);
+                            if (GameManager.items[i].Name == portionName[j])
+                            {
+                                idx = j;
+                            }
                         }
+                        if(portionItems.Count != 0)
+                        {
+                            //해당하는 포션의 수가 1개 이상이라면,(상점에서 구매했다면 이 값이 증가해있을 것.) 
+                            for (int j = 0; j < portionItems.Count; j++)
+                            {
+                                //포션 인벤토리에 넣으려는 포션에 대한 인스턴스가 이미 존재하지 않으면서,
+                                //해당 포션의 개수가 1개 이상이라면 
+                                if (portionItems[j].Name != portionName[idx] && portionCnt[idx] >= 1)
+                                {
+                                    //인벤토리에 포함시켜준다. 
+                                    portionItems.Add(GameManager.items[i]);
+                                }
+                            }
+                        }
+                        //현재 포션이 없지만, 포션 카운트가 0이기 때문에 걍 무조건 들어갔다.
+                        //포션도 없고, 모든 배열의 포션 카운트가 0이면 안 넣어주어야 함. 
                         else
                         {
-                            equipmentItems.Add(GameManager.items[i]);
+                            if (portionCnt[idx] >= 1)
+                                portionItems.Add(GameManager.items[i]);
                         }
+
+                    }
+                    
+                    //포션이 아닌 경우에는 구매 여부만 따져서 저장 
+                    else if (GameManager.items[i].isPurchased)
+                    {
+                        equipmentItems.Add(GameManager.items[i]);
                     }
                 }
 
@@ -86,16 +110,16 @@
                     
                     Console.ForegroundColor = ConsoleColor.Green;
 
-                    if (portionItems[i].Name == "소형 HP 포션")
+                    if (portionItems[i].Name == "소형 체력 포션")
                         Console.Write($"| {portionCnt[0]}개 보유중");
 
-                    else if (portionItems[i].Name == "대형 HP 포션")
+                    else if (portionItems[i].Name == "대형 체력 포션")
                         Console.Write($"| {portionCnt[1]}개 보유중");
 
-                    else if (portionItems[i].Name == "소형 MP 포션")
+                    else if (portionItems[i].Name == "소형 마나 포션")
                         Console.Write($"| {portionCnt[2]}개 보유중");
 
-                    else if (portionItems[i].Name == "대형 MP 포션")
+                    else if (portionItems[i].Name == "대형 마나 포션")
                         Console.Write($"| {portionCnt[3]}개 보유중");
 
                     Console.ResetColor();
@@ -238,16 +262,16 @@
 
                     Console.ForegroundColor = ConsoleColor.Green;
 
-                    if (portionItems[i].Name == "소형 HP 포션")
+                    if (portionItems[i].Name == "소형 체력 포션")
                         Console.Write($"| {portionCnt[0]}개 보유중");
 
-                    else if (portionItems[i].Name == "대형 HP 포션")
+                    else if (portionItems[i].Name == "대형 체력 포션")
                         Console.Write($"| {portionCnt[1]}개 보유중");
 
-                    else if (portionItems[i].Name == "소형 MP 포션")
+                    else if (portionItems[i].Name == "소형 마나 포션")
                         Console.Write($"| {portionCnt[2]}개 보유중");
 
-                    else if (portionItems[i].Name == "대형 MP 포션")
+                    else if (portionItems[i].Name == "대형 마나 포션")
                         Console.Write($"| {portionCnt[3]}개 보유중");
 
                     Console.ResetColor();
@@ -286,7 +310,7 @@
                         }
                         else
                         {
-                            if (portionItems[command - 1].Name == "소형 HP 포션" || portionItems[command - 1].Name == "대형 HP 포션")
+                            if (portionItems[command - 1].Name == "소형 체력 포션" || portionItems[command - 1].Name == "대형 체력 포션")
                                 useHpPotion(command);
                             else
                                 useMpPotion(command, ItemType.PORTION);
@@ -297,7 +321,7 @@
         }
         static void CheckPossiblePortion(int command)
         {
-            if (portionItems[command - 1].Name == "소형 HP 포션" || portionItems[command - 1].Name == "대형 HP 포션")
+            if (portionItems[command - 1].Name == "소형 체력 포션" || portionItems[command - 1].Name == "대형 체력 포션")
             {
                 //회복할 수 있는 기회가 남아있다면 회복 기능을 실행
                 if (LimitRecover_HP > 0 )
@@ -396,12 +420,13 @@
                 Thread.Sleep(500);
 
                 int idx = 0;
+
                 switch (portionItems[command - 1].Name)
                 {
-                    case "소형 HP 포션":
+                    case "소형 체력 포션":
                         idx = 0;
                         break;
-                    case "대형 HP 포션":
+                    case "대형 체력 포션":
                         idx = 1;
                         break;
                     default:
@@ -413,7 +438,6 @@
                 if (portionCnt[idx] <= 0)
                 {
                     portionCnt[idx] = 0;
-                    portionItems[command - 1].TogglePurchaseStatus();
                     portionItems.Remove(portionItems[command - 1]);
                 }
             }
@@ -471,10 +495,10 @@
 
                     switch (portionItems[command - 1].Name)
                     {
-                        case "소형 MP 포션":
+                        case "소형 마나 포션":
                             idx = 2;
                             break;
-                        case "대형 MP 포션":
+                        case "대형 마나 포션":
                             idx = 3;
                             break;
                         default: break;
@@ -485,7 +509,7 @@
                     if (portionCnt[idx] <= 0)
                     {
                         portionCnt[idx] = 0;
-                        portionItems[command - 1].TogglePurchaseStatus();
+                        Console.WriteLine("포션 삭제!!!!!"); Thread.Sleep(500);
                         portionItems.Remove(portionItems[command - 1]);
                     }
                 }
