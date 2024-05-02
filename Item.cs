@@ -7,23 +7,25 @@ namespace Sparta2ndTeam_TeamProject
         WEAPON,
         PORTION,
         MONSTER_DROP,
+        Pet
     }
     internal class Item
     {
         public ItemType _type;
         string _MarkAtk = "", _MarkDef = "";
-        public string Name { get; }
-        public string Desc { get; }
+        public string Name { get; protected set; }
+        public string Desc { get; protected set; }
 
         public int Atk { get; }
         public int Def { get; }
         public int HP { get; }  
         public int MP { get; }  
-        public int Price { get; }
+        public int Price { get; protected set; }
+    
 
-        public bool isEquipped { get; private set; }
-        public bool isPurchased { get; private set; }
-        public bool isInitItem { get; private set; }
+        public bool isEquipped { get; protected set; }
+        public bool isPurchased { get; protected set; }
+        public bool isInitItem { get; protected set; }
 
         public Item(string Name, string Desc, int Atk, int Def, int HP, int MP, int Price,
             ItemType _type, bool isEquipped = false, bool isPurchased = false, bool isInitItem = false)

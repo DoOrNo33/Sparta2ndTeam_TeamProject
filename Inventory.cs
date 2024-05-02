@@ -2,10 +2,9 @@
 {
     internal class Inventory
     {
-
         //다양한 혈석의 개수 정보를 저장 
         //인덱스 순서대로 작은 혈석 조각, 일반 혈석, 거대한 혈석
-        static public int[] dropItemsCnt = { 0, 2, 0 };
+        static public int[] dropItemsCnt = { 1, 2, 1 };
 
         //인덱스 순서대로 소형 hp 포션, 대형 hp 포션, 소형 mp 포션, 대형 mp 포션
         static public int[] portionCnt = { 3, 0, 0, 0 };
@@ -15,9 +14,17 @@
         //아이템을 저장하기 위한 리스트 
         static List<Item> portionItems = new List<Item>(); //포션
         static List<Item> equipmentItems = new List<Item>(); //장비
-        static List<Item> monstorDropItems = new List<Item>(); //몬스터 드랍 아이템 
-        internal static void InventoryMenu()
+        static public List<Item> monstorDropItems = new List<Item>(); //몬스터 드랍 아이템 
+
+        public const int MAXIMUM = 3;
+        static public int LimitRecover_HP = MAXIMUM;
+        static public int LimitRecover_MP = MAXIMUM;
+
+        static bool isFromBattle = false;
+        internal static void InventoryMenu(bool callFromBattle = false)
         {
+            isFromBattle = false;
+            isFromBattle = callFromBattle;
             while (true)
             {
                 //매 반복마다 아이템들에 대한 정보를 갱신 
@@ -177,7 +184,7 @@
                 
                 Console.WriteLine();
 
-                command = ConsoleUtility.PromptMenuChoice(0, portionItems.Count);
+                command = ConsoleUtility.PromptMenuChoice(0, monstorDropItems.Count);
 
                 switch (command)
                 {
@@ -191,7 +198,25 @@
                         Thread.Sleep(500);
                         break;
                     default:
-                        useMpPotion(command, ItemType.MONSTER_DROP);
+                        if(isFromBattle)
+                        {
+                            if (LimitRecover_MP > 0)
+                            {
+                                useMpPotion(command, ItemType.MONSTER_DROP);
+                            }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.Write("이번 대전에서는 더 이상 MP를 회복할 수 없습니다!");
+                                Console.ResetColor();
+                                Console.WriteLine();
+                                Thread.Sleep(500);
+                            }
+                        }
+                        else
+                        {
+                            useMpPotion(command, ItemType.MONSTER_DROP);
+                        }
                         break;
                 }
             }
@@ -254,17 +279,59 @@
                     case (int)SelectInventoryMenu.WrongCommand:
                         break;
                     default:
-                        if (portionItems[command - 1].Name == "소형 HP 포션" || portionItems[command - 1].Name == "대형 HP 포션")
-                            useHpPotion(command);
+                        //배틀 중인 상태에서만 회복에 제한을 둠. 
+                        if (isFromBattle)
+                        {
+                            CheckPossiblePortion(command);
+                        }
                         else
-                            useMpPotion(command, ItemType.PORTION);
+                        {
+                            if (portionItems[command - 1].Name == "소형 HP 포션" || portionItems[command - 1].Name == "대형 HP 포션")
+                                useHpPotion(command);
+                            else
+                                useMpPotion(command, ItemType.PORTION);
+                        }
                         break;
                 }
             }
         }
-
+        static void CheckPossiblePortion(int command)
+        {
+            if (portionItems[command - 1].Name == "소형 HP 포션" || portionItems[command - 1].Name == "대형 HP 포션")
+            {
+                //회복할 수 있는 기회가 남아있다면 회복 기능을 실행
+                if (LimitRecover_HP > 0 )
+                {
+                    useHpPotion(command);
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("이번 대전에서는 더 이상 HP를 회복할 수 없습니다!");
+                    Console.ResetColor();
+                    Console.WriteLine();
+                    Thread.Sleep(500);
+                }
+            }
+            else
+            {
+                if (LimitRecover_MP > 0)
+                {
+                    useMpPotion(command, ItemType.PORTION);
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("이번 대전에서는 더 이상 MP를 회복할 수 없습니다!");
+                    Console.ResetColor();
+                    Console.WriteLine();
+                    Thread.Sleep(500);
+                }
+            }
+        }
         private static void EquipMenu()
         {
+            
             while(true)
             {
                 Console.Clear();
@@ -308,92 +375,40 @@
         }
         static void useHpPotion(int command)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("체력 회복이 완료되었습니다. {0} → ", GameManager.player.Hp);
-
-            GameManager.player.Hp += portionItems[command - 1].HP;
-            if (GameManager.player.Hp >= 100) GameManager.player.Hp = 100; //최대 체력은 100
-
-            Console.WriteLine($"{GameManager.player.Hp}");
-            Console.ResetColor();
-
-            Thread.Sleep(500);
-
-            int idx = 0;
-            switch(portionItems[command-1].Name)
+            if(GameManager.player.Hp < GameManager.player.Max_Hp)
             {
-                case "소형 HP 포션":
-                    idx = 0;
-                    break;
-                case "대형 HP 포션":
-                    idx = 1;
-                    break;
-                case "소형 MP 포션":
-                    idx = 2;
-                    break;
-                default:
-                    break;
-            }
+                if(isFromBattle)
+                    LimitRecover_HP--;
 
-            portionCnt[idx]--;
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("체력 회복이 완료되었습니다. {0} → ", GameManager.player.Hp);
+                int prePlayerHP = GameManager.player.Hp;
 
-            if (portionCnt[idx] <= 0)
-            {
-                portionCnt[idx] = 0;
-                portionItems[command - 1].TogglePurchaseStatus();
-                portionItems.Remove(portionItems[command - 1]);
-            }
+                GameManager.player.Hp += portionItems[command - 1].HP;
+                if (GameManager.player.Hp >= GameManager.player.Max_Hp) GameManager.player.Hp = GameManager.player.Max_Hp;
 
-        }
-        private static void useMpPotion(int command, ItemType itemType)
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("마나 회복이 완료되었습니다. {0} → ", GameManager.player.Mp);
+                // 현재 커서의 위치 확인
+                int cursorLeft = Console.CursorLeft;
+                int cursorTop = Console.CursorTop;
+                ConsoleUtility.Animation(cursorLeft, cursorTop, prePlayerHP, GameManager.player.Hp);
 
-            if (itemType == ItemType.MONSTER_DROP)
-            {
+                Console.ResetColor();
+                Thread.Sleep(500);
+
                 int idx = 0;
-                GameManager.player.Mp += monstorDropItems[command - 1].MP;
-
-                switch(monstorDropItems[command-1].Name)
-                {
-                    case "작은 혈석 조각":
-                        idx = 0;
-                        break;
-                    case "일반 혈석":
-                        idx = 1;
-                        break;
-                    case "거대한 혈석":
-                        idx = 2;
-                        break;
-                    default: break;
-                }
-
-                dropItemsCnt[idx]--;
-
-                //혈석을 모두 사용하였다면 invenItems 리스트에서 해당 정보를 삭제
-                if (dropItemsCnt[idx] <= 0)
-                {
-                    dropItemsCnt[idx] = 0;
-                    monstorDropItems[command - 1].TogglePurchaseStatus();
-                    monstorDropItems.Remove(monstorDropItems[command - 1]);
-                }
-            }
-            else if (itemType == ItemType.PORTION)
-            {
-                int idx = 0;
-
-                GameManager.player.Mp += portionItems[command - 1].MP;
-
                 switch (portionItems[command - 1].Name)
                 {
+                    case "소형 HP 포션":
+                        idx = 0;
+                        break;
+                    case "대형 HP 포션":
+                        idx = 1;
+                        break;
                     case "소형 MP 포션":
                         idx = 2;
                         break;
-                    case "대형 MP 포션":
-                        idx = 3;
+                    default:
                         break;
-                    default: break;
                 }
 
                 portionCnt[idx]--;
@@ -405,19 +420,108 @@
                     portionItems.Remove(portionItems[command - 1]);
                 }
             }
+            else
+            {
+                ConsoleUtility.PrintTextHighlights("", "!!이미 건강한 상태입니다.\n");
+                Thread.Sleep(500);
+            }
+        }
+        private static void useMpPotion(int command, ItemType itemType)
+        {
+            if (GameManager.player.Mp < GameManager.player.Max_Mp)
+            {
+                if (isFromBattle)
+                    LimitRecover_MP--;
 
-            if (GameManager.player.Mp >= 50) GameManager.player.Mp = 50; //최대 마나는 50
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("마나 회복이 완료되었습니다. {0} → ", GameManager.player.Mp);
+                int prePlayerMP = GameManager.player.Mp;
 
-            Console.WriteLine($"{GameManager.player.Mp}");
-            Console.ResetColor();
+                if (itemType == ItemType.MONSTER_DROP)
+                {
+                    int idx = 0;
+                    GameManager.player.Mp += monstorDropItems[command - 1].MP;
 
-            Thread.Sleep(500);
+                    switch (monstorDropItems[command - 1].Name)
+                    {
+                        case "작은 혈석 조각":
+                            idx = 0;
+                            break;
+                        case "일반 혈석":
+                            idx = 1;
+                            break;
+                        case "거대한 혈석":
+                            idx = 2;
+                            break;
+                        default: break;
+                    }
 
+                    dropItemsCnt[idx]--;
+
+                    //혈석을 모두 사용하였다면 monstorDropItems 리스트에서 해당 정보를 삭제
+                    if (dropItemsCnt[idx] <= 0)
+                    {
+                        dropItemsCnt[idx] = 0;
+                        monstorDropItems[command - 1].TogglePurchaseStatus();
+                        monstorDropItems.Remove(monstorDropItems[command - 1]);
+                    }
+                }
+                else if (itemType == ItemType.PORTION)
+                {
+                    int idx = 0;
+
+                    GameManager.player.Mp += portionItems[command - 1].MP;
+
+                    switch (portionItems[command - 1].Name)
+                    {
+                        case "소형 MP 포션":
+                            idx = 2;
+                            break;
+                        case "대형 MP 포션":
+                            idx = 3;
+                            break;
+                        default: break;
+                    }
+
+                    portionCnt[idx]--;
+
+                    if (portionCnt[idx] <= 0)
+                    {
+                        portionCnt[idx] = 0;
+                        portionItems[command - 1].TogglePurchaseStatus();
+                        portionItems.Remove(portionItems[command - 1]);
+                    }
+                }
+
+                if (GameManager.player.Mp >= GameManager.player.Max_Mp) GameManager.player.Mp = GameManager.player.Max_Mp;
+
+                // 현재 커서의 위치 확인
+                int cursorLeft = Console.CursorLeft;
+                int cursorTop = Console.CursorTop;
+                ConsoleUtility.Animation(cursorLeft, cursorTop, prePlayerMP, GameManager.player.Mp);
+
+                Thread.Sleep(500);
+                Console.ResetColor();
+            }
+            else
+            {
+                ConsoleUtility.PrintTextHighlights("", "!!이미 건강한 상태입니다.\n");
+                Thread.Sleep(500);
+            }
         }
 
         static void setEquipItems(int command)
         {
             equipmentItems[command - 1].ToggleEquipStatus();
+
+            if (GameManager.quests[1].isAccept == true && GameManager.quests[1].isComplete == false && equipmentItems[command-1]._type == ItemType.ARMOR)
+            {
+                GameManager.quests[1].isComplete = true;
+            }
+            if (GameManager.quests[2].isAccept == true && GameManager.quests[2].isComplete == false && equipmentItems[command - 1]._type == ItemType.ARMOR)
+            {
+                GameManager.quests[2].isComplete = true;
+            }
 
             if (equipmentItems[command-1].Atk!=0 || equipmentItems[command-1].Def!=0 || equipmentItems[command-1].HP!=0) 
             {

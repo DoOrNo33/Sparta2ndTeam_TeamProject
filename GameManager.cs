@@ -7,6 +7,8 @@ using System.Runtime.CompilerServices;
 using static System.Net.Mime.MediaTypeNames;
 using System.Threading;
 using Sparta2ndTeam_TeamProject.Tower;
+using Sparta2ndTeam_TeamProject.Scenes;
+using Sparta2ndTeam_TeamProject.Items;
 
 namespace Sparta2ndTeam_TeamProject
 {
@@ -14,8 +16,11 @@ namespace Sparta2ndTeam_TeamProject
     {
         static public List<Item> items = new List<Item>();
         static public List<Item> dropItems = new List<Item>();
+        static public List<Quest> quests = new List<Quest>();
+        static public List<Pet> pets = new List<Pet>();
 
         public static Tower.Tower tower = new();
+        public IntroScene introScene = new();
 
         public GameManager()
         {
@@ -63,7 +68,23 @@ namespace Sparta2ndTeam_TeamProject
             dropItems.Add(new Item("작은 혈석 조각", "몬스터에게서 떨어져 나온 의문의 혈석 조각입니다.", 0, 0, 0, 15, 1500, ItemType.MONSTER_DROP));
             dropItems.Add(new Item("일반 혈석", "몬스터에게서 떨어져 나온 의문의 혈석입니다.", 0, 0, 0, 30, 3000, ItemType.MONSTER_DROP, false, true));
             dropItems.Add(new Item("거대한 혈석", "일반 혈석과는 달리 거대한 크기의 자색 혈석입니다.", 0, 0, 0, 50, 5000, ItemType.MONSTER_DROP));
+
+            //펫 종류
+            pets.Add(new Pet("붉은 슬라임","가장 취약한 적을 공격하는 본능적인 펫 입니다.", 0, 0, 0, 0, 3000, ItemType.Pet));
+            pets.Add(new Pet("초록 슬라임","적의 공격을 대신 맞아주는 충실한 펫 입니다.", 0, 0, 0, 0, 3000, ItemType.Pet));
+            pets.Add(new Pet("푸른 슬라임","상처 부위를 진정시켜주는 부착용 펫 입니다.", 0, 0, 0, 0, 3000, ItemType.Pet));
+
+
+            // 퀘스트 목록
+            quests.Add(new Tutorial("미궁 속으로", "어느 날, 의문의 탑이 생겼다.\n소문에 의하면 금은보화가 나온다고 하니 얼른 들어가보자.",100, 0));
+            quests.Add(new Tutorial("더욱 더 단단해지기", "안 아프게 맞기\n방어구를 착용하여 공격으로부터 몸을 보호해야겠다.", 200,0));
+            quests.Add(new Tutorial("더욱 더 강해지기", "선빵 필승이다.\n무기를 착용하여 적들을 혼내주자.", 200, 0));
+
+            quests.Add(new Mission("쥐 잡이", "탑에서 풀려나온 쥐들이 마을의 식량 창고를 털고 있다네.\n본보기로 큰 쥐 10 마리를 처치해주게나.",1, 0, 10, 500));
+            quests.Add(new Mission("보름달이 오기전에", "보름달이 오면 늑대들이 더 강해질거야.\n보름달이 오기전에 늑대 개체 수를 줄여줘!\n5 마리 정도만 처치해줘",1, 0, 5, 1500));
+            quests.Add(new Mission("전설의 모험가", "탑에서 끝도 없이 나오는 몬스터때문에 항상 마을 사람들이 겁에 떨고 있어.\n종류에 상관 없이 100 마리 정도만 처치해주자.",1, 10, 5, 500));
         }
+
 
 
         static public void SaveData()
@@ -104,6 +125,12 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("=============================================================================");
             Console.WriteLine("                 아이템 데이터를 성공적으로 저장하였습니다!                  ");
             Console.WriteLine("=============================================================================");
+
+            string questDataName = "questData.json";
+            string questDataPath = Path.Combine(path, questDataName);
+            string questJson = JsonConvert.SerializeObject(quests, Formatting.Indented);
+            File.WriteAllText(questDataPath, questJson);
+
             Thread.Sleep(300);
         }
 
@@ -113,14 +140,18 @@ namespace Sparta2ndTeam_TeamProject
             Console.Clear();
             string playerDataName = "playerStatData.json";
             string itemDataName = "itemData.json";
+            string questDataName = "questData.json";
 
             // C 드라이브 - MyDocuments 폴더
             string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string playerDataPath = Path.Combine(path, playerDataName);
             string itemDataPath = Path.Combine(path, itemDataName);
+            string questDataPath = Path.Combine(path, questDataName);
 
             if (File.Exists(playerDataPath)) // 데이터 존재
             {
+                ConsoleUtility.PrintGameHeader(); // 스타트 화면 출력
+                Console.Clear();
                 string playerJson = File.ReadAllText(playerDataPath);
                 player = JsonConvert.DeserializeObject<Player>(playerJson);
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -143,9 +174,18 @@ namespace Sparta2ndTeam_TeamProject
                     Console.ResetColor();
                     Thread.Sleep(300);
                 }
+ 
+                
+                if (File.Exists(questDataPath))
+                {
+                    string questJson = File.ReadAllText(questDataPath);
+                    quests = JsonConvert.DeserializeObject<List<Quest>>(questJson);
+                }
             }
             else
             {
+                //introScene.PlayIntro();
+                Console.Clear();
                 Console.WriteLine("=============================================================================");
                 Console.WriteLine("                     저장된 플레이어 데이터가 없습니다.                      ");
                 Console.WriteLine("=============================================================================");
@@ -183,9 +223,7 @@ namespace Sparta2ndTeam_TeamProject
 
         public void GameStart()
         {
-            Console.Clear();
-           
-            ConsoleUtility.PrintGameHeader(); // 스타트 화면 출력
+            Console.Clear();          
 
             LoadData(); // 세이브 불러오기
 
@@ -207,10 +245,11 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("2. 인벤토리");
             Console.WriteLine("3. 상점");
             Console.WriteLine("4. 탑 입장 (현재 진행 : {0}층)", tower.TowerLv);
-            Console.WriteLine("5. 탐험가 길드");
+            Console.WriteLine("5. 모험가 길드");
+            Console.WriteLine("6. 수상한 동굴");
 
             // 2. 선택한 결과를 검증함
-            Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 5);
+            Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 6);
 
             // 3. 선택한 결과에 따라 보내줌
             switch (choice)
@@ -233,6 +272,9 @@ namespace Sparta2ndTeam_TeamProject
                 case SelectMainMenu.GuildMenu:
                     Guild.GuildMenu();
                     break;
+                case SelectMainMenu.PetCave:
+                    PetCave.PetCaveMenu();
+                    break;
             }
             MainMenu();
         }
@@ -244,6 +286,7 @@ namespace Sparta2ndTeam_TeamProject
             StoreMenu,
             EnterTower,
             GuildMenu,
+            PetCave,
         }
     }
 }
