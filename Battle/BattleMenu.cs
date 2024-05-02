@@ -188,14 +188,17 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
                     foreach (Pet pet in GameManager.pets)// 펫 스킬 들어갈 타이밍
                     {
-                        if (pet.PetType == Items.PetType.Attack)
+                        if (pet.isEquipped)
                         {
-                            defeatCount += pet.PetAttack(currentEnemy);
-                        }
+                            if (pet.PetType == Items.PetType.Attack)
+                            {
+                                defeatCount += pet.PetAttack(currentEnemy);
+                            }
 
-                        if (pet.PetType == Items.PetType.Heal)
-                        {
-                            pet.PetHeal();
+                            if (pet.PetType == Items.PetType.Heal)
+                            {
+                                pet.PetHeal();
+                            }
                         }
                     }
 
