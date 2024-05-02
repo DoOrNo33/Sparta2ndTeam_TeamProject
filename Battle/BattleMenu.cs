@@ -199,7 +199,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                         Console.Write("마나가 부족합니다.");
                         Console.ResetColor();
                         Console.WriteLine();
-                        Thread.Sleep(1000);
+                        Thread.Sleep(500);
                         SkillAction();
                         break;
                     }
@@ -218,7 +218,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                         Console.Write("마나가 부족합니다.");
                         Console.ResetColor();
                         Console.WriteLine();
-                        Thread.Sleep(1000);
+                        Thread.Sleep(500);
                         SkillAction();
                         break;
                     }
@@ -235,7 +235,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 //    break;
                 case SkillCount.WrongCommand:
                     duringBattle = true;
-                    Battle();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.ResetColor();
+                    Console.WriteLine();
+                    Thread.Sleep(500);
+                    SkillAction();
                     break;
             }
             if (Mp)
