@@ -210,10 +210,9 @@ namespace Sparta2ndTeam_TeamProject
 
 
                 if (job == 1)
-                    player = new Player.Warrior(name);
+                    player = new Warrior(name);
                 else if (job == 2)
-                    player = new Player.Mage(name);
-
+                    player = new Mage(name);
                 Console.WriteLine();
                 Console.WriteLine("=============================================================================");
                 Console.WriteLine("                        캐릭터를 생성하고 있습니다..                         ");
