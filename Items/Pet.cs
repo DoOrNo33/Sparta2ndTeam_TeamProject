@@ -112,6 +112,9 @@ ItemType _type, bool isEquipped = false, bool isPurchased = false, bool isInitIt
             {
                 weakest[0].Dead();
                 Console.WriteLine("HP {0} -> {1}", tempHp, weakest[0].Hp);
+
+                BattleMenu.CheckQuest(weakest[0]);
+
                 ConsoleUtility.PromptReturn();
                 return 1;
             }
