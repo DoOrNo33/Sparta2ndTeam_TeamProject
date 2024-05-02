@@ -93,6 +93,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             string[] job = { "전사", "마법사" };
             Console.WriteLine("\n[내 정보]");
             Console.WriteLine("Lv. {0:D2} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job - 1]);
+            Console.WriteLine();
             Console.WriteLine("체  력 : {0}/{1}", GameManager.player.Hp, GameManager.player.Max_Hp);
             Console.WriteLine("마  나 : {0}/{1}", GameManager.player.Mp, GameManager.player.Max_Mp);
 
@@ -146,6 +147,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
             Console.WriteLine("\n[내 정보]");
             Console.WriteLine("Lv. {0:D2} {1} ({2})", GameManager.player.Level, GameManager.player.Name, job[GameManager.player.Job - 1]);
+            Console.WriteLine();
             Console.WriteLine("체  력 : {0}/{1}", GameManager.player.Hp, GameManager.player.Max_Hp);
             Console.WriteLine("마  나 : {0}/{1}", GameManager.player.Mp, GameManager.player.Max_Mp);
 
@@ -171,7 +173,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
             }
             Console.WriteLine("\n0. 취소");
-            Console.Write("");
+            Console.WriteLine("");
 
 
             choice = ConsoleUtility.PromptMenuChoice(0, GameManager.player.skill.Count);
@@ -257,10 +259,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, GameManager.player.Job);
                     Console.WriteLine("HP {0}/{1}", GameManager.player.Hp, GameManager.player.Max_Hp);
                     Console.WriteLine("MP {0}/{1}", GameManager.player.Mp, GameManager.player.Max_Mp);
-
-                    Console.WriteLine("\n0. 취소");
                     Console.WriteLine("\n대상을 선택해주세요.");
-                    Console.Write(">>");
+                    Console.WriteLine("\n0. 취소\n");
+
 
                     int keyInput = 0;
 
@@ -282,7 +283,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
                         else if (currentEnemy[keyInput - 1].IsDead)
                         {
                             Console.WriteLine("이미 죽은 대상입니다.");
-                            Console.Write(">>");
                         }
                         else
                         {
@@ -298,6 +298,10 @@ namespace Sparta2ndTeam_TeamProject.Battle
                         default:
                             int i = keyInput - 1;
                             defeatCount += currentEnemy[i].PlayerSkillAttack(SetSkill); // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
+
+                            if (currentEnemy[i].PlayerSkillAttack(SetSkill) == 1)
+                                CheckQuest(currentEnemy[i]);
+
                             SetMana(sMp);
                             foreach (Enemy enem in currentEnemy)
                             {
@@ -378,6 +382,10 @@ namespace Sparta2ndTeam_TeamProject.Battle
         {
             BattleSet();
 
+            Console.WriteLine("\n대상을 선택해주세요.");
+            Console.WriteLine("0. 취소\n");
+
+
             int keyInput = 0;
             while (true) // 대상이 죽었는지 체크
             {
@@ -414,10 +422,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     break;
 
                 default:
-                    defeatCount += currentEnemy[keyInput - 1].PlayerAttack();     // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
+                    int ret = currentEnemy[keyInput - 1].PlayerAttack();
+                    defeatCount += ret;     // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
 
-                    if (currentEnemy[keyInput - 1].PlayerAttack() == 1) // 적 처치 퀘스트 트리거
-                        CheckQuest(currentEnemy[keyInput-1]);
+                    if (ret == 1)
+                        CheckQuest(currentEnemy[keyInput - 1]);
 
 
                     foreach (Pet pet in PetCave.myPets)     // 펫 스킬 들어갈 타이밍
@@ -472,7 +481,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
         }
 
-        public static  void CheckQuest(Enemy enemy)
+        public static void CheckQuest(Enemy enemy)
         {
             foreach (Quest q in GameManager.quests)
             {
@@ -505,7 +514,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 }
             }
         }
-
         private void BattleResult(BattleStatus result)
         {
             duringBattle = false; // 전투 초기화
@@ -719,7 +727,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             second,
             third
         }
-        private enum SkillCount 
+        private enum SkillCount
         {
             FristSkill = 1,
             SecondSkill,

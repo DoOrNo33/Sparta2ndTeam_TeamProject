@@ -200,7 +200,7 @@ namespace Sparta2ndTeam_TeamProject
                 string name = Console.ReadLine();
                 while(true)
                 {
-                    Console.WriteLine($"{name} 이(가) 맞나요? (예 : 1 / 아니요 : 0");
+                    Console.WriteLine($"{name} 이(가) 맞나요? (예 : 1 / 아니요 : 0)");
                     isInt = int.TryParse(Console.ReadLine(), out command);
                     if(command == 1)
                         break;
@@ -221,11 +221,13 @@ namespace Sparta2ndTeam_TeamProject
                     isInt = int.TryParse(Console.ReadLine(), out job);
                 } while (isInt == false || job > 2 || job < 1);
 
+                
 
                 if (job == 1)
                     player = new Warrior(name);
                 else if (job == 2)
                     player = new Mage(name);
+
                 Console.WriteLine();
                 Console.WriteLine("=============================================================================");
                 Console.WriteLine("                        캐릭터를 생성하고 있습니다..                         ");
