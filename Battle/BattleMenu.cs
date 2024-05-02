@@ -13,7 +13,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
         private List<Enemy> currentEnemy;
         private Enemy enemy = new Enemy();
         Random random = new Random();
-        //Skill();
         private bool duringBattle = false;
         int defeatCount = 0;        // 적 쓰러뜨림 확인용
         int startHp = 0;
@@ -24,7 +23,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
         int choice = 0;
         int towerLv;
         bool finalBattle;
-        //bool skill;
         int SetSkill = 0;
         public BattleMenu()
         {
@@ -116,11 +114,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     AttackAction();
                     break;
                 case BattleAction.SkillAttack:
-                    //skill = true;
                     SkillAction();
                     break;
                 //case BattleAction.Inventory:
-                //    duringBattle = true;
                 //    Inventory.InventoryMenu(true);
                 //    Battle();
                 //    break;
@@ -177,7 +173,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
             Console.WriteLine("\n0. 취소");
             Console.WriteLine("");
 
-
             choice = ConsoleUtility.PromptMenuChoice(0, GameManager.skill.Count);
 
             if (choice == (int)SkillCount.WrongCommand)
@@ -232,10 +227,10 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     }
                     break;
                 //case SkillCount.ThirdSkill:
-                //    SetSkill = 3;
+                //    SetSkill = 2;
                 //    break;
                 //case SkillCount.FourthSkill:
-                //    SetSkill = 4;
+                //    SetSkill = 3;
                 //    break;
                 case SkillCount.WrongCommand:
                     duringBattle = true;
@@ -264,8 +259,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     Console.WriteLine("MP {0}/{1}", GameManager.player.Mp, GameManager.player.Max_Mp);
                     Console.WriteLine("\n대상을 선택해주세요.");
                     Console.WriteLine("\n0. 취소\n");
-
-
                     int keyInput = 0;
 
                     while (true) // 대상이 죽었는지 체크
