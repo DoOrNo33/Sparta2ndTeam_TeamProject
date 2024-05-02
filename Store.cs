@@ -169,7 +169,7 @@ namespace Sparta2ndTeam_TeamProject
                             break;
                         case CurrentShopState.SoldOut:
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("!! 이미 구매한 아이템입니다. !!");
+                            Console.WriteLine("!! 재고가 모두 소진되었습니다. !!");
                             Console.ResetColor();
                             break;
                         default:
