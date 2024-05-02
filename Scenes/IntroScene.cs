@@ -37,7 +37,7 @@ namespace Sparta2ndTeam_TeamProject.Scenes
             Thread.Sleep(100);
             Console.Write(" 나오는");
             Thread.Sleep(100);
-            Console.WriteLine(" 괴물들은");
+            Console.WriteLine(" 몬스터들은");
             Console.WriteLine("");
 
 
@@ -49,7 +49,7 @@ namespace Sparta2ndTeam_TeamProject.Scenes
             Thread.Sleep(100);
             Console.Write(" 발견되는");
             Thread.Sleep(100);
-            Console.Write(" 괴물들보다");
+            Console.Write(" 몬스터들보다");
             Thread.Sleep(100);
             Console.Write(" 더욱");
             Thread.Sleep(100);
