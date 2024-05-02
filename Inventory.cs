@@ -86,16 +86,16 @@
                     
                     Console.ForegroundColor = ConsoleColor.Green;
 
-                    if (portionItems[i].Name == "소형 HP 포션")
+                    if (portionItems[i].Name == "소형 체력 포션")
                         Console.Write($"| {portionCnt[0]}개 보유중");
 
-                    else if (portionItems[i].Name == "대형 HP 포션")
+                    else if (portionItems[i].Name == "대형 체력 포션")
                         Console.Write($"| {portionCnt[1]}개 보유중");
 
-                    else if (portionItems[i].Name == "소형 MP 포션")
+                    else if (portionItems[i].Name == "소형 마나 포션")
                         Console.Write($"| {portionCnt[2]}개 보유중");
 
-                    else if (portionItems[i].Name == "대형 MP 포션")
+                    else if (portionItems[i].Name == "대형 마나 포션")
                         Console.Write($"| {portionCnt[3]}개 보유중");
 
                     Console.ResetColor();
@@ -238,16 +238,16 @@
 
                     Console.ForegroundColor = ConsoleColor.Green;
 
-                    if (portionItems[i].Name == "소형 HP 포션")
+                    if (portionItems[i].Name == "소형 체력 포션")
                         Console.Write($"| {portionCnt[0]}개 보유중");
 
-                    else if (portionItems[i].Name == "대형 HP 포션")
+                    else if (portionItems[i].Name == "대형 체력 포션")
                         Console.Write($"| {portionCnt[1]}개 보유중");
 
-                    else if (portionItems[i].Name == "소형 MP 포션")
+                    else if (portionItems[i].Name == "소형 마나 포션")
                         Console.Write($"| {portionCnt[2]}개 보유중");
 
-                    else if (portionItems[i].Name == "대형 MP 포션")
+                    else if (portionItems[i].Name == "대형 마나 포션")
                         Console.Write($"| {portionCnt[3]}개 보유중");
 
                     Console.ResetColor();
@@ -286,7 +286,7 @@
                         }
                         else
                         {
-                            if (portionItems[command - 1].Name == "소형 HP 포션" || portionItems[command - 1].Name == "대형 HP 포션")
+                            if (portionItems[command - 1].Name == "소형 체력 포션" || portionItems[command - 1].Name == "대형 체력 포션")
                                 useHpPotion(command);
                             else
                                 useMpPotion(command, ItemType.PORTION);
@@ -297,7 +297,7 @@
         }
         static void CheckPossiblePortion(int command)
         {
-            if (portionItems[command - 1].Name == "소형 HP 포션" || portionItems[command - 1].Name == "대형 HP 포션")
+            if (portionItems[command - 1].Name == "소형 체력 포션" || portionItems[command - 1].Name == "대형 체력 포션")
             {
                 //회복할 수 있는 기회가 남아있다면 회복 기능을 실행
                 if (LimitRecover_HP > 0 )
@@ -398,10 +398,10 @@
                 int idx = 0;
                 switch (portionItems[command - 1].Name)
                 {
-                    case "소형 HP 포션":
+                    case "소형 체력 포션":
                         idx = 0;
                         break;
-                    case "대형 HP 포션":
+                    case "대형 체력 포션":
                         idx = 1;
                         break;
                     default:
@@ -471,10 +471,10 @@
 
                     switch (portionItems[command - 1].Name)
                     {
-                        case "소형 MP 포션":
+                        case "소형 마나 포션":
                             idx = 2;
                             break;
-                        case "대형 MP 포션":
+                        case "대형 마나 포션":
                             idx = 3;
                             break;
                         default: break;

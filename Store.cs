@@ -107,16 +107,16 @@ namespace Sparta2ndTeam_TeamProject
                             {
                                 switch (str)
                                 {
-                                    case "소형 HP 포션":
+                                    case "소형 체력 포션":
                                         idx = 0;
                                         break;
-                                    case "대형 HP 포션":
+                                    case "대형 체력 포션":
                                         idx = 1;
                                         break;
-                                    case "소형 MP 포션":
+                                    case "소형 마나 포션":
                                         idx = 2;
                                         break;
-                                    case "대형 MP 포션":
+                                    case "대형 마나 포션":
                                         idx = 3;
                                         break;
                                     default:
@@ -226,13 +226,13 @@ namespace Sparta2ndTeam_TeamProject
                         {
                             Console.ForegroundColor = ConsoleColor.Green;
 
-                            if (storeItems[i].Name == "소형 HP 포션")
+                            if (storeItems[i].Name == "소형 체력 포션")
                                 Console.Write($"\t| {Inventory.portionCnt[0]}개 보유중");
-                            else if (storeItems[i].Name == "대형 HP 포션")
+                            else if (storeItems[i].Name == "대형 체력 포션")
                                 Console.Write($"\t| {Inventory.portionCnt[1]}개 보유중");
-                            else if (storeItems[i].Name == "소형 MP 포션")
+                            else if (storeItems[i].Name == "소형 마나 포션")
                                 Console.Write($"\t| {Inventory.portionCnt[2]}개 보유중");
-                            else if (storeItems[i].Name == "대형 MP 포션")
+                            else if (storeItems[i].Name == "대형 마나 포션")
                                 Console.Write($"\t| {Inventory.portionCnt[3]}개 보유중");
 
                             Console.ResetColor();
@@ -276,7 +276,7 @@ namespace Sparta2ndTeam_TeamProject
                                 {
                                     //포션의 종류를 파악한 개수가 2개 이상이라면 개수를 차감하는 방식으로,
                                     //개수가 1개라면 다른 아이템과 동일한 방식으로 판매 기능을 작업
-                                    if (item.Name == "소형 HP 포션")
+                                    if (item.Name == "소형 체력 포션")
                                     {
                                         Inventory.portionCnt[0]--;
 
@@ -287,7 +287,7 @@ namespace Sparta2ndTeam_TeamProject
                                             item.TogglePurchaseStatus();
                                         }
                                     }
-                                    else if (item.Name == "대형 HP 포션")
+                                    else if (item.Name == "대형 체력 포션")
                                     {
                                         Inventory.portionCnt[1]--;
 
@@ -410,16 +410,16 @@ namespace Sparta2ndTeam_TeamProject
 
                         switch (str)
                         {
-                            case "소형 HP 포션":
+                            case "소형 체력 포션":
                                 idx = 0;
                                 break;
-                            case "대형 HP 포션":
+                            case "대형 체력 포션":
                                 idx = 1;
                                 break;
-                            case "소형 MP 포션":
+                            case "소형 마나 포션":
                                 idx = 2;
                                 break;
-                            case "대형 MP 포션":
+                            case "대형 마나 포션":
                                 idx = 3;
                                 break;
                             default:
