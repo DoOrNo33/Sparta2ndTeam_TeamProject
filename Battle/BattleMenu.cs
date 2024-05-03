@@ -114,7 +114,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     AttackAction();
                     break;
                 case BattleAction.SkillAttack:
-                    SkillAction();
+                    PrintSkill();
                     break;
                 //case BattleAction.Inventory:
                 //    Inventory.InventoryMenu(true);
@@ -198,14 +198,14 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     duringBattle = true;
                     Battle();
                     break;
-                case SkillCount.WrongCommand:
-                    duringBattle = true;
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.ResetColor();
-                    Console.WriteLine();
-                    Thread.Sleep(500);
-                    PrintSkill();
-                    break;
+                //case SkillCount.WrongCommand:
+                //    duringBattle = true;
+                //    Console.ForegroundColor = ConsoleColor.Red;
+                //    Console.ResetColor();
+                //    Console.WriteLine();
+                //    Thread.Sleep(500);
+                //    PrintSkill();
+                //    break;
                 default:
                     skillaction = Mana(choice - 1);
                     break;
@@ -244,20 +244,21 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 else if (keyInput == 0)
                 {
 
-                    break;
+                    return false;
                 }
                 else if (currentEnemy[keyInput - 1].IsDead)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("이미 죽은 대상입니다.");
                     Console.ResetColor();
+                    return false;
                 }
                 else
                 {
-                    return keyInput;
-                    break;
+                    return true;
                 }
             }
+            /*
             switch (keyInput)
             {
                 case 0:
@@ -320,7 +321,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     }
 
                     break;
-            }
+            }*/
         }
 
 
@@ -340,7 +341,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             keyInput = ConsoleUtility.PromptMenuChoice(0, currentEnemy.Count);
             DieCeak(keyInput);
             //}
-            
+            /*
             while (true) // 대상이 죽었는지 체크
             {
                 keyInput = ConsoleUtility.PromptMenuChoice(0, currentEnemy.Count);
@@ -364,7 +365,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 {
                     break;
                 }
-            }
+            }*/
             switch (keyInput)
             {
                 case 0:
@@ -424,7 +425,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     defeatCount += currentEnemy[i].PlayerSkillAttack(SetSkill); // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
                 }
                 //죽은적이 있다면 
-                i++;
+                defeatCount++;
             }
             //foreach (Enemy enem in currentEnemy)
             //{
@@ -488,6 +489,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("이미 죽은 대상입니다.");
                     Console.ResetColor();
+                    
                 }
                 else
                 {
