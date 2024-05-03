@@ -648,8 +648,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     Console.WriteLine("탑에서 몬스터 {0}마리를 잡았습니다.\n", defeatCount);
                     Console.WriteLine("Lv. {0:D2}, {1}", GameManager.player.Level, GameManager.player.Name);
                     Console.WriteLine("체  력 : {0} -> {1}", startHp, GameManager.player.Hp);
-                    GameManager.player.Mp += 10;
-                    Console.WriteLine("마  나 : {0} -> {1} (마나 10회복)\n", startMp, GameManager.player.Mp);
                     
                     Console.WriteLine("\n[전리품]");                           // 전리품 설정
                     DropItems();
