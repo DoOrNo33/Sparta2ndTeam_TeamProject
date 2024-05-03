@@ -201,9 +201,45 @@ namespace Sparta2ndTeam_TeamProject
 
                 for (int i = 0; i < GameManager.items.Count; i++)
                 {
-                    if (GameManager.items[i].isPurchased || GameManager.items[i].isInitItem)
+                    if (GameManager.items[i]._type == ItemType.PORTION)
                     {
-                        storeItems.Add(GameManager.items[i]);
+                        int idx = -1;
+                        for (int j = 0; j < Inventory.portionName.Length; j++)
+                        {
+                            if (GameManager.items[i].Name == Inventory.portionName[j])
+                            {
+                                idx = j;
+                            }
+                        }
+                        
+                        if(storeItems.Count != 0)
+                        {
+                            bool checkExist = false;
+                            for (int j = 0; j < storeItems.Count; j++)
+                            {
+                                if (storeItems[j].Name == GameManager.items[i].Name)
+                                {
+                                    checkExist = true;
+                                }
+                            }
+
+                            if(!checkExist && Inventory.portionCnt[idx]>=1)
+                            {
+                                storeItems.Add(GameManager.items[i]);
+                            }
+                                
+                        }
+                        else
+                        {
+                            if(Inventory.portionCnt[idx] >= 1)
+                                storeItems.Add(GameManager.items[i]);
+                        }    
+                        
+                    }
+                    else
+                    {
+                        if ((GameManager.items[i].isPurchased))
+                            storeItems.Add(GameManager.items[i]);
                     }
                 }
                 for(int i=0;i<GameManager.dropItems.Count;i++)
@@ -226,14 +262,14 @@ namespace Sparta2ndTeam_TeamProject
                         {
                             Console.ForegroundColor = ConsoleColor.Green;
 
-                            if (storeItems[i].Name == "소형 체력 포션")
-                                Console.Write($"\t| {Inventory.portionCnt[0]}개 보유중");
-                            else if (storeItems[i].Name == "대형 체력 포션")
-                                Console.Write($"\t| {Inventory.portionCnt[1]}개 보유중");
-                            else if (storeItems[i].Name == "소형 마나 포션")
-                                Console.Write($"\t| {Inventory.portionCnt[2]}개 보유중");
-                            else if (storeItems[i].Name == "대형 마나 포션")
-                                Console.Write($"\t| {Inventory.portionCnt[3]}개 보유중");
+                            for(int j=0;j<Inventory.portionName.Length;j++)
+                            {
+                                if (storeItems[i].Name == Inventory.portionName[j])
+                                {
+                                    Console.Write($"\t| {Inventory.portionCnt[j]}개 보유중");
+                                    break;
+                                }
+                            }
 
                             Console.ResetColor();
                         }
@@ -259,80 +295,41 @@ namespace Sparta2ndTeam_TeamProject
                 }
                 else if (command == (int)SelectStoreMenu.PreviousPage) return;
                 else
-                //if (command != (int)SelectStoreMenu.WrongCommand)
                 {
                     foreach (Item item in storeItems)
                     {
                         //판매 관련 작업 
                         if ((command - 1) == storeItems.IndexOf(item))
                         {
-                            ConsoleUtility.PrintTextHighlights("정말로 ", item.Name, "을(를) 판매하시겠습니까? ('예'입력 시 그대로 진행.) ");
+                            ConsoleUtility.PrintTextHighlights("정말로 ", item.Name, "을(를) 판매하시겠습니까? ('1'입력 시 그대로 진행.) ");
 
                             Console.Write(">> ");
-                            if("예" == Console.ReadLine())
+                            if("1" == Console.ReadLine())
                             {
                                 //현재 판매하려는 아이템이 포션이라면, 
                                 if (item._type == ItemType.PORTION)
                                 {
-                                    //포션의 종류를 파악한 개수가 2개 이상이라면 개수를 차감하는 방식으로,
-                                    //개수가 1개라면 다른 아이템과 동일한 방식으로 판매 기능을 작업
-                                    if (item.Name == "소형 체력 포션")
+                                    for(int i = 0; i < Inventory.portionName.Length; i++)
                                     {
-                                        Inventory.portionCnt[0]--;
-
-                                        //아이템을 모두 팔았을 경우 storeItems 리스트에서 해당 정보를 삭제 
-                                        if (Inventory.portionCnt[0] <= 0)
+                                        if(item.Name  == Inventory.portionName[i])
                                         {
-                                            Inventory.portionCnt[0] = 0;
-                                            item.TogglePurchaseStatus();
-                                        }
-                                    }
-                                    else if (item.Name == "대형 체력 포션")
-                                    {
-                                        Inventory.portionCnt[1]--;
+                                            Inventory.portionCnt[i]--;
 
-                                        //아이템을 모두 팔았을 경우 storeItems 리스트에서 해당 정보를 삭제 
-                                        if (Inventory.portionCnt[1] <= 0)
-                                        {
-                                            Inventory.portionCnt[1] = 0;
-                                            item.TogglePurchaseStatus();
+                                            //아이템을 모두 팔았을 경우 storeItems 리스트에서 해당 정보를 삭제 
+                                            if (Inventory.portionCnt[i] <= 0)
+                                            {
+                                                Inventory.portionCnt[i] = 0;
+                                                item.TogglePurchaseStatus();
+
+                                                break;
+                                            }
                                         }
                                     }
                                 }
                                 //판매하려는 아이템이 혈석이라면, 
                                 else if (item._type == ItemType.MONSTER_DROP)
                                 {
-                                    Console.ForegroundColor = ConsoleColor.Cyan;
-                                    Console.Write("나보고 ");
-                                    Thread.Sleep(300);
-                                    Console.Write("이런 ");
-                                    Thread.Sleep(300);
-                                    Console.Write("돌 덩어리를 ");
-                                    Thread.Sleep(300);
-                                    Console.Write("사라고? \n");
-                                    Thread.Sleep(500);
-                                    Console.Write("누굴 ");
-                                    Thread.Sleep(300);
-                                    Console.Write("바보로 ");
-                                    Thread.Sleep(300);
-                                    Console.Write("아나! \n");
-                                    Thread.Sleep(500);
-                                    Console.Write("길드 사람들은 ");
-                                    Thread.Sleep(300);
-                                    Console.Write("꼭 이런 돌에 ");
-                                    Thread.Sleep(300);
-                                    Console.Write("환장을 하던데 ");
-                                    Thread.Sleep(300);
-                                    Console.Write("... \n");
-                                    Thread.Sleep(500);
-                                    Console.Write("마을에 ");
-                                    Thread.Sleep(300);
-                                    Console.Write("괴짜가 ");
-                                    Thread.Sleep(300);
-                                    Console.Write("늘었구만. ");
-                                    Thread.Sleep(500);
-                                    Console.Write("*쯧*\n ");
-                                    Thread.Sleep(2000);
+                                    Dialog();
                                     continue;
                                 }
                                 else
@@ -467,6 +464,40 @@ namespace Sparta2ndTeam_TeamProject
             SoldOut,
         }
 
+        static void Dialog()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("나보고 ");
+            Thread.Sleep(300);
+            Console.Write("이런 ");
+            Thread.Sleep(300);
+            Console.Write("돌 덩어리를 ");
+            Thread.Sleep(300);
+            Console.Write("사라고? \n");
+            Thread.Sleep(500);
+            Console.Write("누굴 ");
+            Thread.Sleep(300);
+            Console.Write("바보로 ");
+            Thread.Sleep(300);
+            Console.Write("아나! \n");
+            Thread.Sleep(500);
+            Console.Write("길드 사람들은 ");
+            Thread.Sleep(300);
+            Console.Write("꼭 이런 돌에 ");
+            Thread.Sleep(300);
+            Console.Write("환장을 하던데 ");
+            Thread.Sleep(300);
+            Console.Write("... \n");
+            Thread.Sleep(500);
+            Console.Write("마을에 ");
+            Thread.Sleep(300);
+            Console.Write("괴짜가 ");
+            Thread.Sleep(300);
+            Console.Write("늘었구만. ");
+            Thread.Sleep(500);
+            Console.Write("*쯧*\n ");
+            Thread.Sleep(2000);
+        }
     }
 
 }
