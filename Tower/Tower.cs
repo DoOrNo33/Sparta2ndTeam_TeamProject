@@ -44,6 +44,7 @@ namespace Sparta2ndTeam_TeamProject.Tower
                     Console.WriteLine("(현재 연승 횟수 : {0})", CombatCount);
                     Console.WriteLine("\n축하합니다! {0}층으로 진행 할 수 있습니다.", TowerLv + 1);
                     Console.WriteLine("마을로 복귀합니다.");
+                    ClimbTower();
                     ConsoleUtility.PromptReturn();
                     GameManager.Instance.MainMenu();
                 }

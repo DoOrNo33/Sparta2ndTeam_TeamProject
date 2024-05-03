@@ -4,7 +4,7 @@
     {
         //다양한 혈석의 개수 정보를 저장 
         //인덱스 순서대로 작은 혈석 조각, 일반 혈석, 거대한 혈석
-        static public int[] dropItemsCnt = { 1, 2, 1 };
+        static public int[] dropItemsCnt = { 0, 0, 0 };
 
         //인덱스 순서대로 소형 hp 포션, 대형 hp 포션, 소형 mp 포션, 대형 mp 포션
         static public int[] portionCnt = { 3, 0, 0, 0 };
@@ -53,22 +53,25 @@
                                 idx = j;
                             }
                         }
+
                         if(portionItems.Count != 0)
                         {
+                            bool checkExist = false;
                             //해당하는 포션의 수가 1개 이상이라면,(상점에서 구매했다면 이 값이 증가해있을 것.) 
                             for (int j = 0; j < portionItems.Count; j++)
                             {
-                                //포션 인벤토리에 넣으려는 포션에 대한 인스턴스가 이미 존재하지 않으면서,
-                                //해당 포션의 개수가 1개 이상이라면 
-                                if (portionItems[j].Name != portionName[idx] && portionCnt[idx] >= 1)
+                                if (portionItems[j].Name == GameManager.items[i].Name)
                                 {
-                                    //인벤토리에 포함시켜준다. 
+                                    checkExist = true;
+                                }
+
+                                if (!checkExist && portionCnt[idx] >= 1)
+                                {
                                     portionItems.Add(GameManager.items[i]);
                                 }
+                                
                             }
                         }
-                        //현재 포션이 없지만, 포션 카운트가 0이기 때문에 걍 무조건 들어갔다.
-                        //포션도 없고, 모든 배열의 포션 카운트가 0이면 안 넣어주어야 함. 
                         else
                         {
                             if (portionCnt[idx] >= 1)
@@ -110,17 +113,15 @@
                     
                     Console.ForegroundColor = ConsoleColor.Green;
 
-                    if (portionItems[i].Name == "소형 체력 포션")
-                        Console.Write($"| {portionCnt[0]}개 보유중");
+                    for(int j=0;j<portionName.Length;j++)
+                    {
+                        if (portionItems[i].Name == portionName[j])
+                        {
+                            Console.Write($"| {portionCnt[j]}개 보유중");
+                            break;
+                        }
 
-                    else if (portionItems[i].Name == "대형 체력 포션")
-                        Console.Write($"| {portionCnt[1]}개 보유중");
-
-                    else if (portionItems[i].Name == "소형 마나 포션")
-                        Console.Write($"| {portionCnt[2]}개 보유중");
-
-                    else if (portionItems[i].Name == "대형 마나 포션")
-                        Console.Write($"| {portionCnt[3]}개 보유중");
+                    }
 
                     Console.ResetColor();
                     Console.WriteLine();
@@ -479,7 +480,6 @@
 
                     dropItemsCnt[idx]--;
 
-                    //혈석을 모두 사용하였다면 monstorDropItems 리스트에서 해당 정보를 삭제
                     if (dropItemsCnt[idx] <= 0)
                     {
                         dropItemsCnt[idx] = 0;
@@ -516,7 +516,6 @@
 
                 if (GameManager.player.Mp >= GameManager.player.Max_Mp) GameManager.player.Mp = GameManager.player.Max_Mp;
 
-                // 현재 커서의 위치 확인
                 int cursorLeft = Console.CursorLeft;
                 int cursorTop = Console.CursorTop;
                 ConsoleUtility.Animation(cursorLeft, cursorTop, prePlayerMP, GameManager.player.Mp);
@@ -535,13 +534,13 @@
         {
             equipmentItems[command - 1].ToggleEquipStatus();
 
-            if (equipmentItems[command - 1].isEquipped == true) // 퀘스트 2, 3 트리거
+            if (equipmentItems[command - 1].isEquipped == true)
             {
                 if (GameManager.quests[1].isAccept == true && GameManager.quests[1].isComplete == false && equipmentItems[command - 1]._type == ItemType.ARMOR)
                 {
                     GameManager.quests[1].isComplete = true;
                 }
-                else if (GameManager.quests[2].isAccept == true && GameManager.quests[2].isComplete == false && equipmentItems[command - 1]._type == ItemType.ARMOR)
+                if (GameManager.quests[2].isAccept == true && GameManager.quests[2].isComplete == false && equipmentItems[command - 1]._type == ItemType.ARMOR)
                 {
                     GameManager.quests[2].isComplete = true;
                 }
@@ -553,16 +552,12 @@
                 GameManager.player.Def += equipmentItems[command - 1].Def;
                 GameManager.player.Hp += equipmentItems[command - 1].HP;
             }
-            //현재 인벤토리에 있는 아이템 중, 
             for (int i = 0; i < equipmentItems.Count; i++)
             {
-                //현재 착용한 아이템과 타입이 일치하는 아이템이
                 if (i != (command - 1) && equipmentItems[command - 1]._type == equipmentItems[i]._type)
                 {
-                    //장착 상태라면, 
                     if (equipmentItems[i].isEquipped)
                     {
-                        //장착 상태를 해제
                         equipmentItems[i].ToggleEquipStatus();
                         if (equipmentItems[command - 1].Atk != 0 || equipmentItems[command - 1].Def != 0 || equipmentItems[command - 1].HP != 0)
                         {
