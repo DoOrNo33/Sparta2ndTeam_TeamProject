@@ -143,7 +143,9 @@ namespace Sparta2ndTeam_TeamProject
                 Console.Write($"마 나 {GameManager.player.Mp} -> ");
                 int start_mp = GameManager.player.Mp;
 
-                if(start_mp < GameManager.player.Max_Mp)
+                GameManager.player.Mp = GameManager.player.Max_Mp;
+
+                if (start_mp < GameManager.player.Max_Mp)
                     ConsoleUtility.Animation(13, 10, start_mp, GameManager.player.Max_Mp);
 
                 else
@@ -261,13 +263,7 @@ namespace Sparta2ndTeam_TeamProject
                 else
                     Console.WriteLine("~~ 보유중인 혈석이 없습니다. ~~");
 
-                if (command == (int)SelectBreakMenu.WrongCommand)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("잘못된 입력입니다.");
-                    Console.ResetColor();
-                    Console.WriteLine();
-                }
+                
 
 
                 Console.WriteLine("\n0. 나가기");
@@ -312,7 +308,14 @@ namespace Sparta2ndTeam_TeamProject
                         }
                     }
                 }
-
+                if (command == (int)SelectBreakMenu.WrongCommand)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("잘못된 입력입니다.");
+                    Console.ResetColor();
+                    Console.WriteLine();
+                    Thread.Sleep(500);
+                }
                 if (sellComplete)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
