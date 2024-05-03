@@ -14,8 +14,7 @@
                 ConsoleUtility.ShowTitle("■ 상점 ■");
                 Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
 
-                ConsoleUtility.PrintTextHighlights("", "[보유 골드]");
-                Console.WriteLine($"{GameManager.player.Gold} G\n");
+                ConsoleUtility.PrintTextHighlights("", $"[보유 골드 : {GameManager.player.Gold} G]\n");
 
                 ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
 
@@ -61,8 +60,7 @@
                 ConsoleUtility.ShowTitle("■ 상점 - 아이템 구매 ■");
                 Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
 
-                ConsoleUtility.PrintTextHighlights("", "[보유 골드]");
-                Console.WriteLine($"{GameManager.player.Gold} G\n");
+                ConsoleUtility.PrintTextHighlights("", $"[보유 골드 : {GameManager.player.Gold} G]\n");
 
                 ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
 
@@ -192,8 +190,7 @@
                 ConsoleUtility.ShowTitle("■ 상점 - 아이템 판매 ■");
                 Console.WriteLine("아이템을 판매하여 골드를 획득할 수 있습니다.\n");
 
-                ConsoleUtility.PrintTextHighlights("", "[보유 골드]");
-                Console.WriteLine($"{GameManager.player.Gold} G\n");
+                ConsoleUtility.PrintTextHighlights("", $"[보유 골드 : {GameManager.player.Gold} G]\n");
 
                 ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
 
