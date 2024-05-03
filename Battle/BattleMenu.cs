@@ -189,7 +189,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     Battle();
                     break;
                 case SkillCount.FristSkill:
-                    SetSkill = 0;
+                    SetSkill = choice-1;
                     sMp = GameManager.skill[SetSkill].SkillMana;
                     if (GameManager.player.Mp < GameManager.skill[SetSkill].SkillMana)
                     {
@@ -296,9 +296,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
                             int i = keyInput - 1;
                             defeatCount += currentEnemy[i].PlayerSkillAttack(SetSkill); // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
 
-                            if (currentEnemy[i].PlayerSkillAttack(SetSkill) == 1)
+                            if (defeatCount == 1)
                                 CheckQuest(currentEnemy[i]);
-
                             SetMana(sMp);
                             foreach (Enemy enem in currentEnemy)
                             {

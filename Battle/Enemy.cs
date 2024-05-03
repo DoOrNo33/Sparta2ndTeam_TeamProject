@@ -108,7 +108,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
             {
                 Damege = GameManager.skill[order].SkillDamage;
 
-
                 adAtk = (int)Math.Ceiling(Damege * 0.1f);                                   //보정 공격, 10%의 올림치
                 pAtk = random.Next((Damege - adAtk), (Damege + adAtk + 1)); //보정 공격치
 
@@ -130,13 +129,10 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
                 if (hp > 0)   // 적의 남은 hp가 0보다 큰지 작은지
                 {
-                    Console.Write("체  력 : {0} -> ", tempHp);
-                    ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, GameManager.player.Hp);
-                    switch ((PlayerPhase)ConsoleUtility.PromptMenuChoice(0, 0))
-                    {
-                        case PlayerPhase.ToEnemyPhase:
-                            break;
-                    }
+                    Console.WriteLine("HP {0} -> {1}", tempHp, hp);
+                    //Console.Write("HP {0} -> ", tempHp);
+                    ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, hp);
+                    ConsoleUtility.PromptReturn();
                     return 0;
                 }
                 else
@@ -147,11 +143,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, hp);
                     ConsoleUtility.PromptReturn();
 
-                    switch ((PlayerPhase)ConsoleUtility.PromptMenuChoice(0, 0))
-                    {
-                        case PlayerPhase.ToEnemyPhase:
-                            break;
-                    }
+                    //switch ((PlayerPhase)ConsoleUtility.PromptMenuChoice(0, 0))
+                    //{
+                    //    case PlayerPhase.ToEnemyPhase:
+                    //        break;
+                    //}
                     return 1;
                 }
             }
