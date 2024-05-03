@@ -102,7 +102,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             bool isCri;
             if (pMp < GameManager.skill[order].SkillMana) //마나가 부족하면
             {
-                return -1;
+                return 0;
             }
             else //마나가 있다면 공격
             {
