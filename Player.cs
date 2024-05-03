@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace Sparta2ndTeam_TeamProject
 {
     internal class Player
     {
-        public List<Skill> skill = new List<Skill>();
+        
         Random random = new Random();
         public string Name { get; }
         public int Job { get; set; }
@@ -125,11 +126,11 @@ namespace Sparta2ndTeam_TeamProject
                 return false;
             }
         }
-        public int Skill(int i)
-        {
-            return skill[i].SkillDamage;
+        //public int Skill(int i)
+        //{
+        //    return skill[i].SkillDamage;
 
-        }
+        //}
 
         public virtual void LevelUp(int exp)
         {
@@ -161,8 +162,6 @@ namespace Sparta2ndTeam_TeamProject
             Hp = Max_Hp;
             Max_Mp = 50;// 전사의 최대 마나 설정
             Mp = Max_Mp;
-            skill.Add(new Skill("알파-스트라이크", 10, Atk * 2, false, 1));//전사 스킬 1
-            skill.Add(new Skill("더블-스트라이크", 25, Atk * 2, true, 2));//전사 스킬 2
         }
 
 
@@ -196,8 +195,6 @@ namespace Sparta2ndTeam_TeamProject
             Hp = Max_Hp;
             Max_Mp = 150;// 마법사의 최대 마나 설정
             Mp = Max_Mp;
-            skill.Add(new Skill("에너지 볼트", 10, Atk * 1, true, 1)); //마법사 스킬 1
-            skill.Add(new Skill("썬더 볼트", 25, Atk * 3, false, 2)); //마법사 스킬 2
         }
 
         public override void LevelUp(int exp)

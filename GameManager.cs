@@ -18,6 +18,7 @@ namespace Sparta2ndTeam_TeamProject
         static public List<Item> dropItems = new List<Item>();
         static public List<Quest> quests = new List<Quest>();
         static public List<Pet> pets = new List<Pet>();
+        static public List<Skill> skill = new List<Skill>();
 
         public static Tower.Tower tower = new();
         public IntroScene introScene = new();
@@ -29,7 +30,6 @@ namespace Sparta2ndTeam_TeamProject
 
         private static GameManager instance;
         public static Player player;
-
         public static GameManager Instance
         {
             get
@@ -89,15 +89,22 @@ namespace Sparta2ndTeam_TeamProject
             quests.Add(new Quest("쥐 잡이", "탑에서 나오는 큰 쥐들이 마을의 식량 창고를 털고 있다네.\n본보기로 큰 쥐 5 마리를 처치해주게나.", 1, 500, 0, 5));
             quests.Add(new Quest("붉은 달이 뜨기전에", "붉은 달이 뜨면 늑대들이 더 흉포해지네.\n붉은 달이 뜨기까지 얼마 남지 않았으니 늑대 개체 수를 줄여줘!\n3 마리 정도만 처치해주게.", 1, 500, 2, 3));
             quests.Add(new Quest("전설의 모험가", "탑에서 끝도 없이 나오는 몬스터 때문에 항상 마을 사람들이 겁에 떨고 있어.\n종류에 상관 없이 30 마리 정도만 처치해주게.", 1, 1000, 10, 30));
+
+            // 스킬 목록
+            //skill.Add(new Skill("알파-스트라이크", 10, player.Atk * 2, false, 1));//전사 스킬 1
+            //skill.Add(new Skill("더블-스트라이크", 25, player.Atk * 2, true, 2));//전사 스킬 2
+
+            //skill.Add(new Skill("에너지 볼트", 10, player.Atk * 1, true, 1)); //마법사 스킬 1
+            //skill.Add(new Skill("썬더 볼트", 25, player.Atk * 3, false, 2)); //마법사 스킬 2
         }
         private void InitializeGame()
         {
+
             Init_Items();
             Init_DropItems();
             Init_Pets();
             Init_Quests();
         }
-
         public void GameStart()
         {
             Console.Clear();

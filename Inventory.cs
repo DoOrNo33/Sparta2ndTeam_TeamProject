@@ -4,7 +4,7 @@
     {
         //다양한 혈석의 개수 정보를 저장 
         //인덱스 순서대로 작은 혈석 조각, 일반 혈석, 거대한 혈석
-        static public int[] dropItemsCnt = { 1, 2, 1 };
+        static public int[] dropItemsCnt = { 0, 0, 0 };
 
         //인덱스 순서대로 소형 hp 포션, 대형 hp 포션, 소형 mp 포션, 대형 mp 포션
         static public int[] portionCnt = { 3, 0, 0, 0 };
@@ -53,22 +53,25 @@
                                 idx = j;
                             }
                         }
+
                         if(portionItems.Count != 0)
                         {
+                            bool checkExist = false;
                             //해당하는 포션의 수가 1개 이상이라면,(상점에서 구매했다면 이 값이 증가해있을 것.) 
                             for (int j = 0; j < portionItems.Count; j++)
                             {
-                                //포션 인벤토리에 넣으려는 포션에 대한 인스턴스가 이미 존재하지 않으면서,
-                                //해당 포션의 개수가 1개 이상이라면 
-                                if (portionItems[j].Name != portionName[idx] && portionCnt[idx] >= 1)
+                                if (portionItems[j].Name == GameManager.items[i].Name)
                                 {
-                                    //인벤토리에 포함시켜준다. 
+                                    checkExist = true;
+                                }
+
+                                if (!checkExist && portionCnt[idx] >= 1)
+                                {
                                     portionItems.Add(GameManager.items[i]);
                                 }
+                                
                             }
                         }
-                        //현재 포션이 없지만, 포션 카운트가 0이기 때문에 걍 무조건 들어갔다.
-                        //포션도 없고, 모든 배열의 포션 카운트가 0이면 안 넣어주어야 함. 
                         else
                         {
                             if (portionCnt[idx] >= 1)
@@ -110,17 +113,15 @@
                     
                     Console.ForegroundColor = ConsoleColor.Green;
 
-                    if (portionItems[i].Name == "소형 체력 포션")
-                        Console.Write($"| {portionCnt[0]}개 보유중");
+                    for(int j=0;j<portionName.Length;j++)
+                    {
+                        if (portionItems[i].Name == portionName[j])
+                        {
+                            Console.Write($"| {portionCnt[j]}개 보유중");
+                            break;
+                        }
 
-                    else if (portionItems[i].Name == "대형 체력 포션")
-                        Console.Write($"| {portionCnt[1]}개 보유중");
-
-                    else if (portionItems[i].Name == "소형 마나 포션")
-                        Console.Write($"| {portionCnt[2]}개 보유중");
-
-                    else if (portionItems[i].Name == "대형 마나 포션")
-                        Console.Write($"| {portionCnt[3]}개 보유중");
+                    }
 
                     Console.ResetColor();
                     Console.WriteLine();
