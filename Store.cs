@@ -1,5 +1,4 @@
-﻿
-namespace Sparta2ndTeam_TeamProject
+﻿namespace Sparta2ndTeam_TeamProject
 {
     internal class Store
     {
@@ -15,8 +14,7 @@ namespace Sparta2ndTeam_TeamProject
                 ConsoleUtility.ShowTitle("■ 상점 ■");
                 Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
 
-                ConsoleUtility.PrintTextHighlights("", "[보유 골드]");
-                Console.WriteLine($"{GameManager.player.Gold} G\n");
+                ConsoleUtility.PrintTextHighlights("", $"[보유 골드 : {GameManager.player.Gold} G]\n");
 
                 ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
 
@@ -62,17 +60,16 @@ namespace Sparta2ndTeam_TeamProject
                 ConsoleUtility.ShowTitle("■ 상점 - 아이템 구매 ■");
                 Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
 
-                ConsoleUtility.PrintTextHighlights("", "[보유 골드]");
-                Console.WriteLine($"{GameManager.player.Gold} G\n");
+                ConsoleUtility.PrintTextHighlights("", $"[보유 골드 : {GameManager.player.Gold} G]\n");
 
                 ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
 
 
                 drawCurrentShoppingList(true);
-                
+
                 Console.WriteLine();
 
-                
+
 
                 if (command == (int)SelectStoreMenu.WrongCommand)
                 {
@@ -86,7 +83,7 @@ namespace Sparta2ndTeam_TeamProject
                 command = ConsoleUtility.PromptMenuChoice(0, GameManager.items.Count);
 
                 if (command == (int)SelectStoreMenu.PreviousPage) return;
-                else if(command != (int) SelectStoreMenu.WrongCommand)
+                else if (command != (int)SelectStoreMenu.WrongCommand)
                 {
                     if (!GameManager.items[command - 1].isPurchased)
                     {
@@ -97,7 +94,7 @@ namespace Sparta2ndTeam_TeamProject
                         if (GameManager.player.Gold >= GameManager.items[command - 1].Price)
                         {
                             //현재 아이템의 판매 상태를 true로 변경
-                            if (GameManager.items[command-1]._type != ItemType.PORTION)
+                            if (GameManager.items[command - 1]._type != ItemType.PORTION)
                             {
                                 GameManager.items[command - 1].TogglePurchaseStatus();
                             }
@@ -139,7 +136,7 @@ namespace Sparta2ndTeam_TeamProject
                                 //인벤토리에 포션의 수를 추가
                                 Inventory.portionCnt[idx]++;
                                 storePortionCnt[idx]--;
-                                
+
                             }
                         }
                         else
@@ -193,8 +190,7 @@ namespace Sparta2ndTeam_TeamProject
                 ConsoleUtility.ShowTitle("■ 상점 - 아이템 판매 ■");
                 Console.WriteLine("아이템을 판매하여 골드를 획득할 수 있습니다.\n");
 
-                ConsoleUtility.PrintTextHighlights("", "[보유 골드]");
-                Console.WriteLine($"{GameManager.player.Gold} G\n");
+                ConsoleUtility.PrintTextHighlights("", $"[보유 골드 : {GameManager.player.Gold} G]\n");
 
                 ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
 
@@ -211,8 +207,8 @@ namespace Sparta2ndTeam_TeamProject
                                 idx = j;
                             }
                         }
-                        
-                        if(storeItems.Count != 0)
+
+                        if (storeItems.Count != 0)
                         {
                             bool checkExist = false;
                             for (int j = 0; j < storeItems.Count; j++)
@@ -223,18 +219,18 @@ namespace Sparta2ndTeam_TeamProject
                                 }
                             }
 
-                            if(!checkExist && Inventory.portionCnt[idx]>=1)
+                            if (!checkExist && Inventory.portionCnt[idx] >= 1)
                             {
                                 storeItems.Add(GameManager.items[i]);
                             }
-                                
+
                         }
                         else
                         {
-                            if(Inventory.portionCnt[idx] >= 1)
+                            if (Inventory.portionCnt[idx] >= 1)
                                 storeItems.Add(GameManager.items[i]);
-                        }    
-                        
+                        }
+
                     }
                     else
                     {
@@ -242,7 +238,7 @@ namespace Sparta2ndTeam_TeamProject
                             storeItems.Add(GameManager.items[i]);
                     }
                 }
-                for(int i=0;i<GameManager.dropItems.Count;i++)
+                for (int i = 0; i < GameManager.dropItems.Count; i++)
                 {
                     if (GameManager.dropItems[i].isPurchased)
                     {
@@ -262,7 +258,7 @@ namespace Sparta2ndTeam_TeamProject
                         {
                             Console.ForegroundColor = ConsoleColor.Green;
 
-                            for(int j=0;j<Inventory.portionName.Length;j++)
+                            for (int j = 0; j < Inventory.portionName.Length; j++)
                             {
                                 if (storeItems[i].Name == Inventory.portionName[j])
                                 {
@@ -281,7 +277,7 @@ namespace Sparta2ndTeam_TeamProject
 
 
                 Console.WriteLine("\n0. 나가기\n\n");
-                
+
 
                 command = ConsoleUtility.PromptMenuChoice(0, storeItems.Count);
 
@@ -304,14 +300,14 @@ namespace Sparta2ndTeam_TeamProject
                             ConsoleUtility.PrintTextHighlights("정말로 ", item.Name, "을(를) 판매하시겠습니까? ('1'입력 시 그대로 진행.) ");
 
                             Console.Write(">> ");
-                            if("1" == Console.ReadLine())
+                            if ("1" == Console.ReadLine())
                             {
                                 //현재 판매하려는 아이템이 포션이라면, 
                                 if (item._type == ItemType.PORTION)
                                 {
-                                    for(int i = 0; i < Inventory.portionName.Length; i++)
+                                    for (int i = 0; i < Inventory.portionName.Length; i++)
                                     {
-                                        if(item.Name  == Inventory.portionName[i])
+                                        if (item.Name == Inventory.portionName[i])
                                         {
                                             Inventory.portionCnt[i]--;
 

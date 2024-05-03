@@ -22,7 +22,7 @@ namespace Sparta2ndTeam_TeamProject
             {
                 Console.Clear();
                 ConsoleUtility.ShowTitle("■ 모험가 길드 ■");
-                Console.WriteLine("체력 회복과 저장, 그리고 퀘스트를 수락할 수 있습니다.\n");
+                Console.WriteLine("회복과 저장, 그리고 퀘스트를 수락할 수 있습니다.\n");
 
                 Console.WriteLine("1. 휴식하기");
                 Console.WriteLine("2. 저장하기");
@@ -48,7 +48,7 @@ namespace Sparta2ndTeam_TeamProject
                         RestMenu();
                         break;
                     case (int)SelectBreakMenu.SaveData:
-                        GameManager.SaveData();
+                        DataManager.SaveData();
                         break;
                     case (int)SelectBreakMenu.QuestMenu:
                         QuestMenu();
@@ -66,7 +66,7 @@ namespace Sparta2ndTeam_TeamProject
             {
                 Console.Clear();
                 ConsoleUtility.ShowTitle("■ 모험가 길드 - 휴식 하기 ■");
-                Console.WriteLine($"500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드 : {GameManager.player.Gold} G)\n");
+                Console.WriteLine($"500 G 를 내면 체력과 마나를 회복할 수 있습니다. (보유 골드 : {GameManager.player.Gold} G)\n");
 
                 ConsoleUtility.PrintTextHighlights("", $"[현재 체력 : {GameManager.player.Hp} / 현재 마나 : {GameManager.player.Mp}]\n");
 
@@ -83,19 +83,19 @@ namespace Sparta2ndTeam_TeamProject
 
                 command = ConsoleUtility.PromptMenuChoice(0, 1);
 
-                if (command == 0) // 나가기
+                if (command == 0)
                     return;
 
-                else if (command == -1)// 잘못된 입력
+                else if (command == -1)
                     continue;
 
-                if (GameManager.player.Hp == GameManager.player.Max_Hp && GameManager.player.Mp == GameManager.player.Max_Mp) // 회복하기 (1) - 이미 풀피
+                if (GameManager.player.Hp == GameManager.player.Max_Hp && GameManager.player.Mp == GameManager.player.Max_Mp)
                     Healing(1);
 
-                else if (GameManager.player.Gold < 500) // 회복하기 (2) - 돈이 없음
+                else if (GameManager.player.Gold < 500)
                     Healing(2);
 
-                else // 회복
+                else
                     Healing(3);
 
                 return;
@@ -106,37 +106,50 @@ namespace Sparta2ndTeam_TeamProject
         {
             Console.Clear();
             ConsoleUtility.ShowTitle("■ 모험가 길드 - 휴식 하기 ■");
-            Console.WriteLine($"500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드 : {GameManager.player.Gold} G)\n");
+            Console.WriteLine($"500 G 를 내면 체력과 마나를 회복할 수 있습니다. (보유 골드 : {GameManager.player.Gold} G)\n");
 
             ConsoleUtility.PrintTextHighlights("", $"[현재 체력 : {GameManager.player.Hp} / 현재 마나 : {GameManager.player.Mp}]\n");
 
             if (num == 1)
             {
-                Console.WriteLine("\n이미 건강한 상태입니다.\n");
+                Console.WriteLine("\n이미 건강한 상태입니다.");
                 ConsoleUtility.PromptReturn();
             }
-            else if (num == 2) // 돈이 부족
+            else if (num == 2)
             {
-                Console.WriteLine("\nGold 가 부족합니다.\n");
+                Console.WriteLine("\nGold 가 부족합니다.");
                 ConsoleUtility.PromptReturn();
             }
-            else if (num == 3) // 회복 가능
+            else if (num == 3)
             {
                 Thread.Sleep(200);
                 Console.WriteLine("\n휴식을 취하는 중입니다...\n");
 
+                
                 Console.Write($"체 력 {GameManager.player.Hp} -> ");
-                Console.Write($"마 나 {GameManager.player.Hp} -> ");
-
-                ConsoleUtility.Animation(12, 8, GameManager.player.Hp, GameManager.player.Max_Hp);
-                Console.WriteLine();
+                int start_hp = GameManager.player.Hp;
 
                 GameManager.player.Hp = GameManager.player.Max_Hp;
 
+                if (start_hp < GameManager.player.Max_Hp)
+                    ConsoleUtility.Animation(13, 8, start_hp, GameManager.player.Max_Hp);
+
+                else
+                    Console.Write($"{GameManager.player.Max_Hp}\n");
+                Console.WriteLine();
+                
                 Thread.Sleep(150);
-                ConsoleUtility.Animation(12, 9, GameManager.player.Mp, GameManager.player.Max_Mp);
-                GameManager.player.Mp = GameManager.player.Max_Mp;
+
+                Console.Write($"마 나 {GameManager.player.Mp} -> ");
+                int start_mp = GameManager.player.Mp;
+
+                if(start_mp < GameManager.player.Max_Mp)
+                    ConsoleUtility.Animation(13, 10, start_mp, GameManager.player.Max_Mp);
+
+                else
+                    Console.WriteLine($"{GameManager.player.Max_Mp}\n"); 
                 Thread.Sleep(150);
+
                 GameManager.player.Gold -= 500;
 
                 Console.WriteLine($"\n\n남은 골드 : {GameManager.player.Gold}");
@@ -209,14 +222,13 @@ namespace Sparta2ndTeam_TeamProject
                 ConsoleUtility.ShowTitle("■ 탐험가 길드 - 혈석 판매 ■");
                 Console.WriteLine("혈석을 고가로 판매할 수 있는 길드 상점입니다.\n");
 
-                ConsoleUtility.PrintTextHighlights("", "[보유 골드]");
-                Console.WriteLine($"{GameManager.player.Gold} G\n");
+                ConsoleUtility.PrintTextHighlights("", $"[보유 골드 : {GameManager.player.Gold} G]\n\n");
 
-                ConsoleUtility.PrintTextHighlights("", "[보유 혈석 목록]");
+
+                ConsoleUtility.PrintTextHighlights("", "[보유 혈석 목록]\n");
 
                 for (int i = 0; i < GameManager.dropItems.Count; i++)
                 {
-                    //인벤토리에 들어있는 혈석의 정보를 리스트에 추가 
                     if (GameManager.dropItems[i].isPurchased)
                     {
                         storeItems.Add(GameManager.dropItems[i]);
@@ -261,8 +273,9 @@ namespace Sparta2ndTeam_TeamProject
                 Console.WriteLine("\n0. 나가기");
                 command = ConsoleUtility.PromptMenuChoice(0, storeItems.Count);
 
-                if (command == (int)SelectBreakMenu.PreviousPage) return;
-                //정상적인 입력이 들어왔다면, 
+                if (command == (int)SelectBreakMenu.PreviousPage) 
+                    return;
+
                 else if (command != (int)SelectBreakMenu.WrongCommand)
                 {
                     foreach (Item item in storeItems)
@@ -289,15 +302,9 @@ namespace Sparta2ndTeam_TeamProject
                             if (Inventory.dropItemsCnt[idx] <= 0)
                             {
                                 Inventory.dropItemsCnt[idx] = 0;
-
-                                //혈석을 모두 판매했다면 해당 혈석에 대한 정보를 현재의 리스트에서 삭제 
-                                //storeItems.Remove(storeItems[command - 1]);
-
-                                //구매 여부를 false로 변경해야 하나, 이는 배틀 후 보상 로직을 한 번 봐야할 것 같음 
                                 storeItems[command - 1].TogglePurchaseStatus();
                             }
 
-                            //길드는 원래 혈석의 값어치에서 1.3배만큼의 가격으로 구매해줌
                             int refund = (int)Math.Round(1.3 * item.Price);
                             GameManager.player.Gold += refund;
                             sellComplete = true;
@@ -325,136 +332,6 @@ namespace Sparta2ndTeam_TeamProject
             QuestMenu,
             SellDropItem,
             WrongCommand = -1
-        }
-    }
-
-    class Quest
-    {
-        public string name { get; }
-        public string info { get; }
-        public bool isAccept { get; set; } = false;
-        public bool isComplete { get; set; } = false;
-        public int type { get; set; } // type = 0 : 튜토리얼 ( 장비 착용, 포션 사용 ) , type = 1 : 임무 ( 적 처치 , n 층 등반 )
-        public int gold { get; set; } = 0;
-
-        public bool rewarded { get; set; } = false;
-        public int id { get; set; } = -1; // type = 1 일 때, 처치해야할 적 id
-        public int cnt { get; set; } = 0; // typq = 1 일 때, 처치해야할 적 숫자
-        public int cur { get; set; } = 0;
-
-        public Quest(string name, string info, int type, int gold, int id = 0, int cnt = 0, int cur = 0)
-        {
-            this.name = name;
-            this.info = info;
-            this.type = type;
-            this.gold = gold;
-            this.id = id;
-            this.cnt = cnt;
-            this.cur = cur;
-        }
-
-        public void ClearQuest()
-        {
-            string[] types = { "튜토리얼", "임무" };
-            Console.Clear();
-            ConsoleUtility.ShowTitle("■ 모험가 길드 ■ - 퀘스트 완료");
-            Console.WriteLine("퀘스트를 수락하거나 정산받을 수 있습니다.\n");
-
-            ConsoleUtility.PrintTextHighlights("", $"[{types[type]} 완료]\n");
-
-
-            if (rewarded == false)
-            {
-                Console.WriteLine("보상을 지급 받습니다...");
-
-                Console.WriteLine($"\n골 드 {GameManager.player.Gold} -> ");
-
-                ConsoleUtility.Animation2(14, 7, GameManager.player.Gold, GameManager.player.Gold + gold, 11, 50);
-                GameManager.player.Gold += gold;
-                Thread.Sleep(300);
-
-                Console.WriteLine("정산이 완료되었습니다 !");
-                rewarded = true;
-            }
-            else
-            {
-                Thread.Sleep(500);
-                Console.WriteLine("...\n");
-
-                Thread.Sleep(500);
-                Console.WriteLine("...\n");
-                Thread.Sleep(500);
-
-                Console.WriteLine("\n이미 정산 처리된 건입니다.\n");
-            }
-
-            ConsoleUtility.PromptReturn();
-        }
-        public void Print()
-        {
-            Console.Clear();
-            ConsoleUtility.ShowTitle("■ 모험가 길드 ■ - 퀘스트 ");
-            Console.WriteLine("퀘스트를 수락하거나 정산받을 수 있습니다.\n");
-
-            ConsoleUtility.PrintTextHighlights("", $"[{name}]\n");
-            Console.WriteLine($"{info}\n");
-            Console.WriteLine($"- 보상 : {gold} Gold\n");
-
-            Console.WriteLine("\n1. 수락");
-            Console.WriteLine("2. 거절");
-            Console.WriteLine("0. 나가기\n");
-
-            int command = ConsoleUtility.PromptMenuChoice(0, 2);
-
-            if (command == -1)
-                Print();
-
-            else if (command == 0)
-                return;
-
-            else if (command == 1)
-            {
-                if (isAccept == true)
-                {
-                    Console.WriteLine("\n이미 수락한 퀘스트 입니다.");
-                    ConsoleUtility.PromptReturn();
-                }
-                else
-                {
-                    isAccept = true;
-                }
-
-                return;
-            }
-
-            else
-            {
-                if (isAccept == false)
-                {
-                    Console.WriteLine("\n수락하지 않은 퀘스트 입니다.");
-                    ConsoleUtility.PromptReturn();
-                }
-                else // 수락한 퀘스트를 포기
-                {
-                    Console.WriteLine("정말로 퀘스트를 포기하시겠습니까? :  0 - 포기하지 않는다, 1 - 포기한다\n");
-                    command = ConsoleUtility.PromptMenuChoice(0, 1);
-
-                    if (command == -1)
-                    {
-                        Console.WriteLine("잘못된 입력입니다.");
-                    }
-                    else if (command == 0)
-                        return;
-
-                    else
-                    {
-                        if (type == 1)
-                            cur = 0;
-                        isAccept = false;
-                        return;
-                    }
-                }
-            }
         }
     }
 }

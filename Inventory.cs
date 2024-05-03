@@ -480,7 +480,6 @@
 
                     dropItemsCnt[idx]--;
 
-                    //혈석을 모두 사용하였다면 monstorDropItems 리스트에서 해당 정보를 삭제
                     if (dropItemsCnt[idx] <= 0)
                     {
                         dropItemsCnt[idx] = 0;
@@ -517,7 +516,6 @@
 
                 if (GameManager.player.Mp >= GameManager.player.Max_Mp) GameManager.player.Mp = GameManager.player.Max_Mp;
 
-                // 현재 커서의 위치 확인
                 int cursorLeft = Console.CursorLeft;
                 int cursorTop = Console.CursorTop;
                 ConsoleUtility.Animation(cursorLeft, cursorTop, prePlayerMP, GameManager.player.Mp);
@@ -536,13 +534,13 @@
         {
             equipmentItems[command - 1].ToggleEquipStatus();
 
-            if (equipmentItems[command - 1].isEquipped == true) // 퀘스트 2, 3 트리거
+            if (equipmentItems[command - 1].isEquipped == true)
             {
                 if (GameManager.quests[1].isAccept == true && GameManager.quests[1].isComplete == false && equipmentItems[command - 1]._type == ItemType.ARMOR)
                 {
                     GameManager.quests[1].isComplete = true;
                 }
-                else if (GameManager.quests[2].isAccept == true && GameManager.quests[2].isComplete == false && equipmentItems[command - 1]._type == ItemType.ARMOR)
+                if (GameManager.quests[2].isAccept == true && GameManager.quests[2].isComplete == false && equipmentItems[command - 1]._type == ItemType.ARMOR)
                 {
                     GameManager.quests[2].isComplete = true;
                 }
@@ -554,16 +552,12 @@
                 GameManager.player.Def += equipmentItems[command - 1].Def;
                 GameManager.player.Hp += equipmentItems[command - 1].HP;
             }
-            //현재 인벤토리에 있는 아이템 중, 
             for (int i = 0; i < equipmentItems.Count; i++)
             {
-                //현재 착용한 아이템과 타입이 일치하는 아이템이
                 if (i != (command - 1) && equipmentItems[command - 1]._type == equipmentItems[i]._type)
                 {
-                    //장착 상태라면, 
                     if (equipmentItems[i].isEquipped)
                     {
-                        //장착 상태를 해제
                         equipmentItems[i].ToggleEquipStatus();
                         if (equipmentItems[command - 1].Atk != 0 || equipmentItems[command - 1].Def != 0 || equipmentItems[command - 1].HP != 0)
                         {
