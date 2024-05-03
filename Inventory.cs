@@ -540,7 +540,7 @@
                 {
                     GameManager.quests[1].isComplete = true;
                 }
-                else if (GameManager.quests[2].isAccept == true && GameManager.quests[2].isComplete == false && equipmentItems[command - 1]._type == ItemType.ARMOR)
+                if (GameManager.quests[2].isAccept == true && GameManager.quests[2].isComplete == false && equipmentItems[command - 1]._type == ItemType.ARMOR)
                 {
                     GameManager.quests[2].isComplete = true;
                 }
