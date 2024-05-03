@@ -11,20 +11,20 @@ namespace Sparta2ndTeam_TeamProject.Items
     internal class Pet : Item
     {
         protected PetType petType { get; set; }
-        protected int petAvoid {  get; set; }
+        protected int petAvoid { get; set; }
         public Pet(string Name, string Desc, int Atk, int Def, int HP, int MP, int Price,
     ItemType _type, bool isEquipped = false, bool isPurchased = false, bool isInitItem = false) : base(Name, Desc, Atk, Def, HP, MP, Price, _type, isEquipped, isPurchased, isInitItem)
         {
-            this.Name = Name; 
-            this.Desc = Desc; 
+            this.Name = Name;
+            this.Desc = Desc;
             this._type = _type;
-            this.isEquipped = isEquipped; 
-            this.isPurchased = isPurchased; 
+            this.isEquipped = isEquipped;
+            this.isPurchased = isPurchased;
             this.isInitItem = isInitItem;
 
         }
 
-        public PetType PetType {  get { return petType; } }
+        public PetType PetType { get { return petType; } }
         public int PetAvoid { get { return petAvoid; } }
 
         public virtual int PetAttack(List<Enemy> currentEnemy)
@@ -39,7 +39,7 @@ namespace Sparta2ndTeam_TeamProject.Items
 
     internal class RedSlime : Pet
     {
-        
+
         public RedSlime(string Name, string Desc, int Atk, int Def, int HP, int MP, int Price,
 ItemType _type, bool isEquipped = false, bool isPurchased = false, bool isInitItem = false) : base(Name, Desc, Atk, Def, HP, MP, Price, _type, isEquipped, isPurchased, isInitItem)
         {
@@ -104,14 +104,18 @@ ItemType _type, bool isEquipped = false, bool isPurchased = false, bool isInitIt
 
             if (weakest[0].Hp > 0)   // 적의 남은 hp가 0보다 큰지 작은지
             {
-                Console.WriteLine("HP {0} -> {1}", tempHp, weakest[0].Hp);
+                // Console.WriteLine("HP {0} -> {1}", tempHp, weakest[0].Hp);
+                Console.Write("HP {0} -> ", tempHp);
+                ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, weakest[0].Hp);
+
                 ConsoleUtility.PromptReturn();
                 return 0;
             }
             else
             {
                 weakest[0].Dead();
-                Console.WriteLine("HP {0} -> {1}", tempHp, weakest[0].Hp);
+                Console.Write("HP {0} -> ", tempHp);
+                ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, weakest[0].Hp);
 
                 BattleMenu.CheckQuest(weakest[0]);
 
