@@ -57,10 +57,9 @@
                         if(portionItems.Count != 0)
                         {
                             bool checkExist = false;
-                            //해당하는 포션의 수가 1개 이상이라면,(상점에서 구매했다면 이 값이 증가해있을 것.) 
                             for (int j = 0; j < portionItems.Count; j++)
                             {
-                                if (portionItems[j].Name == GameManager.items[i].Name)
+                                if (portionItems[j].Name == portionName[idx])
                                 {
                                     checkExist = true;
                                 }
@@ -79,9 +78,8 @@
                         }
 
                     }
-                    
                     //포션이 아닌 경우에는 구매 여부만 따져서 저장 
-                    else if (GameManager.items[i].isPurchased)
+                    else if (GameManager.items[i]._type != ItemType.PORTION && GameManager.items[i].isPurchased)
                     {
                         equipmentItems.Add(GameManager.items[i]);
                     }
@@ -173,6 +171,13 @@
                     case (int)SelectInventoryMenu.DropItemsMenu:
                         DropItemMenu();
                         break;
+                    case (int)SelectInventoryMenu.WrongCommand:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("잘못된 입력입니다.");
+                        Console.ResetColor();
+                        Console.WriteLine();
+                        Thread.Sleep(500);
+                        break;
                     default:
                         break;
                 }
@@ -263,21 +268,19 @@
 
                     Console.ForegroundColor = ConsoleColor.Green;
 
-                    if (portionItems[i].Name == "소형 체력 포션")
-                        Console.Write($"| {portionCnt[0]}개 보유중");
+                    for (int j = 0; j < portionName.Length; j++)
+                    {
+                        if (portionItems[i].Name == portionName[j])
+                        {
+                            Console.Write($"| {portionCnt[j]}개 보유중");
+                            break;
+                        }
 
-                    else if (portionItems[i].Name == "대형 체력 포션")
-                        Console.Write($"| {portionCnt[1]}개 보유중");
+                        Console.ResetColor();
 
-                    else if (portionItems[i].Name == "소형 마나 포션")
-                        Console.Write($"| {portionCnt[2]}개 보유중");
+                        Console.WriteLine();
+                    }
 
-                    else if (portionItems[i].Name == "대형 마나 포션")
-                        Console.Write($"| {portionCnt[3]}개 보유중");
-
-                    Console.ResetColor();
-
-                    Console.WriteLine();
                 }
 
                 Console.WriteLine("\n\n\n0. 나가기\n");
@@ -509,7 +512,6 @@
                     if (portionCnt[idx] <= 0)
                     {
                         portionCnt[idx] = 0;
-                        Console.WriteLine("포션 삭제!!!!!"); Thread.Sleep(500);
                         portionItems.Remove(portionItems[command - 1]);
                     }
                 }
@@ -540,7 +542,7 @@
                 {
                     GameManager.quests[1].isComplete = true;
                 }
-                if (GameManager.quests[2].isAccept == true && GameManager.quests[2].isComplete == false && equipmentItems[command - 1]._type == ItemType.ARMOR)
+                if (GameManager.quests[2].isAccept == true && GameManager.quests[2].isComplete == false && equipmentItems[command - 1]._type == ItemType.WEAPON)
                 {
                     GameManager.quests[2].isComplete = true;
                 }

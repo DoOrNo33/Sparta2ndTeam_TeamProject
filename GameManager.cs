@@ -67,7 +67,7 @@ namespace Sparta2ndTeam_TeamProject
             // dropItems[i].Name으로 드랍 아이템의 이름 접근 가능 
             // ex) Console.WriteLine($"쓰러뜨린 몬스터로부터 {dropItems[0].Name}을(를) 획득했다!");
             dropItems.Add(new Item("작은 혈석 조각", "몬스터에게서 떨어져 나온 의문의 혈석 조각입니다.", 0, 0, 0, 5, 300, ItemType.MONSTER_DROP));
-            dropItems.Add(new Item("일반 혈석", "몬스터에게서 떨어져 나온 의문의 혈석입니다.", 0, 0, 0, 10, 700, ItemType.MONSTER_DROP, false, true));
+            dropItems.Add(new Item("일반 혈석", "몬스터에게서 떨어져 나온 의문의 혈석입니다.", 0, 0, 0, 10, 700, ItemType.MONSTER_DROP));
             dropItems.Add(new Item("거대한 혈석", "일반 혈석과는 달리 거대한 크기의 자색 혈석입니다.", 0, 0, 0, 15, 1000, ItemType.MONSTER_DROP));
         }
 

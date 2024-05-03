@@ -22,13 +22,7 @@
 
                 Console.WriteLine("\n\n1. 아이템 구매\n2. 아이템 판매\n0. 나가기\n");
 
-                if (command == (int)SelectStoreMenu.WrongCommand)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("잘못된 입력입니다.");
-                    Console.ResetColor();
-                    Console.WriteLine();
-                }
+                
                 command = ConsoleUtility.PromptMenuChoice(0, 2);
 
                 switch (command)
@@ -40,6 +34,13 @@
                         break;
                     case (int)SelectStoreMenu.SalesMenu:
                         SalesMenu();
+                        break;
+                    case (int)SelectStoreMenu.WrongCommand:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("잘못된 입력입니다.");
+                        Console.ResetColor();
+                        Console.WriteLine();
+                        Thread.Sleep(500);
                         break;
                     default:
                         break;
@@ -119,6 +120,7 @@
                                     default:
                                         break;
                                 }
+
                                 if (storePortionCnt[idx] <= 1)
                                 {
                                     GameManager.items[command - 1].TogglePurchaseStatus();
