@@ -189,7 +189,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     Battle();
                     break;
                 case SkillCount.FristSkill:
-                    SetSkill = 0;
+                    SetSkill = choice-1;
                     sMp = GameManager.skill[SetSkill].SkillMana;
                     if (GameManager.player.Mp < GameManager.skill[SetSkill].SkillMana)
                     {
@@ -253,6 +253,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
                 if (!Range)
                 {
+                    //AttackCeak();
                     Console.WriteLine("\n[내 정보]");
                     Console.WriteLine("Lv{0} {1} ({2})", GameManager.player.Level, GameManager.player.Name, GameManager.player.Job);
                     Console.WriteLine("HP {0}/{1}", GameManager.player.Hp, GameManager.player.Max_Hp);
@@ -295,9 +296,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
                             int i = keyInput - 1;
                             defeatCount += currentEnemy[i].PlayerSkillAttack(SetSkill); // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
 
-                            if (currentEnemy[i].PlayerSkillAttack(SetSkill) == 1)
+                            if (defeatCount == 1)
                                 CheckQuest(currentEnemy[i]);
-
                             SetMana(sMp);
                             foreach (Enemy enem in currentEnemy)
                             {
@@ -325,7 +325,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
                             }
                             else
                             {
-                                SkillAction();
+                                duringBattle = true;
+                                Battle();
                             }
 
                             break;
@@ -337,7 +338,15 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     SetMana(sMp);
                     foreach (Enemy enem in currentEnemy)
                     {
-                        defeatCount += currentEnemy[i].PlayerSkillAttack(SetSkill); // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
+                        if (enem.Hp <= 0)               // 적 체력 0이라면 건너뜀
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            defeatCount += currentEnemy[i].PlayerSkillAttack(SetSkill); // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
+                        }
+                        //죽은적이 있다면 
                         i++;
                     }
                     foreach (Enemy enem in currentEnemy)
@@ -355,7 +364,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
                         }
 
                     }
-
                     if (GameManager.player.Hp <= 0)
                     {
                         BattleResult(BattleStatus.Defeat);
@@ -366,7 +374,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     }
                     else
                     {
-                        SkillAction();
+                        duringBattle = true;
+                        Battle();
                     }
                 }
 
@@ -374,10 +383,109 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
         }
 
+        //private void AttackCeak()
+        //{
+        //    Console.WriteLine("\n대상을 선택해주세요.");
+        //    Console.WriteLine("0. 취소\n");
+
+
+        //    int keyInput = 0;
+        //    while (true) // 대상이 죽었는지 체크
+        //    {
+
+        //        keyInput = ConsoleUtility.PromptMenuChoice(0, currentEnemy.Count);
+
+        //        if (keyInput == (int)BattleAction.WrongCommand)
+        //        {
+        //            Console.ForegroundColor = ConsoleColor.Red;
+        //            Console.Write("잘못된 입력입니다.");
+        //            Console.ResetColor();
+        //            Console.WriteLine();
+        //        }
+        //        else if (keyInput == 0)
+        //        {
+        //            break;
+        //        }
+        //        else if (currentEnemy[keyInput - 1].IsDead)
+        //        {
+        //            Console.ForegroundColor = ConsoleColor.Red;
+        //            Console.WriteLine("이미 죽은 대상입니다.");
+        //            Console.ResetColor();
+        //        }
+        //        else
+        //        {
+        //            break;
+        //        }
+        //    }
+        //    switch (keyInput)
+        //    {
+        //        case 0:
+        //            duringBattle = true;
+        //            Battle();
+        //            break;
+
+        //        default:
+        //            int ret = currentEnemy[keyInput - 1].PlayerAttack();
+        //            defeatCount += ret;     // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
+
+        //            if (ret == 1)
+        //                CheckQuest(currentEnemy[keyInput - 1]);
+
+
+        //            foreach (Pet pet in PetCave.myPets)     // 펫 스킬 들어갈 타이밍
+        //            {
+        //                if (pet.isEquipped)
+        //                {
+        //                    if (pet.PetType == Items.PetType.Attack)
+        //                    {
+        //                        defeatCount += pet.PetAttack(currentEnemy);
+        //                    }
+
+        //                    if (pet.PetType == Items.PetType.Heal)
+        //                    {
+        //                        pet.PetHeal();
+        //                    }
+        //                }
+        //            }
+
+        //            foreach (Enemy enem in currentEnemy)
+        //            {
+        //                if (enem.Hp <= 0)               // 적 체력 0이라면 건너뜀
+        //                {
+        //                    continue;
+        //                }
+
+        //                EnemyPhase(enem);
+
+        //                if (GameManager.player.Hp <= 0)     // 플레이어 체력 0이라면 적 페이즈 멈춤
+        //                {
+        //                    break;
+        //                }
+
+        //            }
+
+        //            if (GameManager.player.Hp <= 0)
+        //            {
+        //                BattleResult(BattleStatus.Defeat);
+        //            }
+        //            else if ((defeatCount == currentEnemy.Count) && (GameManager.player.Hp > 0))
+        //            {
+        //                BattleResult(BattleStatus.Win);
+        //            }
+        //            else
+        //            {
+        //                duringBattle = true;
+        //                Battle();
+        //            }
+
+        //            break;
+        //    }
+        //}
+
         private void AttackAction()
         {
             BattleSet();
-
+            //AttackCeak();
             Console.WriteLine("\n대상을 선택해주세요.");
             Console.WriteLine("0. 취소\n");
 
@@ -416,15 +524,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     duringBattle = true;
                     Battle();
                     break;
-
                 default:
-                    int ret = currentEnemy[keyInput - 1].PlayerAttack();
-                    defeatCount += ret;     // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
-
+                    defeatCount += currentEnemy[keyInput - 1].PlayerAttack(); // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
+                    int ret = defeatCount;
                     if (ret == 1)
                         CheckQuest(currentEnemy[keyInput - 1]);
-
-
                     foreach (Pet pet in PetCave.myPets)     // 펫 스킬 들어갈 타이밍
                     {
                         if (pet.isEquipped)
@@ -467,7 +571,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     }
                     else
                     {
-                        AttackAction();
+                        duringBattle = true;
+                        Battle();
                     }
 
                     break;
