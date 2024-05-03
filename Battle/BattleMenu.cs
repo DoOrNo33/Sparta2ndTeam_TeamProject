@@ -524,15 +524,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     duringBattle = true;
                     Battle();
                     break;
-
                 default:
-                    int ret = currentEnemy[keyInput - 1].PlayerAttack();
-                    defeatCount += ret;     // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
-
+                    defeatCount += currentEnemy[keyInput - 1].PlayerAttack(); // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
+                    int ret = defeatCount;
                     if (ret == 1)
                         CheckQuest(currentEnemy[keyInput - 1]);
-
-
                     foreach (Pet pet in PetCave.myPets)     // 펫 스킬 들어갈 타이밍
                     {
                         if (pet.isEquipped)
@@ -575,6 +571,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                     }
                     else
                     {
+                        duringBattle = true;
                         Battle();
                     }
 

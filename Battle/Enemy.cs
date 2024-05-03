@@ -129,8 +129,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
                 if (hp > 0)   // 적의 남은 hp가 0보다 큰지 작은지
                 {
-                    Console.WriteLine("HP {0} -> {1}", tempHp, hp);
-                    //Console.Write("HP {0} -> ", tempHp);
+                    //Console.WriteLine("HP {0} -> {1}", tempHp, hp);
+                    Console.Write("HP {0} -> ", tempHp);
                     ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, hp);
                     ConsoleUtility.PromptReturn();
                     return 0;
@@ -200,7 +200,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
                 if (hp > 0)   // 적의 남은 hp가 0보다 큰지 작은지
                 {
-                    //Console.WriteLine("HP {0} -> {1}", tempHp, hp);
                     Console.Write("HP {0} -> ", tempHp);
                     ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, hp);
                     ConsoleUtility.PromptReturn();
