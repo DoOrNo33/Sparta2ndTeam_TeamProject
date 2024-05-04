@@ -25,6 +25,8 @@ namespace Sparta2ndTeam_TeamProject
 
         public GameManager()
         {
+            Console.Title = "Blood Stone";
+            Console.SetWindowSize(100, 30);
             InitializeGame();
         }
 
@@ -94,7 +96,6 @@ namespace Sparta2ndTeam_TeamProject
         }
         private void InitializeGame()
         {
-
             Init_Items();
             Init_DropItems();
             Init_Pets();
@@ -104,7 +105,7 @@ namespace Sparta2ndTeam_TeamProject
         {
             Console.Clear();
 
-            DataManager.LoadData(); // 세이브 불러오기
+            DataManager.GameStart(); // 세이브 불러오기
             
             if(player.Job == 1)
             {
