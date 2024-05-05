@@ -80,6 +80,14 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine($"마 나 : {Mp} / {Max_Mp}");
             Console.WriteLine($"Gold : {Gold} G");
 
+            foreach (Pet p in GameManager.pets)
+            {
+                if(p.isEquipped == true)
+                {
+                    Console.WriteLine($"파트너 : {p.Name}");
+                }
+            }
+
             ConsoleUtility.PromptReturn();
 
             return;
