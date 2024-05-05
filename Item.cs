@@ -24,7 +24,7 @@ namespace Sparta2ndTeam_TeamProject
     
 
         public bool isEquipped { get; protected set; }
-        public bool isPurchased { get; protected set; }
+        public bool isPurchased { get;  set; }
         public bool isInitItem { get; protected set; }
 
         public Item(string Name, string Desc, int Atk, int Def, int HP, int MP, int Price,
@@ -100,5 +100,6 @@ namespace Sparta2ndTeam_TeamProject
         {
             isPurchased = true;
         }
+        
     }
 }

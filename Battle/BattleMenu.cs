@@ -335,7 +335,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 else
                 {
                     int i = 0;
-                    SetMana(sMp);
+                    
                     foreach (Enemy enem in currentEnemy)
                     {
                         if (enem.Hp <= 0)               // 적 체력 0이라면 건너뜀
@@ -349,6 +349,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                         //죽은적이 있다면 
                         i++;
                     }
+                    SetMana(sMp);
                     foreach (Enemy enem in currentEnemy)
                     {
                         if (enem.Hp <= 0)               // 적 체력 0이라면 건너뜀
