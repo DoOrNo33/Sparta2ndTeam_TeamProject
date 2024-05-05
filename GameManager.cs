@@ -156,7 +156,10 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("2. 인벤토리");
             Console.WriteLine("3. 상점");
             Console.WriteLine("4. 탑 입장 (현재 진행 : {0}층)", tower.TowerLv);
-            Console.WriteLine("5. 모험가 길드");
+            Console.Write("5. 모험가 길드");
+
+            ConsoleUtility.PrintTextBlood("", ConsoleUtility.checkQuestCompleted(quests));
+
             Console.WriteLine("6. 수상한 동굴");
             Console.WriteLine("7. 인트로 다시보기");
             Console.WriteLine("8. 게임 종료");
