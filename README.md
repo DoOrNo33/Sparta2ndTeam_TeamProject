@@ -64,7 +64,22 @@
 
 ## 플레이 화면
 
+### 게임 초기 화면
+
 <details>
-  <summary>게임 초기 화면</summary>
-  img1
+  <summary>인트로 및 캐릭터 생성 화면</summary>
+  <img src = "https://github.com/DoOrNo33/Sparta2ndTeam_TeamProject/assets/122630746/97e4bb89-e710-4ef6-b150-2a0cf7e694c7" width = 500>
+</details>
+
+<details>
+  <summary>세이브 파일 불러오기</summary>
+  <img src = "https://github.com/DoOrNo33/Sparta2ndTeam_TeamProject/assets/122630746/9ffd8ce1-f659-4497-9002-f8dd757cf789" width = 500>
+</details>
+
+### 탐험가 길드
+
+<details>
+  <summary>회복하기</summary>
+
+  <img src = "https://github.com/DoOrNo33/Sparta2ndTeam_TeamProject/assets/122630746/f42b160c-8eec-4ff5-8c8a-6fcfa50e58e2" width = 500>
 </details>
