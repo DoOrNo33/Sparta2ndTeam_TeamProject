@@ -79,9 +79,9 @@ namespace Sparta2ndTeam_TeamProject.GameFramework
         public static void Init_Pets()
         {
             //펫 종류
-            pets.Add(new RedSlime("붉은 슬라임", "가장 취약한 적을 본능적으로 공격합니다.", 0, 0, 0, 0, 2000, ItemType.Pet));
-            pets.Add(new GreenSlime("초록 슬라임", "적의 공격을 맞아 주곤 합니다.", 0, 0, 0, 0, 3000, ItemType.Pet));
-            pets.Add(new BlueSlime("푸른 슬라임", "상처 부위에 달라붙곤 합니다.", 0, 0, 0, 0, 5000, ItemType.Pet));
+            pets.Add(new RedSlime("붉은 슬라임", "가장 취약한 적을 본능적으로 공격합니다.", 0, 0, 0, 0, 1000, ItemType.Pet));
+            pets.Add(new GreenSlime("초록 슬라임", "적의 공격을 맞아 주곤 합니다.", 0, 0, 0, 0, 1000, ItemType.Pet));
+            pets.Add(new BlueSlime("푸른 슬라임", "상처 부위에 달라붙곤 합니다.", 0, 0, 0, 0, 1000, ItemType.Pet));
         }
 
         public static void Init_Quests()
@@ -166,7 +166,7 @@ namespace Sparta2ndTeam_TeamProject.GameFramework
 
             Console.WriteLine("6. 수상한 동굴");
             Console.WriteLine("7. 인트로 다시보기");
-            Console.WriteLine("8. 게임 종료");
+            Console.WriteLine("8. 게임 종료\n");
 
             // 2. 선택한 결과를 검증함
             Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 8);
