@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace Sparta2ndTeam_TeamProject
+namespace Sparta2ndTeam_TeamProject.Battle.Skill
 {
     internal class Skill
     {
@@ -21,14 +21,14 @@ namespace Sparta2ndTeam_TeamProject
 
         public Skill(string Name, int Mana, int Damage, bool Range, int Order)
         {
-            this.SkillName = Name;
-            this.SkillMana = Mana;
-            this.SkillDamage = Damage;
-            this.SkillRange = Range;
-            this.SkillOrder = Order;
+            SkillName = Name;
+            SkillMana = Mana;
+            SkillDamage = Damage;
+            SkillRange = Range;
+            SkillOrder = Order;
         }
-        
-        
+
+
     }
 
 }

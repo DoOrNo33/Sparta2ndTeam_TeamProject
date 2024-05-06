@@ -1,4 +1,6 @@
-﻿namespace Sparta2ndTeam_TeamProject
+﻿using Sparta2ndTeam_TeamProject.GameFramework;
+
+namespace Sparta2ndTeam_TeamProject.Items
 {
     internal class Store
     {
@@ -23,7 +25,7 @@
 
                 Console.WriteLine("\n\n1. 아이템 구매\n2. 아이템 판매\n0. 나가기\n");
 
-                
+
                 command = ConsoleUtility.PromptMenuChoice(0, 2);
 
                 switch (command)
@@ -87,7 +89,7 @@
                     Console.WriteLine();
                     Thread.Sleep(500);
                 }
-                else 
+                else
                 {
                     if (!GameManager.items[command - 1].isPurchased)
                     {
@@ -240,7 +242,7 @@
                     }
                     else
                     {
-                        if ((GameManager.items[i].isPurchased))
+                        if (GameManager.items[i].isPurchased)
                             storeItems.Add(GameManager.items[i]);
                     }
                 }
@@ -288,7 +290,7 @@
                 command = ConsoleUtility.PromptMenuChoice(0, storeItems.Count);
 
 
-                
+
                 if (command == (int)SelectStoreMenu.PreviousPage) return;
                 else if (command == (int)SelectStoreMenu.WrongCommand)
                 {
@@ -302,7 +304,7 @@
                     foreach (Item item in storeItems)
                     {
                         //판매 관련 작업 
-                        if ((command - 1) == storeItems.IndexOf(item))
+                        if (command - 1 == storeItems.IndexOf(item))
                         {
                             ConsoleUtility.PrintTextHighlights("정말로 ", item.Name, "을(를) 판매하시겠습니까? ('1'입력 시 그대로 진행.) ");
 

@@ -1,5 +1,4 @@
-﻿using Sparta2ndTeam_TeamProject;
-using Sparta2ndTeam_TeamProject.Battle;
+﻿using Sparta2ndTeam_TeamProject.Battle;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,8 +9,10 @@ using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Sparta2ndTeam_TeamProject.Items;
+using Sparta2ndTeam_TeamProject.GameFramework;
 
-namespace Sparta2ndTeam_TeamProject
+namespace Sparta2ndTeam_TeamProject.GuildInfo
 {
     internal class Guild
     {
@@ -126,7 +127,7 @@ namespace Sparta2ndTeam_TeamProject
                 Thread.Sleep(200);
                 Console.WriteLine("\n휴식을 취하는 중입니다...\n");
 
-                
+
                 Console.Write($"체 력 {GameManager.player.Hp} -> ");
                 int start_hp = GameManager.player.Hp;
 
@@ -138,7 +139,7 @@ namespace Sparta2ndTeam_TeamProject
                 else
                     Console.Write($"{GameManager.player.Max_Hp}\n");
                 Console.WriteLine();
-                
+
                 Thread.Sleep(150);
 
                 Console.Write($"마 나 {GameManager.player.Mp} -> ");
@@ -150,7 +151,7 @@ namespace Sparta2ndTeam_TeamProject
                     ConsoleUtility.Animation(13, 10, start_mp, GameManager.player.Max_Mp);
 
                 else
-                    Console.WriteLine($"{GameManager.player.Max_Mp}\n"); 
+                    Console.WriteLine($"{GameManager.player.Max_Mp}\n");
                 Thread.Sleep(150);
 
                 GameManager.player.Gold -= 500;
@@ -264,20 +265,20 @@ namespace Sparta2ndTeam_TeamProject
                 else
                     Console.WriteLine("~~ 보유중인 혈석이 없습니다. ~~");
 
-                
+
 
 
                 Console.WriteLine("\n0. 나가기");
                 command = ConsoleUtility.PromptMenuChoice(0, storeItems.Count);
 
-                if (command == (int)SelectBreakMenu.PreviousPage) 
+                if (command == (int)SelectBreakMenu.PreviousPage)
                     return;
 
                 else if (command != (int)SelectBreakMenu.WrongCommand)
                 {
                     foreach (Item item in storeItems)
                     {
-                        if ((command - 1) == storeItems.IndexOf(item))
+                        if (command - 1 == storeItems.IndexOf(item))
                         {
                             int idx = 0;
 
