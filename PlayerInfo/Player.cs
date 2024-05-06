@@ -1,4 +1,5 @@
-﻿using Sparta2ndTeam_TeamProject.Items;
+﻿using Sparta2ndTeam_TeamProject.GameFramework;
+using Sparta2ndTeam_TeamProject.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,20 +9,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Sparta2ndTeam_TeamProject
+namespace Sparta2ndTeam_TeamProject.PlayerInfo
 {
     internal class Player
     {
-        
+
         Random random = new Random();
         public string Name { get; }
         public int Job { get; set; }
         public int Level { get; set; } = 1;
         public int Atk { get; set; } = 10;
         public int Def { get; set; } = 5;
-        public int Hp { get; set; } 
-        public int Max_Hp { get; set; } 
-        public int Mp { get; set; } 
+        public int Hp { get; set; }
+        public int Max_Hp { get; set; }
+        public int Mp { get; set; }
         public int Max_Mp { get; set; }
         public int Gold { get; set; } = 1500;
 
@@ -82,7 +83,7 @@ namespace Sparta2ndTeam_TeamProject
 
             foreach (Pet p in GameManager.pets)
             {
-                if(p.isEquipped == true)
+                if (p.isEquipped == true)
                 {
                     Console.WriteLine($"파트너 : {p.Name}");
                 }
@@ -112,7 +113,7 @@ namespace Sparta2ndTeam_TeamProject
                 if (percent < 1)
                     return true;
 
-                else if (percent < (1 + petAvoid))                                           //초록 슬라임 확인
+                else if (percent < 1 + petAvoid)                                           //초록 슬라임 확인
                 {
                     Console.Clear();
                     ConsoleUtility.ShowTitle("■ 전  투 ■\n");
@@ -141,7 +142,7 @@ namespace Sparta2ndTeam_TeamProject
             while (CurrentExp > RequiredExp)
             {
                 CurrentExp -= RequiredExp;
-                RequiredExp += 20 + (Level * 5);
+                RequiredExp += 20 + Level * 5;
                 Level++;
                 Atk += 2;
                 Def += 1;
@@ -175,10 +176,10 @@ namespace Sparta2ndTeam_TeamProject
             while (CurrentExp > RequiredExp)
             {
                 CurrentExp -= RequiredExp;
-                RequiredExp += 20 + (Level * 5);
+                RequiredExp += 20 + Level * 5;
                 Level++;
-                Atk += 1;
-                Def += 2;
+                Atk += 3;
+                Def += 6;
                 Hp += 0;
                 Max_Hp += 5;
                 Mp += 0;
@@ -206,10 +207,10 @@ namespace Sparta2ndTeam_TeamProject
             while (CurrentExp > RequiredExp)
             {
                 CurrentExp -= RequiredExp;
-                RequiredExp += 20 + (Level * 5);
+                RequiredExp += 20 + Level * 5;
                 Level++;
-                Atk += 1;
-                Def += 1;
+                Atk += 6;
+                Def += 3;
                 Hp += 0;
                 Max_Hp += 0;
                 Mp += 0;

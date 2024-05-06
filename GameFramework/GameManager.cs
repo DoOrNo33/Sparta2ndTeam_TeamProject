@@ -6,11 +6,14 @@ using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using static System.Net.Mime.MediaTypeNames;
 using System.Threading;
+using Sparta2ndTeam_TeamProject.PlayerInfo;
 using Sparta2ndTeam_TeamProject.Tower;
 using Sparta2ndTeam_TeamProject.Scenes;
 using Sparta2ndTeam_TeamProject.Items;
+using Sparta2ndTeam_TeamProject.GuildInfo;
+using Sparta2ndTeam_TeamProject.Battle.Skill;
 
-namespace Sparta2ndTeam_TeamProject
+namespace Sparta2ndTeam_TeamProject.GameFramework
 {
     internal class GameManager
     {
@@ -76,7 +79,7 @@ namespace Sparta2ndTeam_TeamProject
         public static void Init_Pets()
         {
             //펫 종류
-            pets.Add(new RedSlime("붉은 슬라임", "가장 취약한 적을 본능적으로 공격합니다.", 0, 0, 0, 0, 400, ItemType.Pet));
+            pets.Add(new RedSlime("붉은 슬라임", "가장 취약한 적을 본능적으로 공격합니다.", 0, 0, 0, 0, 2000, ItemType.Pet));
             pets.Add(new GreenSlime("초록 슬라임", "적의 공격을 맞아 주곤 합니다.", 0, 0, 0, 0, 3000, ItemType.Pet));
             pets.Add(new BlueSlime("푸른 슬라임", "상처 부위에 달라붙곤 합니다.", 0, 0, 0, 0, 5000, ItemType.Pet));
         }
@@ -106,13 +109,13 @@ namespace Sparta2ndTeam_TeamProject
             Console.Clear();
 
             DataManager.GameStart(); // 세이브 불러오기
-            
-            if(player.Job == 1)
+
+            if (player.Job == 1)
             {
                 skill.Add(new Skill("알파-스트라이크", 10, player.Atk * 2, false, 1));//전사 스킬 1
                 skill.Add(new Skill("더블-스트라이크", 25, player.Atk * 2, true, 2));//전사 스킬 
             }
-            else if(player.Job == 2)
+            else if (player.Job == 2)
             {
 
                 skill.Add(new Skill("에너지 볼트", 10, player.Atk * 1, true, 1)); //마법사 스킬 1

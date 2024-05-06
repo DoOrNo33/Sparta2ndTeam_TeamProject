@@ -1,4 +1,5 @@
 ﻿using Sparta2ndTeam_TeamProject.Battle;
+using Sparta2ndTeam_TeamProject.GameFramework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -104,9 +105,9 @@ ItemType _type, bool isEquipped = false, bool isPurchased = false, bool isInitIt
 
             if (weakest[0].Hp > 0)   // 적의 남은 hp가 0보다 큰지 작은지
             {
-                // Console.WriteLine("HP {0} -> {1}", tempHp, weakest[0].Hp);
-                Console.Write("HP {0} -> ", tempHp);
-                ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, weakest[0].Hp);
+                Console.WriteLine("HP {0} -> {1}", tempHp, weakest[0].Hp);
+                //Console.Write("HP {0} -> ", tempHp);
+                //ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, weakest[0].Hp);
 
                 ConsoleUtility.PromptReturn();
                 return 0;
@@ -114,8 +115,9 @@ ItemType _type, bool isEquipped = false, bool isPurchased = false, bool isInitIt
             else
             {
                 weakest[0].Dead();
-                Console.Write("HP {0} -> ", tempHp);
-                ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, weakest[0].Hp);
+                Console.WriteLine("HP {0} -> 0", tempHp);
+                //Console.Write("HP {0} -> ", tempHp);
+                //ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, weakest[0].Hp);
 
                 BattleMenu.CheckQuest(weakest[0]);
 
@@ -174,7 +176,8 @@ ItemType _type, bool isEquipped = false, bool isPurchased = false, bool isInitIt
                 // 현재 커서의 위치 확인
                 int cursorLeft = Console.CursorLeft;
                 int cursorTop = Console.CursorTop;
-                ConsoleUtility.Animation(cursorLeft, cursorTop, prePlayerHP, GameManager.player.Hp);
+                ConsoleUtility.Animation2(cursorLeft, cursorTop, prePlayerHP, GameManager.player.Hp, 2);
+                
 
                 Console.ResetColor();
                 //Thread.Sleep(500);

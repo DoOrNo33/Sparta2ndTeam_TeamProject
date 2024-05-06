@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using Sparta2ndTeam_TeamProject.GuildInfo;
 using Sparta2ndTeam_TeamProject.Items;
+using Sparta2ndTeam_TeamProject.PlayerInfo;
 using Sparta2ndTeam_TeamProject.Scenes;
 using Sparta2ndTeam_TeamProject.Tower;
 using System;
@@ -10,7 +12,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sparta2ndTeam_TeamProject
+namespace Sparta2ndTeam_TeamProject.GameFramework
 {
     class DataManager
     {
@@ -43,7 +45,7 @@ namespace Sparta2ndTeam_TeamProject
 
 
             string itemJson = JsonConvert.SerializeObject(GameManager.items, Formatting.Indented);
-            File.WriteAllText(itemDataPath, itemJson); 
+            File.WriteAllText(itemDataPath, itemJson);
 
             string questJson = JsonConvert.SerializeObject(GameManager.quests, Formatting.Indented);
             File.WriteAllText(questDataPath, questJson);
@@ -57,13 +59,13 @@ namespace Sparta2ndTeam_TeamProject
             Console.ResetColor();
             Thread.Sleep(500);
         }
-        
+
 
         static public void LoadData()
         {
             Console.Clear();
 
-            Console.ForegroundColor= ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("=============================================================================");
             Console.WriteLine("                       플레이어 데이터를 불러옵니다...                       ");
             Console.WriteLine("=============================================================================");
@@ -107,12 +109,13 @@ namespace Sparta2ndTeam_TeamProject
         {
             Console.Clear();
 
+
             if (File.Exists(playerDataPath) && File.Exists(itemDataPath) && File.Exists(questDataPath) && File.Exists(petDataPath))
             {
                 Console.Clear();
                 int command = -1;
-                
-                while(true)
+
+                while (true)
                 {
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Yellow;
@@ -131,9 +134,9 @@ namespace Sparta2ndTeam_TeamProject
                     Console.WriteLine("잘못된 입력입니다.");
                     Console.ResetColor();
                 }
-                
 
-                switch(command)
+
+                switch (command)
                 {
                     case 1:
                         NewGame(); 
@@ -144,7 +147,6 @@ namespace Sparta2ndTeam_TeamProject
                 }
 
                 ConsoleUtility.PrintGameHeader();
-
             }
 
             else
@@ -173,8 +175,9 @@ namespace Sparta2ndTeam_TeamProject
         {
            
             Console.Clear();
-            
+         
             Console.ForegroundColor= ConsoleColor.Yellow;
+
             Console.WriteLine("=============================================================================");
             Console.WriteLine("                     생성할 캐릭터의 이름을 정해주세요.                      ");
             Console.WriteLine("=============================================================================");

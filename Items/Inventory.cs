@@ -1,4 +1,6 @@
-﻿namespace Sparta2ndTeam_TeamProject
+﻿using Sparta2ndTeam_TeamProject.GameFramework;
+
+namespace Sparta2ndTeam_TeamProject.Items
 {
     internal class Inventory
     {
@@ -416,7 +418,7 @@
                 // 현재 커서의 위치 확인
                 int cursorLeft = Console.CursorLeft;
                 int cursorTop = Console.CursorTop;
-                ConsoleUtility.Animation(cursorLeft, cursorTop, prePlayerHP, GameManager.player.Hp);
+                ConsoleUtility.Animation2(cursorLeft, cursorTop, prePlayerHP, GameManager.player.Hp, 11, 50);
 
                 Console.ResetColor();
                 Thread.Sleep(500);
@@ -518,7 +520,7 @@
 
                 int cursorLeft = Console.CursorLeft;
                 int cursorTop = Console.CursorTop;
-                ConsoleUtility.Animation(cursorLeft, cursorTop, prePlayerMP, GameManager.player.Mp);
+                ConsoleUtility.Animation2(cursorLeft, cursorTop, prePlayerMP, GameManager.player.Mp, 11, 50);
 
                 Thread.Sleep(500);
                 Console.ResetColor();
@@ -554,7 +556,7 @@
             }
             for (int i = 0; i < equipmentItems.Count; i++)
             {
-                if (i != (command - 1) && equipmentItems[command - 1]._type == equipmentItems[i]._type)
+                if (i != command - 1 && equipmentItems[command - 1]._type == equipmentItems[i]._type)
                 {
                     if (equipmentItems[i].isEquipped)
                     {

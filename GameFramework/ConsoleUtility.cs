@@ -1,6 +1,7 @@
-﻿using Sparta2ndTeam_TeamProject.Scenes;
+﻿using Sparta2ndTeam_TeamProject.GuildInfo;
+using Sparta2ndTeam_TeamProject.Scenes;
 
-namespace Sparta2ndTeam_TeamProject
+namespace Sparta2ndTeam_TeamProject.GameFramework
 {
     internal class ConsoleUtility
     {
@@ -92,7 +93,7 @@ namespace Sparta2ndTeam_TeamProject
         internal static void Animation(int left, int top, int start, int target)
         {
             // 시작점 -> 목표치까지 50ms 마다 1 씩 증가
-            while(start < target)
+            while (start < target)
             {
                 Thread.Sleep(50);
                 start++;
@@ -101,7 +102,7 @@ namespace Sparta2ndTeam_TeamProject
             }
         }
 
-        internal static void Animation2(int left, int top, int start, int target, int seg, int t)
+        internal static void Animation2(int left, int top, int start, int target, int seg, int t = 50)
         {
             // 시작점 -> 목표치까지 (t)ms 마다 seg 씩 증가
             while (start < target)
@@ -131,8 +132,8 @@ namespace Sparta2ndTeam_TeamProject
                 start -= seg;
                 if (start < target)
                     start = target;
-                
-                string s = new string(' ', (Console.CursorLeft - left));
+
+                string s = new string(' ', Console.CursorLeft - left);
                 Console.SetCursorPosition(left, top);
                 Console.Write(s);
                 Console.SetCursorPosition(left, top);
@@ -141,11 +142,11 @@ namespace Sparta2ndTeam_TeamProject
             }
         }
 
-        static public string checkQuestCompleted(List<Quest>q)
+        static public string checkQuestCompleted(List<Quest> q)
         {
             string str = "";
 
-            for(int i=0; i<q.Count;i++)
+            for (int i = 0; i < q.Count; i++)
             {
                 if (q[i].isComplete && !q[i].rewarded)
                     str = " !!";

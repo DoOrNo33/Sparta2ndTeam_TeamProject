@@ -13,9 +13,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
             name = "미노타우르스";
             id = 4;
             lv = 0;
-            hp = 70;
+            hp = 40;
             atk = 20;
-            exp = 4;
+            exp = 0;
             drops[0] = 2;
             drops[1] = 2;
 
@@ -33,9 +33,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
         protected override void SetLevel()
         {
             lv += 1;
-            hp += 30;
+            hp += 20;
             atk += 8;
-            exp += 1;
+            exp += 32;
         }
     }
 }
