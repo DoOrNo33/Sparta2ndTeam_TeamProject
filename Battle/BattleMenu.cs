@@ -573,6 +573,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 Console.WriteLine("마  나 : {0} -> 1", startMp);
                 Console.WriteLine("Gold : {0} -> {1}", startGold, GameManager.player.Gold);
 
+                if (finalBattle)
+                {
+                    finalBattle = false;
+                }
+
                 Inventory.LimitRecover_HP = Inventory.MAXIMUM;
                 Inventory.LimitRecover_MP = Inventory.MAXIMUM;
 
