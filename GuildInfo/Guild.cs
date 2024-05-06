@@ -132,8 +132,11 @@ namespace Sparta2ndTeam_TeamProject.GuildInfo
                 int start_hp = GameManager.player.Hp;
 
                 GameManager.player.Hp = GameManager.player.Max_Hp;
-
-                if (start_hp < GameManager.player.Max_Hp)
+                if(GameManager.player.Max_Hp - start_hp > 100 )
+                {
+                    ConsoleUtility.Animation2(13, 8, start_hp, GameManager.player.Max_Hp,11,10);
+                }
+                else if (start_hp < GameManager.player.Max_Hp)
                     ConsoleUtility.Animation(13, 8, start_hp, GameManager.player.Max_Hp);
 
                 else
@@ -147,7 +150,11 @@ namespace Sparta2ndTeam_TeamProject.GuildInfo
 
                 GameManager.player.Mp = GameManager.player.Max_Mp;
 
-                if (start_mp < GameManager.player.Max_Mp)
+                if (GameManager.player.Max_Mp - start_mp > 100)
+                {
+                    ConsoleUtility.Animation2(13, 8, start_mp, GameManager.player.Max_Mp, 11, 10);
+                }
+                else if (start_mp < GameManager.player.Max_Mp)
                     ConsoleUtility.Animation(13, 10, start_mp, GameManager.player.Max_Mp);
 
                 else

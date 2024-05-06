@@ -366,6 +366,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
                         else
                         {
                             defeatCount += currentEnemy[i].PlayerSkillAttack(SetSkill); // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
+                            CheckQuest(currentEnemy[i]);
                         }
                         //죽은적이 있다면 
                         i++;
