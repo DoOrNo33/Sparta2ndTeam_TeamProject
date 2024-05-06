@@ -102,7 +102,7 @@ namespace Sparta2ndTeam_TeamProject.GameFramework
             }
         }
 
-        internal static void Animation2(int left, int top, int start, int target, int seg, int t)
+        internal static void Animation2(int left, int top, int start, int target, int seg, int t = 50)
         {
             // 시작점 -> 목표치까지 (t)ms 마다 seg 씩 증가
             while (start < target)

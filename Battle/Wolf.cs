@@ -15,7 +15,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             lv = 0;
             hp = 20;
             atk = 7;
-            exp = 3;
+            exp = 0;
             drops[0] = 1;
             drops[1] = 1;
 
@@ -35,7 +35,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             lv += 1;            
             hp += 10;
             atk += 3;
-            exp += 1;
+            exp += 8;
         }
     }
 }
