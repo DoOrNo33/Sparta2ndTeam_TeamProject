@@ -21,10 +21,12 @@ namespace Sparta2ndTeam_TeamProject.GameFramework
         static string itemDataName = "itemData.json";
         static string questDataName = "questData.json";
         static string petDataName = "petData.json";
+        static string mypetDataName = "mypetData.json";
         static string playerDataPath = Path.Combine(path, playerDataName);
         static string itemDataPath = Path.Combine(path, itemDataName);
         static string questDataPath = Path.Combine(path, questDataName);
         static string petDataPath = Path.Combine(path, petDataName);
+        static string mypetDataPath = Path.Combine(path, mypetDataName);
 
         static public void SaveData()
         {
@@ -49,6 +51,12 @@ namespace Sparta2ndTeam_TeamProject.GameFramework
 
             string questJson = JsonConvert.SerializeObject(GameManager.quests, Formatting.Indented);
             File.WriteAllText(questDataPath, questJson);
+
+            
+            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+            string mypetJson = JsonConvert.SerializeObject(PetCave.myPets, Formatting.Indented, settings);
+            File.WriteAllText(mypetDataPath, mypetJson);
+
 
             string petJson = JsonConvert.SerializeObject(GameManager.pets, Formatting.Indented);
             File.WriteAllText(petDataPath, petJson);
@@ -98,6 +106,10 @@ namespace Sparta2ndTeam_TeamProject.GameFramework
             Console.WriteLine("                  플레이어의 퀘스트 데이터를 불러옵니다...                   ");
             Console.WriteLine("=============================================================================");
             Thread.Sleep(500);
+
+            string mypetJson = File.ReadAllText(mypetDataPath);
+            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+            PetCave.myPets = JsonConvert.DeserializeObject<List<Pet>>(mypetJson,settings);
 
             string petJson = File.ReadAllText(petDataPath);
             GameManager.pets = JsonConvert.DeserializeObject<List<Pet>>(petJson);
@@ -225,7 +237,7 @@ namespace Sparta2ndTeam_TeamProject.GameFramework
             Console.Clear();
 
             IntroScene intro = new IntroScene();
-            intro.PlayIntro();
+            //intro.PlayIntro();
         }
     }
 }
