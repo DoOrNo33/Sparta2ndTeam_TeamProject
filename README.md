@@ -1,16 +1,22 @@
 # ☠️ Blood Stone ☠️
 마을의 영웅이 되고자 하는 초보 모험가 성장 RPG 게임
 
+<br>
+
 ## 🎮 프로젝트 소개
 개인 프로젝트로 구현한 SpartaDungeon 를 업그레이드한 Blood Stone 입니다.
 
 전투 및 직업 클래스가 추가되었으니 지금 당장 확인해보세요 !
+
+<br>
 
 ### ⌛ 제작 기간
 **24-04-29 ~ 24-05-07**
 
 ### 🙋‍♂️ 제작 인원
 **A11 - 권태하 , 길선호 , 김민우 , 최세은**
+
+<br>
 
 ## 💡 주요 기능
 
@@ -21,12 +27,12 @@
 - 원하는 행동의 숫자를 입력하면 실행됩니다.
 
 ### 1. 👀 상태 보기 
-- 캐릭터의 정보를 표시합니다.
+- **캐릭터의 정보**를 표시합니다.
 - 레벨 / 이름 / 직업 / 공격력 / 방어력 / 체력 / 마나 / Gold , 총 8개의 속성을 가지고 있습니다.
 - 이후 장착한 아이템과 레벨에 따라 수치가 변경 될 수 있습니다.
 
 ### 2. 👁‍🗨 인벤토리
-- 보유 중인 아이템을 전부 보여줍니다. 이때 장착중인 아이템 앞에는 [E] 표시를 붙여 줍니다.
+- 보유 중인 아이템을 전부 보여줍니다. 이때 장착중인 아이템 앞에는 **[E]** 표시를 붙여 줍니다.
 - 장비와 포션, 그리고 던전에서 획득할 수 있는 아이템으로 분류가 됩니다.
 - 캐릭터 생성 시, 초보 모험가를 위해 소형 체력 포션 3개를 드립니다.
 
@@ -61,25 +67,72 @@
  - HP 와 MP 를 회복시킬 수 있는 일회성 아이템입니다.
  - 가까운 상점에서 만나볼 수 있습니다.
 
+<br>
 
-## 플레이 화면
+## 🎞 플레이 화면
 
 ### 게임 초기 화면
 
 <details>
-  <summary>인트로 및 캐릭터 생성 화면</summary>
-  <img src = "https://github.com/DoOrNo33/Sparta2ndTeam_TeamProject/assets/122630746/97e4bb89-e710-4ef6-b150-2a0cf7e694c7" width = 500>
+  <summary> 🌏 인트로</summary>
+  <img src = "https://github.com/DoOrNo33/Sparta2ndTeam_TeamProject/assets/122630746/b178f2b9-2dd4-4305-8e1b-13bd90a08ced" width = 500>
 </details>
 
 <details>
-  <summary>세이브 파일 불러오기</summary>
-  <img src = "https://github.com/DoOrNo33/Sparta2ndTeam_TeamProject/assets/122630746/9ffd8ce1-f659-4497-9002-f8dd757cf789" width = 500>
+  <summary> 👶 캐릭터 생성</summary>
+  <img src = "https://github.com/DoOrNo33/Sparta2ndTeam_TeamProject/assets/122630746/66e413c9-4145-473d-a453-3b194e1119ab" width = 500>
 </details>
+
+### 상점
+
+<details>
+  <summary> ⚔ 장비 구매</summary>
+  <img src = "https://github.com/DoOrNo33/Sparta2ndTeam_TeamProject/assets/122630746/a8b1d672-1644-4049-8934-f3d90fa015bb" width = 500>
+</details>
+
+<details>
+  <summary> 💊 소모품 구매</summary>
+  <img src = "https://github.com/DoOrNo33/Sparta2ndTeam_TeamProject/assets/122630746/c2aa0779-96c5-4ced-9819-ffda24a7f5cd" width = 500>
+</details>
+
 
 ### 탐험가 길드
 
 <details>
-  <summary>회복하기</summary>
+  <summary> 🛏 휴식하기</summary>
+  <img src = "https://github.com/DoOrNo33/Sparta2ndTeam_TeamProject/assets/122630746/de3b6a9b-f46d-4166-9904-2c3182f2f961" width = 500>
+</details>
 
-  <img src = "https://github.com/DoOrNo33/Sparta2ndTeam_TeamProject/assets/122630746/f42b160c-8eec-4ff5-8c8a-6fcfa50e58e2" width = 500>
+<details>
+  <summary> 💾 저장하기</summary>
+  <img src = "https://github.com/DoOrNo33/Sparta2ndTeam_TeamProject/assets/122630746/ae901681-3217-4e19-af4d-97bc089f1b2f" width = 500>
+</details>
+
+<details>
+  <summary> 💡 퀘스트</summary>
+  <img src = "https://github.com/DoOrNo33/Sparta2ndTeam_TeamProject/assets/122630746/7fda6195-76a4-40ed-be19-e230105e0ac7" width = 500>
+</details>
+
+### 전투
+
+<details>
+  <summary> 🗡 기본 공격</summary>
+  <img src = "https://github.com/DoOrNo33/Sparta2ndTeam_TeamProject/assets/122630746/d38a8891-45cd-4949-bb95-91eebcea2ab8" width = 500>
+</details>
+
+<details>
+  <summary> 💥 스킬 공격 및 레벨 업</summary>
+  <img src = "https://github.com/DoOrNo33/Sparta2ndTeam_TeamProject/assets/122630746/0ce000b4-33d1-43cd-8f7c-e8095f146f6a" width = 500>
+</details>
+
+<details>
+  <summary> 🤕 전투 패배</summary>
+  <img src = "https://github.com/DoOrNo33/Sparta2ndTeam_TeamProject/assets/122630746/9c3456db-125c-41f7-9ce1-f30ed9b0553e" width = 500>
+</details>
+
+### 펫
+
+<details>
+  <summary> 👻 펫 구입 및 전투</summary>
+  <img src = "https://github.com/DoOrNo33/Sparta2ndTeam_TeamProject/assets/122630746/fb70735b-b423-4f4e-ab9c-78e89da42edc" width = 500>
 </details>
