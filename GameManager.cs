@@ -25,6 +25,8 @@ namespace Sparta2ndTeam_TeamProject
 
         public GameManager()
         {
+            Console.Title = "Blood Stone";
+            Console.SetWindowSize(100, 30);
             InitializeGame();
         }
 
@@ -94,7 +96,6 @@ namespace Sparta2ndTeam_TeamProject
         }
         private void InitializeGame()
         {
-
             Init_Items();
             Init_DropItems();
             Init_Pets();
@@ -104,7 +105,7 @@ namespace Sparta2ndTeam_TeamProject
         {
             Console.Clear();
 
-            DataManager.LoadData(); // 세이브 불러오기
+            DataManager.GameStart(); // 세이브 불러오기
             
             if(player.Job == 1)
             {
@@ -156,7 +157,10 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("2. 인벤토리");
             Console.WriteLine("3. 상점");
             Console.WriteLine("4. 탑 입장 (현재 진행 : {0}층)", tower.TowerLv);
-            Console.WriteLine("5. 모험가 길드");
+            Console.Write("5. 모험가 길드");
+
+            ConsoleUtility.PrintTextBlood("", ConsoleUtility.checkQuestCompleted(quests));
+
             Console.WriteLine("6. 수상한 동굴");
             Console.WriteLine("7. 인트로 다시보기");
             Console.WriteLine("8. 게임 종료");

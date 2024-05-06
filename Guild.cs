@@ -26,7 +26,8 @@ namespace Sparta2ndTeam_TeamProject
 
                 Console.WriteLine("1. 휴식하기");
                 Console.WriteLine("2. 저장하기");
-                Console.WriteLine("3. 퀘스트 보기");
+                Console.Write("3. 퀘스트 보기");
+                ConsoleUtility.PrintTextBlood("", ConsoleUtility.checkQuestCompleted(GameManager.quests));
                 Console.WriteLine("4. 혈석 판매");
                 Console.WriteLine("0. 나가기\n");
 
