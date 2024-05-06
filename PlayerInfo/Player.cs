@@ -179,12 +179,12 @@ namespace Sparta2ndTeam_TeamProject.PlayerInfo
                 CurrentExp -= RequiredExp;
                 RequiredExp += 20 + Level * 5;
                 Level++;
-                Atk += 2;
-                Def += 5;
+                Atk += 3;
+                Def += 3;
                 Hp += 0;
-                Max_Hp += 5;
+                Max_Hp += 4;
                 Mp += 0;
-                Max_Mp += 2;
+                Max_Mp += 0;
             }
         }
     }
@@ -215,7 +215,7 @@ namespace Sparta2ndTeam_TeamProject.PlayerInfo
                 Hp += 0;
                 Max_Hp += 2;
                 Mp += 0;
-                Max_Mp += 5;
+                Max_Mp += 4;
             }
         }
     }
