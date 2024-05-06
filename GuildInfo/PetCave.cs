@@ -11,11 +11,15 @@ namespace Sparta2ndTeam_TeamProject.GuildInfo
         {
             while (true)
             {
-                myPets = new List<Pet>();
-
                 for (int i = 0; i < GameManager.pets.Count; i++)
                 {
-                    if (GameManager.pets[i].isPurchased)
+                    bool isExist = false;
+                    for(int j=0;j<myPets.Count; j++)
+                    {
+                        if (myPets[j].Name == GameManager.pets[i].Name)
+                            isExist = true;
+                    }
+                    if (!isExist && GameManager.pets[i].isPurchased)
                     {
                         myPets.Add(GameManager.pets[i]);
                     }
