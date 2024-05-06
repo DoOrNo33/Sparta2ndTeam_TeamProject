@@ -136,3 +136,10 @@
   <summary> 👻 펫 구입 및 전투</summary>
   <img src = "https://github.com/DoOrNo33/Sparta2ndTeam_TeamProject/assets/122630746/fb70735b-b423-4f4e-ab9c-78e89da42edc" width = 500>
 </details>
+
+### 엔딩
+
+<details>
+  <summary> 📽 엔딩</summary>
+  엔딩은 플레이를 통해 확인해보세요! 🤗
+</details>
