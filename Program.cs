@@ -1,4 +1,6 @@
-﻿namespace Sparta2ndTeam_TeamProject
+﻿using Sparta2ndTeam_TeamProject.GameFramework;
+
+namespace Sparta2ndTeam_TeamProject
 {
     internal class Program
     {

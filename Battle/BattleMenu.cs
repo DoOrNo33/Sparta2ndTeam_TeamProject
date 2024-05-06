@@ -1,4 +1,6 @@
 ﻿
+using Sparta2ndTeam_TeamProject.GameFramework;
+using Sparta2ndTeam_TeamProject.GuildInfo;
 using Sparta2ndTeam_TeamProject.Items;
 using Sparta2ndTeam_TeamProject.Scenes;
 using Sparta2ndTeam_TeamProject.Tower;
@@ -116,10 +118,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 case BattleAction.SkillAttack:
                     SkillAction();
                     break;
-                //case BattleAction.Inventory:
-                //    Inventory.InventoryMenu(true);
-                //    Battle();
-                //    break;
                 case BattleAction.WrongCommand:
                     duringBattle = true;
                     Battle();
@@ -299,6 +297,23 @@ namespace Sparta2ndTeam_TeamProject.Battle
                             if (defeatCount == 1)
                                 CheckQuest(currentEnemy[i]);
                             SetMana(sMp);
+
+                            foreach (Pet pet in PetCave.myPets)     // 펫 스킬 들어갈 타이밍
+                            {
+                                if (pet.isEquipped)
+                                {
+                                    if (pet.PetType == Items.PetType.Attack)
+                                    {
+                                        defeatCount += pet.PetAttack(currentEnemy);
+                                    }
+
+                                    if (pet.PetType == Items.PetType.Heal)
+                                    {
+                                        pet.PetHeal();
+                                    }
+                                }
+                            }
+
                             foreach (Enemy enem in currentEnemy)
                             {
                                 if (enem.Hp <= 0)               // 적 체력 0이라면 건너뜀
@@ -314,6 +329,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
                                 }
 
                             }
+
+
 
                             if (GameManager.player.Hp <= 0)
                             {
@@ -350,6 +367,23 @@ namespace Sparta2ndTeam_TeamProject.Battle
                         i++;
                     }
                     SetMana(sMp);
+
+                    foreach (Pet pet in PetCave.myPets)     // 펫 스킬 들어갈 타이밍
+                    {
+                        if (pet.isEquipped)
+                        {
+                            if (pet.PetType == Items.PetType.Attack)
+                            {
+                                defeatCount += pet.PetAttack(currentEnemy);
+                            }
+
+                            if (pet.PetType == Items.PetType.Heal)
+                            {
+                                pet.PetHeal();
+                            }
+                        }
+                    }
+
                     foreach (Enemy enem in currentEnemy)
                     {
                         if (enem.Hp <= 0)               // 적 체력 0이라면 건너뜀
@@ -384,104 +418,6 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
         }
 
-        //private void AttackCeak()
-        //{
-        //    Console.WriteLine("\n대상을 선택해주세요.");
-        //    Console.WriteLine("0. 취소\n");
-
-
-        //    int keyInput = 0;
-        //    while (true) // 대상이 죽었는지 체크
-        //    {
-
-        //        keyInput = ConsoleUtility.PromptMenuChoice(0, currentEnemy.Count);
-
-        //        if (keyInput == (int)BattleAction.WrongCommand)
-        //        {
-        //            Console.ForegroundColor = ConsoleColor.Red;
-        //            Console.Write("잘못된 입력입니다.");
-        //            Console.ResetColor();
-        //            Console.WriteLine();
-        //        }
-        //        else if (keyInput == 0)
-        //        {
-        //            break;
-        //        }
-        //        else if (currentEnemy[keyInput - 1].IsDead)
-        //        {
-        //            Console.ForegroundColor = ConsoleColor.Red;
-        //            Console.WriteLine("이미 죽은 대상입니다.");
-        //            Console.ResetColor();
-        //        }
-        //        else
-        //        {
-        //            break;
-        //        }
-        //    }
-        //    switch (keyInput)
-        //    {
-        //        case 0:
-        //            duringBattle = true;
-        //            Battle();
-        //            break;
-
-        //        default:
-        //            int ret = currentEnemy[keyInput - 1].PlayerAttack();
-        //            defeatCount += ret;     // 쓰러뜨렸을때 반환값 1, 아니라면 0을 쓰러뜨린 적 카운트에 넣어줌
-
-        //            if (ret == 1)
-        //                CheckQuest(currentEnemy[keyInput - 1]);
-
-
-        //            foreach (Pet pet in PetCave.myPets)     // 펫 스킬 들어갈 타이밍
-        //            {
-        //                if (pet.isEquipped)
-        //                {
-        //                    if (pet.PetType == Items.PetType.Attack)
-        //                    {
-        //                        defeatCount += pet.PetAttack(currentEnemy);
-        //                    }
-
-        //                    if (pet.PetType == Items.PetType.Heal)
-        //                    {
-        //                        pet.PetHeal();
-        //                    }
-        //                }
-        //            }
-
-        //            foreach (Enemy enem in currentEnemy)
-        //            {
-        //                if (enem.Hp <= 0)               // 적 체력 0이라면 건너뜀
-        //                {
-        //                    continue;
-        //                }
-
-        //                EnemyPhase(enem);
-
-        //                if (GameManager.player.Hp <= 0)     // 플레이어 체력 0이라면 적 페이즈 멈춤
-        //                {
-        //                    break;
-        //                }
-
-        //            }
-
-        //            if (GameManager.player.Hp <= 0)
-        //            {
-        //                BattleResult(BattleStatus.Defeat);
-        //            }
-        //            else if ((defeatCount == currentEnemy.Count) && (GameManager.player.Hp > 0))
-        //            {
-        //                BattleResult(BattleStatus.Win);
-        //            }
-        //            else
-        //            {
-        //                duringBattle = true;
-        //                Battle();
-        //            }
-
-        //            break;
-        //    }
-        //}
 
         private void AttackAction()
         {
