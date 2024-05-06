@@ -52,7 +52,7 @@ namespace Sparta2ndTeam_TeamProject.PlayerInfo
 
             Console.WriteLine($"Lv. {Level.ToString("D2")}");
             Console.WriteLine($"{Name} ({job[Job - 1]})");
-            Console.WriteLine($"{CurrentExp}/{RequiredExp}");
+            Console.WriteLine($"경험치 : {CurrentExp}/{RequiredExp}");
 
             foreach (Item item in GameManager.items)
             {
