@@ -108,7 +108,7 @@ namespace Sparta2ndTeam_TeamProject.Battle
             }
             else //마나가 있다면 공격
             {
-                Damege = GameManager.skill[order].SkillDamage;
+                Damege = GameManager.skill[order].PlayerSkillDamage();
 
                 adAtk = (int)Math.Ceiling(Damege * 0.1f);                                   //보정 공격, 10%의 올림치
                 pAtk = random.Next((Damege - adAtk), (Damege + adAtk + 1)); //보정 공격치
