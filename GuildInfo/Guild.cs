@@ -154,7 +154,7 @@ namespace Sparta2ndTeam_TeamProject.GuildInfo
                     Console.WriteLine($"{GameManager.player.Max_Mp}\n");
                 Thread.Sleep(150);
 
-                GameManager.player.Gold -= 500;
+                GameManager.player.Gold -= 200;
 
                 Console.WriteLine($"\n\n남은 골드 : {GameManager.player.Gold}");
                 ConsoleUtility.PromptReturn();
