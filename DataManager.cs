@@ -70,7 +70,15 @@ namespace Sparta2ndTeam_TeamProject
 
             Thread.Sleep(500);
             string playerJson = File.ReadAllText(playerDataPath);
-            GameManager.player = JsonConvert.DeserializeObject<Player>(playerJson);
+
+            Player temp = JsonConvert.DeserializeObject<Player>(playerJson);
+
+            if (temp.Job == 1)
+                GameManager.player = JsonConvert.DeserializeObject<Warrior>(playerJson);
+            else if(temp .Job == 2)
+                GameManager.player = JsonConvert.DeserializeObject<Mage>(playerJson);
+
+            // GameManager.player = JsonConvert.DeserializeObject<Player>(playerJson);
             GameManager.tower.TowerLv = GameManager.player.towerLv;
 
             string itemJson = File.ReadAllText(itemDataPath);
@@ -92,15 +100,12 @@ namespace Sparta2ndTeam_TeamProject
             string petJson = File.ReadAllText(petDataPath);
             GameManager.pets = JsonConvert.DeserializeObject<List<Pet>>(petJson);
             Console.ResetColor();
+            
         }
 
         static public void GameStart()
         {
             Console.Clear();
-
-            ConsoleUtility.PrintGameHeader();
-
-            
 
             if (File.Exists(playerDataPath) && File.Exists(itemDataPath) && File.Exists(questDataPath) && File.Exists(petDataPath))
             {
@@ -131,18 +136,19 @@ namespace Sparta2ndTeam_TeamProject
                 switch(command)
                 {
                     case 1:
-                        IntroScene intro = new IntroScene();
-                        intro.PlayIntro();
-                        NewGame(); break;
-                    case 2: LoadData(); break;
+                        NewGame(); 
+                        
+                        break;
+                    case 2: LoadData(); 
+                        break;
                 }
-                
+
+                ConsoleUtility.PrintGameHeader();
+
             }
 
             else
             {
-                IntroScene intro = new IntroScene();
-                intro.PlayIntro();
 
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Clear();
@@ -165,7 +171,9 @@ namespace Sparta2ndTeam_TeamProject
 
         static public void NewGame()
         {
+           
             Console.Clear();
+            
             Console.ForegroundColor= ConsoleColor.Yellow;
             Console.WriteLine("=============================================================================");
             Console.WriteLine("                     생성할 캐릭터의 이름을 정해주세요.                      ");
@@ -211,6 +219,10 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("=============================================================================");
             Thread.Sleep(300);
             Console.ResetColor();
+            Console.Clear();
+
+            IntroScene intro = new IntroScene();
+            intro.PlayIntro();
         }
     }
 }

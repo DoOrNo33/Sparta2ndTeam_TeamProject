@@ -152,12 +152,5 @@ namespace Sparta2ndTeam_TeamProject
             }
             return str;
         }
-        static void clearCurrentLine()
-        {
-            string s = "\r";
-            s += new string(' ', Console.CursorLeft);
-            s += "\r";
-            Console.Write(s);
-        }
     }
 }

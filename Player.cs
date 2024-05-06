@@ -134,11 +134,6 @@ namespace Sparta2ndTeam_TeamProject
                 return false;
             }
         }
-        //public int Skill(int i)
-        //{
-        //    return skill[i].SkillDamage;
-
-        //}
 
         public virtual void LevelUp(int exp)
         {
