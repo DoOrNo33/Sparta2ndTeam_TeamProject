@@ -11,6 +11,16 @@ namespace Sparta2ndTeam_TeamProject.GuildInfo
         {
             while (true)
             {
+                myPets = new List<Pet>();
+
+                for (int i = 0; i < GameManager.pets.Count; i++)
+                {
+                    if (GameManager.pets[i].isPurchased)
+                    {
+                        myPets.Add(GameManager.pets[i]);
+                    }
+                }
+
                 Console.Clear();
                 ConsoleUtility.ShowTitle("■ 수상한 동굴 ■");
                 Console.WriteLine("동굴 속 노점상으로부터 펫을 얻을 수 있습니다.\n");
@@ -164,15 +174,7 @@ namespace Sparta2ndTeam_TeamProject.GuildInfo
         {
             while (true)
             {
-                myPets = new List<Pet>();
 
-                for (int i = 0; i < GameManager.pets.Count; i++)
-                {
-                    if (GameManager.pets[i].isPurchased)
-                    {
-                        myPets.Add(GameManager.pets[i]);
-                    }
-                }
 
                 Console.Clear();
 
