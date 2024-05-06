@@ -35,7 +35,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
         {
             towerLv = GameManager.tower.TowerLv;
 
-            finalBattle = finalTrigger;         // 최종 전투 트리거
+                    
+            if (finalTrigger) // 최종 전투 트리거
+            {
+                finalBattle = true;
+            }
 
             Console.Clear();
             ConsoleUtility.ShowTitle("■ 전  투 ■\n");
@@ -160,11 +164,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
             {
                 if (GameManager.skill[i].SkillRange)
                 {
-                    Console.WriteLine("\n{0}. {1} - MP {2} \n{3}의 데미지로 모든 적을 공격합니다", i + 1, GameManager.skill[i].SkillName, GameManager.skill[i].SkillMana, GameManager.skill[i].SkillDamage, GameManager.skill[i].SkillRange);
+                    Console.WriteLine("\n{0}. {1} - MP {2} \n{3}의 데미지로 모든 적을 공격합니다", i + 1, GameManager.skill[i].SkillName, GameManager.skill[i].SkillMana, GameManager.skill[i].PlayerSkillDamage(), GameManager.skill[i].SkillRange);
                 }
                 else
                 {
-                    Console.WriteLine("\n{0}. {1} - MP {2} \n{3}의 데미지로 적 1명을 공격합니다", i + 1, GameManager.skill[i].SkillName, GameManager.skill[i].SkillMana, GameManager.skill[i].SkillDamage, GameManager.skill[i].SkillRange);
+                    Console.WriteLine("\n{0}. {1} - MP {2} \n{3}의 데미지로 적 1명을 공격합니다", i + 1, GameManager.skill[i].SkillName, GameManager.skill[i].SkillMana, GameManager.skill[i].PlayerSkillDamage(), GameManager.skill[i].SkillRange);
                 }
 
             }
