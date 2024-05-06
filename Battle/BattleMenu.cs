@@ -299,6 +299,23 @@ namespace Sparta2ndTeam_TeamProject.Battle
                             if (defeatCount == 1)
                                 CheckQuest(currentEnemy[i]);
                             SetMana(sMp);
+
+                            foreach (Pet pet in PetCave.myPets)     // 펫 스킬 들어갈 타이밍
+                            {
+                                if (pet.isEquipped)
+                                {
+                                    if (pet.PetType == Items.PetType.Attack)
+                                    {
+                                        defeatCount += pet.PetAttack(currentEnemy);
+                                    }
+
+                                    if (pet.PetType == Items.PetType.Heal)
+                                    {
+                                        pet.PetHeal();
+                                    }
+                                }
+                            }
+
                             foreach (Enemy enem in currentEnemy)
                             {
                                 if (enem.Hp <= 0)               // 적 체력 0이라면 건너뜀
@@ -314,6 +331,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
                                 }
 
                             }
+
+
 
                             if (GameManager.player.Hp <= 0)
                             {
@@ -350,6 +369,23 @@ namespace Sparta2ndTeam_TeamProject.Battle
                         i++;
                     }
                     SetMana(sMp);
+
+                    foreach (Pet pet in PetCave.myPets)     // 펫 스킬 들어갈 타이밍
+                    {
+                        if (pet.isEquipped)
+                        {
+                            if (pet.PetType == Items.PetType.Attack)
+                            {
+                                defeatCount += pet.PetAttack(currentEnemy);
+                            }
+
+                            if (pet.PetType == Items.PetType.Heal)
+                            {
+                                pet.PetHeal();
+                            }
+                        }
+                    }
+
                     foreach (Enemy enem in currentEnemy)
                     {
                         if (enem.Hp <= 0)               // 적 체력 0이라면 건너뜀

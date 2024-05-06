@@ -66,7 +66,7 @@ namespace Sparta2ndTeam_TeamProject
             {
                 Console.Clear();
                 ConsoleUtility.ShowTitle("■ 모험가 길드 - 휴식 하기 ■");
-                Console.WriteLine($"500 G 를 내면 체력과 마나를 회복할 수 있습니다. (보유 골드 : {GameManager.player.Gold} G)\n");
+                Console.WriteLine($"200 G 를 내면 체력과 마나를 회복할 수 있습니다. (보유 골드 : {GameManager.player.Gold} G)\n");
 
                 ConsoleUtility.PrintTextHighlights("", $"[현재 체력 : {GameManager.player.Hp} / 현재 마나 : {GameManager.player.Mp}]\n");
 
@@ -92,7 +92,7 @@ namespace Sparta2ndTeam_TeamProject
                 if (GameManager.player.Hp == GameManager.player.Max_Hp && GameManager.player.Mp == GameManager.player.Max_Mp)
                     Healing(1);
 
-                else if (GameManager.player.Gold < 500)
+                else if (GameManager.player.Gold < 200)
                     Healing(2);
 
                 else
@@ -106,7 +106,7 @@ namespace Sparta2ndTeam_TeamProject
         {
             Console.Clear();
             ConsoleUtility.ShowTitle("■ 모험가 길드 - 휴식 하기 ■");
-            Console.WriteLine($"500 G 를 내면 체력과 마나를 회복할 수 있습니다. (보유 골드 : {GameManager.player.Gold} G)\n");
+            Console.WriteLine($"200 G 를 내면 체력과 마나를 회복할 수 있습니다. (보유 골드 : {GameManager.player.Gold} G)\n");
 
             ConsoleUtility.PrintTextHighlights("", $"[현재 체력 : {GameManager.player.Hp} / 현재 마나 : {GameManager.player.Mp}]\n");
 
