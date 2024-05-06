@@ -52,6 +52,7 @@ namespace Sparta2ndTeam_TeamProject.PlayerInfo
 
             Console.WriteLine($"Lv. {Level.ToString("D2")}");
             Console.WriteLine($"{Name} ({job[Job - 1]})");
+            Console.WriteLine($"{CurrentExp}/{RequiredExp}");
 
             foreach (Item item in GameManager.items)
             {
@@ -178,8 +179,8 @@ namespace Sparta2ndTeam_TeamProject.PlayerInfo
                 CurrentExp -= RequiredExp;
                 RequiredExp += 20 + Level * 5;
                 Level++;
-                Atk += 3;
-                Def += 6;
+                Atk += 2;
+                Def += 5;
                 Hp += 0;
                 Max_Hp += 5;
                 Mp += 0;
@@ -209,7 +210,7 @@ namespace Sparta2ndTeam_TeamProject.PlayerInfo
                 CurrentExp -= RequiredExp;
                 RequiredExp += 20 + Level * 5;
                 Level++;
-                Atk += 6;
+                Atk += 4;
                 Def += 3;
                 Hp += 0;
                 Max_Hp += 0;
