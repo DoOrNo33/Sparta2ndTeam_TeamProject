@@ -184,7 +184,7 @@ namespace Sparta2ndTeam_TeamProject.PlayerInfo
                 Hp += 0;
                 Max_Hp += 5;
                 Mp += 0;
-                Max_Mp += 0;
+                Max_Mp += 2;
             }
         }
     }
@@ -213,7 +213,7 @@ namespace Sparta2ndTeam_TeamProject.PlayerInfo
                 Atk += 4;
                 Def += 3;
                 Hp += 0;
-                Max_Hp += 0;
+                Max_Hp += 2;
                 Mp += 0;
                 Max_Mp += 5;
             }
