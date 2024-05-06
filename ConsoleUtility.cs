@@ -140,6 +140,18 @@ namespace Sparta2ndTeam_TeamProject
 
             }
         }
+
+        static public string checkQuestCompleted(List<Quest>q)
+        {
+            string str = "";
+
+            for(int i=0; i<q.Count;i++)
+            {
+                if (q[i].isComplete && !q[i].rewarded)
+                    str = " !!";
+            }
+            return str;
+        }
         static void clearCurrentLine()
         {
             string s = "\r";
