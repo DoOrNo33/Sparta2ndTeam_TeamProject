@@ -142,5 +142,6 @@
 <details>
   <summary> 📽 엔딩</summary>
   <img src = "https://github.com/DoOrNo33/Sparta2ndTeam_TeamProject/assets/122630746/1867f6ee-d22a-4ef2-b442-1548915c3497" width = 500>
+  <br>
   자세한 엔딩은 플레이를 통해 확인해보세요! 🤗
 </details>
