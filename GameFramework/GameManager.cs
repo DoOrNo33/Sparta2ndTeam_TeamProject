@@ -29,7 +29,7 @@ namespace Sparta2ndTeam_TeamProject.GameFramework
         public GameManager()
         {
             Console.Title = "Blood Stone";
-            Console.SetWindowSize(100, 30);
+            Console.SetWindowSize(133, 30);
             InitializeGame();
         }
 
