@@ -157,7 +157,6 @@ namespace Sparta2ndTeam_TeamProject.Items
                     Console.ResetColor();
                     Console.WriteLine();
                 }
-
                 command = ConsoleUtility.PromptMenuChoice(0, 3);
 
                 switch (command)
@@ -215,6 +214,7 @@ namespace Sparta2ndTeam_TeamProject.Items
                 }
 
                 Console.WriteLine();
+                Console.WriteLine("\n\n\n0. 나가기\n");
 
                 command = ConsoleUtility.PromptMenuChoice(0, monstorDropItems.Count);
 
