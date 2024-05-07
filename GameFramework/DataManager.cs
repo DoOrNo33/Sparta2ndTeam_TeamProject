@@ -54,11 +54,11 @@ namespace Sparta2ndTeam_TeamProject.GameFramework
 
             
             var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-            string mypetJson = JsonConvert.SerializeObject(PetCave.myPets, Formatting.Indented, settings);
-            File.WriteAllText(mypetDataPath, mypetJson);
+            //string mypetJson = JsonConvert.SerializeObject(PetCave.myPets, Formatting.Indented, settings);
+            //File.WriteAllText(mypetDataPath, mypetJson);
 
 
-            string petJson = JsonConvert.SerializeObject(GameManager.pets, Formatting.Indented);
+            string petJson = JsonConvert.SerializeObject(GameManager.pets, Formatting.Indented, settings);
             File.WriteAllText(petDataPath, petJson);
 
             Console.WriteLine("=============================================================================");
@@ -107,13 +107,21 @@ namespace Sparta2ndTeam_TeamProject.GameFramework
             Console.WriteLine("=============================================================================");
             Thread.Sleep(500);
 
-            string mypetJson = File.ReadAllText(mypetDataPath);
+            //string mypetJson = File.ReadAllText(mypetDataPath);
             var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-            PetCave.myPets = JsonConvert.DeserializeObject<List<Pet>>(mypetJson,settings);
+            //PetCave.myPets = JsonConvert.DeserializeObject<List<Pet>>(mypetJson,settings);
 
             string petJson = File.ReadAllText(petDataPath);
-            GameManager.pets = JsonConvert.DeserializeObject<List<Pet>>(petJson);
+            GameManager.pets = JsonConvert.DeserializeObject<List<Pet>>(petJson,settings);
             Console.ResetColor();
+
+            for(int i = 0; i < GameManager.pets.Count; i++)
+            {
+                if (GameManager.pets[i].isPurchased)
+                {
+                    PetCave.myPets.Add(GameManager.pets[i]);
+                }
+            }
             
         }
 
