@@ -152,7 +152,7 @@ namespace Sparta2ndTeam_TeamProject.GuildInfo
 
                 if (GameManager.player.Max_Mp - start_mp > 100)
                 {
-                    ConsoleUtility.Animation2(13, 8, start_mp, GameManager.player.Max_Mp, 11, 10);
+                    ConsoleUtility.Animation2(13, 10, start_mp, GameManager.player.Max_Mp, 11, 10);
                 }
                 else if (start_mp < GameManager.player.Max_Mp)
                     ConsoleUtility.Animation(13, 10, start_mp, GameManager.player.Max_Mp);
