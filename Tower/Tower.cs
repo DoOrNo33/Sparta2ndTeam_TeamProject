@@ -1,4 +1,6 @@
 ﻿using Sparta2ndTeam_TeamProject.Battle;
+using Sparta2ndTeam_TeamProject.GameFramework;
+using Sparta2ndTeam_TeamProject.Items;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -85,7 +87,7 @@ namespace Sparta2ndTeam_TeamProject.Tower
                 }
                 Console.WriteLine("(현재 연승 횟수 : {0})", CombatCount);
 
-                Console.WriteLine("\n1. 전투 속행\n2. 인벤토리\n\n0.후퇴\n");
+                Console.WriteLine("\n1. 상태보기\n2. 인벤토리\n3. 전투 속행\n\n0.후퇴\n");
 
                 if (command == (int)ClimbSelect.WrongCommand)
                 {
@@ -95,7 +97,7 @@ namespace Sparta2ndTeam_TeamProject.Tower
                     Console.WriteLine();
                 }
 
-                command = ConsoleUtility.PromptMenuChoice(0, 2);
+                command = ConsoleUtility.PromptMenuChoice(0, 3);
 
                 switch ((ClimbSelect)command)
                 {
@@ -108,13 +110,19 @@ namespace Sparta2ndTeam_TeamProject.Tower
                         break;
 
                     case ClimbSelect.Inventory:
-                        Inventory.InventoryMenu();      //true
+                        Inventory.InventoryMenu();      
                         ClimbCheck(0);
                         break;
 
                     case ClimbSelect.WrongCommand:
                         ClimbCheck(0);
                         break;
+
+                    case ClimbSelect.Status:
+                        GameManager.player.StatusMenu();
+                        ClimbCheck(0);
+                        break;
+
                 }
             }
 
@@ -131,8 +139,9 @@ namespace Sparta2ndTeam_TeamProject.Tower
         private enum ClimbSelect
         {
             Retreat,
-            AdvanceCombat,
+            Status,
             Inventory,
+            AdvanceCombat,
             WrongCommand = -1
         }
     }

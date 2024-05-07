@@ -13,9 +13,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
             name = "오크";
             id = 3;
             lv = 0;
-            hp = 30;
+            hp = 25;
             atk = 15;
-            exp = 2;
+            exp = 0;
             drops[0] = 1;
             drops[1] = 2;
 
@@ -33,9 +33,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
         protected override void SetLevel()
         {
             lv += 1;
-            hp += 20;
+            hp += 15;
             atk += 5;
-            exp += 1;
+            exp += 16;
         }
     }
 }

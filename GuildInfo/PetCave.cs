@@ -1,6 +1,7 @@
-﻿using Sparta2ndTeam_TeamProject.Items;
+﻿using Sparta2ndTeam_TeamProject.GameFramework;
+using Sparta2ndTeam_TeamProject.Items;
 
-namespace Sparta2ndTeam_TeamProject
+namespace Sparta2ndTeam_TeamProject.GuildInfo
 {
     internal class PetCave
     {
@@ -8,8 +9,22 @@ namespace Sparta2ndTeam_TeamProject
         static int command = 0;
         static public void PetCaveMenu()
         {
-            while(true)
+            while (true)
             {
+                for (int i = 0; i < GameManager.pets.Count; i++)
+                {
+                    bool isExist = false;
+                    for(int j=0;j<myPets.Count; j++)
+                    {
+                        if (myPets[j].Name == GameManager.pets[i].Name)
+                            isExist = true;
+                    }
+                    if (!isExist && GameManager.pets[i].isPurchased)
+                    {
+                        myPets.Add(GameManager.pets[i]);
+                    }
+                }
+
                 Console.Clear();
                 ConsoleUtility.ShowTitle("■ 수상한 동굴 ■");
                 Console.WriteLine("동굴 속 노점상으로부터 펫을 얻을 수 있습니다.\n");
@@ -19,7 +34,7 @@ namespace Sparta2ndTeam_TeamProject
 
                 ConsoleUtility.PrintTextHighlights("", "[펫 목록]");
 
-                for(int i=0;i<GameManager.pets.Count;i++)
+                for (int i = 0; i < GameManager.pets.Count; i++)
                 {
                     GameManager.pets[i].PrintItemStatDesc();
 
@@ -98,7 +113,7 @@ namespace Sparta2ndTeam_TeamProject
                 command = ConsoleUtility.PromptMenuChoice(0, GameManager.pets.Count);
 
                 if (command == (int)SelectPetCaveMenu.PreviousPage) return;
-                else if(command == (int)SelectPetCaveMenu.WrongCommand)
+                else if (command == (int)SelectPetCaveMenu.WrongCommand)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write("잘못된 입력입니다.");
@@ -109,10 +124,10 @@ namespace Sparta2ndTeam_TeamProject
                 else
                 {
                     //선택한 펫이 구매된 상태가 아니면서, 
-                    if (!GameManager.pets[command-1].isPurchased)
+                    if (!GameManager.pets[command - 1].isPurchased)
                     {
                         //현재 소지 금액이 펫의 판매 금액보다 많다면, 
-                        if (GameManager.player.Gold >= GameManager.pets[command-1].Price)
+                        if (GameManager.player.Gold >= GameManager.pets[command - 1].Price)
                         {
                             GameManager.pets[command - 1].TogglePurchaseStatus();
 
@@ -163,15 +178,7 @@ namespace Sparta2ndTeam_TeamProject
         {
             while (true)
             {
-                 myPets = new List<Pet>();
 
-                for(int i=0;i<GameManager.pets.Count;i++)
-                {
-                    if (GameManager.pets[i].isPurchased)
-                    {
-                        myPets.Add(GameManager.pets[i]);
-                    }
-                }
 
                 Console.Clear();
 
@@ -210,10 +217,10 @@ namespace Sparta2ndTeam_TeamProject
         {
             myPets[command - 1].ToggleEquipStatus();
 
-            for (int i=0;i< myPets.Count;i++)
+            for (int i = 0; i < myPets.Count; i++)
             {
                 //현재 선택한 펫을 제외하고 이미 장착중인 펫이 있다면, 
-                if (i != (command - 1) && myPets[i].isEquipped)
+                if (i != command - 1 && myPets[i].isEquipped)
                 {
                     //해당 펫의 장착 상태를 해제 
                     myPets[i].ToggleEquipStatus();

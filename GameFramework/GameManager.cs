@@ -6,11 +6,14 @@ using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using static System.Net.Mime.MediaTypeNames;
 using System.Threading;
+using Sparta2ndTeam_TeamProject.PlayerInfo;
 using Sparta2ndTeam_TeamProject.Tower;
 using Sparta2ndTeam_TeamProject.Scenes;
 using Sparta2ndTeam_TeamProject.Items;
+using Sparta2ndTeam_TeamProject.GuildInfo;
+using Sparta2ndTeam_TeamProject.Battle.Skill;
 
-namespace Sparta2ndTeam_TeamProject
+namespace Sparta2ndTeam_TeamProject.GameFramework
 {
     internal class GameManager
     {
@@ -25,6 +28,8 @@ namespace Sparta2ndTeam_TeamProject
 
         public GameManager()
         {
+            Console.Title = "Blood Stone";
+            Console.SetWindowSize(100, 30);
             InitializeGame();
         }
 
@@ -67,16 +72,16 @@ namespace Sparta2ndTeam_TeamProject
             // dropItems[i].Name으로 드랍 아이템의 이름 접근 가능 
             // ex) Console.WriteLine($"쓰러뜨린 몬스터로부터 {dropItems[0].Name}을(를) 획득했다!");
             dropItems.Add(new Item("작은 혈석 조각", "몬스터에게서 떨어져 나온 의문의 혈석 조각입니다.", 0, 0, 0, 5, 300, ItemType.MONSTER_DROP));
-            dropItems.Add(new Item("일반 혈석", "몬스터에게서 떨어져 나온 의문의 혈석입니다.", 0, 0, 0, 10, 700, ItemType.MONSTER_DROP, false, true));
+            dropItems.Add(new Item("일반 혈석", "몬스터에게서 떨어져 나온 의문의 혈석입니다.", 0, 0, 0, 10, 700, ItemType.MONSTER_DROP));
             dropItems.Add(new Item("거대한 혈석", "일반 혈석과는 달리 거대한 크기의 자색 혈석입니다.", 0, 0, 0, 15, 1000, ItemType.MONSTER_DROP));
         }
 
         public static void Init_Pets()
         {
             //펫 종류
-            pets.Add(new RedSlime("붉은 슬라임", "가장 취약한 적을 본능적으로 공격합니다.", 0, 0, 0, 0, 400, ItemType.Pet));
-            pets.Add(new GreenSlime("초록 슬라임", "적의 공격을 맞아 주곤 합니다.", 0, 0, 0, 0, 3000, ItemType.Pet));
-            pets.Add(new BlueSlime("푸른 슬라임", "상처 부위에 달라붙곤 합니다.", 0, 0, 0, 0, 5000, ItemType.Pet));
+            pets.Add(new RedSlime("붉은 슬라임", "가장 취약한 적을 본능적으로 공격합니다.", 0, 0, 0, 0, 1000, ItemType.Pet));
+            pets.Add(new GreenSlime("초록 슬라임", "적의 공격을 맞아 주곤 합니다.", 0, 0, 0, 0, 1000, ItemType.Pet));
+            pets.Add(new BlueSlime("푸른 슬라임", "상처 부위에 달라붙곤 합니다.", 0, 0, 0, 0, 1000, ItemType.Pet));
         }
 
         public static void Init_Quests()
@@ -94,7 +99,6 @@ namespace Sparta2ndTeam_TeamProject
         }
         private void InitializeGame()
         {
-
             Init_Items();
             Init_DropItems();
             Init_Pets();
@@ -104,18 +108,18 @@ namespace Sparta2ndTeam_TeamProject
         {
             Console.Clear();
 
-            DataManager.LoadData(); // 세이브 불러오기
-            
-            if(player.Job == 1)
+            DataManager.GameStart(); // 세이브 불러오기
+
+            if (player.Job == 1)
             {
-                skill.Add(new Skill("알파-스트라이크", 10, player.Atk * 2, false, 1));//전사 스킬 1
-                skill.Add(new Skill("더블-스트라이크", 25, player.Atk * 2, true, 2));//전사 스킬 
+                skill.Add(new AlphaStrike("알파-스트라이크", 10, player.Atk * 2, false, 1));//전사 스킬 1
+                skill.Add(new DoubleStrike("더블-스트라이크", 25, player.Atk * 2, true, 2));//전사 스킬 
             }
-            else if(player.Job == 2)
+            else if (player.Job == 2)
             {
 
-                skill.Add(new Skill("에너지 볼트", 10, player.Atk * 1, true, 1)); //마법사 스킬 1
-                skill.Add(new Skill("썬더 볼트", 25, player.Atk * 3, false, 2)); //마법사 스킬 2
+                skill.Add(new EnergyBolt("에너지 볼트", 10, player.Atk * 1, true, 1)); //마법사 스킬 1
+                skill.Add(new ThunderBolt("썬더 볼트", 25, player.Atk * 3, false, 2)); //마법사 스킬 2
             }
 
             MainMenu(); // 메인 화면 출력
@@ -156,10 +160,13 @@ namespace Sparta2ndTeam_TeamProject
             Console.WriteLine("2. 인벤토리");
             Console.WriteLine("3. 상점");
             Console.WriteLine("4. 탑 입장 (현재 진행 : {0}층)", tower.TowerLv);
-            Console.WriteLine("5. 모험가 길드");
+            Console.Write("5. 모험가 길드");
+
+            ConsoleUtility.PrintTextBlood("", ConsoleUtility.checkQuestCompleted(quests));
+
             Console.WriteLine("6. 수상한 동굴");
             Console.WriteLine("7. 인트로 다시보기");
-            Console.WriteLine("8. 게임 종료");
+            Console.WriteLine("8. 게임 종료\n");
 
             // 2. 선택한 결과를 검증함
             Enum choice = (SelectMainMenu)ConsoleUtility.PromptMenuChoice(1, 8);

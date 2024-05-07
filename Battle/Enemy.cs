@@ -1,4 +1,6 @@
-﻿using Sparta2ndTeam_TeamProject.Items;
+﻿using Sparta2ndTeam_TeamProject.GameFramework;
+using Sparta2ndTeam_TeamProject.GuildInfo;
+using Sparta2ndTeam_TeamProject.Items;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -102,11 +104,11 @@ namespace Sparta2ndTeam_TeamProject.Battle
             bool isCri;
             if (pMp < GameManager.skill[order].SkillMana) //마나가 부족하면
             {
-                return -1;
+                return 0;
             }
             else //마나가 있다면 공격
             {
-                Damege = GameManager.skill[order].SkillDamage;
+                Damege = GameManager.skill[order].PlayerSkillDamage();
 
                 adAtk = (int)Math.Ceiling(Damege * 0.1f);                                   //보정 공격, 10%의 올림치
                 pAtk = random.Next((Damege - adAtk), (Damege + adAtk + 1)); //보정 공격치
@@ -129,9 +131,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
                 if (hp > 0)   // 적의 남은 hp가 0보다 큰지 작은지
                 {
-                    //Console.WriteLine("HP {0} -> {1}", tempHp, hp);
-                    Console.Write("HP {0} -> ", tempHp);
-                    ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, hp);
+                    Console.WriteLine("HP {0} -> {1}", tempHp, hp);
+                    //Console.Write("HP {0} -> ", tempHp);
+                    //ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, hp);
                     ConsoleUtility.PromptReturn();
                     return 0;
                 }
@@ -139,8 +141,8 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 {
                     hp = 0;
                     Dead();
-                    Console.Write("체  력 : {0} -> ", tempHp);
-                    ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, hp);
+                    Console.WriteLine("HP {0} -> {1}", tempHp, hp);
+                    //ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, hp);
                     ConsoleUtility.PromptReturn();
 
                     //switch ((PlayerPhase)ConsoleUtility.PromptMenuChoice(0, 0))
@@ -200,8 +202,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
                 if (hp > 0)   // 적의 남은 hp가 0보다 큰지 작은지
                 {
-                    Console.Write("HP {0} -> ", tempHp);
-                    ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, hp);
+                    Console.WriteLine("체  력 : {0} -> {1}", tempHp, hp);
+                    //Console.Write("HP {0} -> ", tempHp);
+                    //ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, hp);
                     ConsoleUtility.PromptReturn();
                     return 0;
                 }
@@ -209,8 +212,9 @@ namespace Sparta2ndTeam_TeamProject.Battle
                 {
                     hp = 0;
                     Dead();
-                    Console.Write("HP {0} -> ", tempHp);
-                    ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, hp);
+                    Console.WriteLine("체  력 : {0} -> {1}", tempHp, hp);
+                    //Console.Write("HP {0} -> ", tempHp);
+                    //ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, hp);
                     ConsoleUtility.PromptReturn();
                     return 1;
                 }
@@ -270,15 +274,16 @@ namespace Sparta2ndTeam_TeamProject.Battle
 
                     if (GameManager.player.Hp > 0)   // 플레이어의 남은 hp가 0보다 큰지 작은지
                     {
-                        //Console.WriteLine("체  력 : {0} -> {1}", tempHp, GameManager.player.Hp);
-                        Console.Write("체  력 : {0} -> ", tempHp);
-                        ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, GameManager.player.Hp);
+                        Console.WriteLine("체  력 : {0} -> {1}", tempHp, GameManager.player.Hp);
+                        //Console.Write("체  력 : {0} -> ", tempHp);
+                        //ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, GameManager.player.Hp);
                     }
                     if (GameManager.player.Hp <= 0)
                     {
                         GameManager.player.Hp = 0;
-                        Console.Write("체  력 : {0} -> ", tempHp);
-                        ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, GameManager.player.Hp);
+                        Console.WriteLine("체  력 : {0} -> {1}", tempHp, GameManager.player.Hp);
+                        //Console.Write("체  력 : {0} -> ", tempHp);
+                        //ConsoleUtility.AnimationMinus(Console.CursorLeft, Console.CursorTop, tempHp, GameManager.player.Hp);
                     }
                     ConsoleUtility.PromptReturn();
                 }

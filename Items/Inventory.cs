@@ -1,4 +1,6 @@
-﻿namespace Sparta2ndTeam_TeamProject
+﻿using Sparta2ndTeam_TeamProject.GameFramework;
+
+namespace Sparta2ndTeam_TeamProject.Items
 {
     internal class Inventory
     {
@@ -10,7 +12,7 @@
         static public int[] portionCnt = { 3, 0, 0, 0 };
         static public string[] portionName = { "소형 체력 포션", "대형 체력 포션", "소형 마나 포션", "대형 마나 포션" };
 
-        static int command; 
+        static int command;
 
         //아이템을 저장하기 위한 리스트 
         static List<Item> portionItems = new List<Item>(); //포션
@@ -54,23 +56,22 @@
                             }
                         }
 
-                        if(portionItems.Count != 0)
+                        if (portionItems.Count != 0)
                         {
                             bool checkExist = false;
-                            //해당하는 포션의 수가 1개 이상이라면,(상점에서 구매했다면 이 값이 증가해있을 것.) 
                             for (int j = 0; j < portionItems.Count; j++)
                             {
-                                if (portionItems[j].Name == GameManager.items[i].Name)
+                                if (portionItems[j].Name == portionName[idx])
                                 {
                                     checkExist = true;
                                 }
 
-                                if (!checkExist && portionCnt[idx] >= 1)
-                                {
-                                    portionItems.Add(GameManager.items[i]);
-                                }
-                                
                             }
+                            if (!checkExist && portionCnt[idx] >= 1)
+                            {
+                                portionItems.Add(GameManager.items[i]);
+                            }
+
                         }
                         else
                         {
@@ -79,15 +80,14 @@
                         }
 
                     }
-                    
                     //포션이 아닌 경우에는 구매 여부만 따져서 저장 
-                    else if (GameManager.items[i].isPurchased)
+                    else if (GameManager.items[i]._type != ItemType.PORTION && GameManager.items[i].isPurchased)
                     {
                         equipmentItems.Add(GameManager.items[i]);
                     }
                 }
 
-                for(int i=0;i<GameManager.dropItems.Count;i++)
+                for (int i = 0; i < GameManager.dropItems.Count; i++)
                 {
                     //몬스터 드랍 아이템(혈석)은 상점에서 구매가 불가하지만,
                     //인벤토리에 저장되기 위한 조건으로 isPurchase를 true 상태로 만들어 줘야 함
@@ -99,21 +99,21 @@
 
 
                 ConsoleUtility.PrintTextHighlights("", "[장비 목록]");
-                for(int i=0;i<equipmentItems.Count;i++)
+                for (int i = 0; i < equipmentItems.Count; i++)
                 {
                     equipmentItems[i].PrintItemStatDesc(true, i + 1);
                     Console.WriteLine();
                 }
-                
+
                 Console.WriteLine();
                 ConsoleUtility.PrintTextHighlights("", "[포션 목록]");
-                for(int i=0;i<portionItems.Count;i++)
+                for (int i = 0; i < portionItems.Count; i++)
                 {
                     portionItems[i].PrintItemStatDesc(true, i + 1);
-                    
+
                     Console.ForegroundColor = ConsoleColor.Green;
 
-                    for(int j=0;j<portionName.Length;j++)
+                    for (int j = 0; j < portionName.Length; j++)
                     {
                         if (portionItems[i].Name == portionName[j])
                         {
@@ -129,7 +129,7 @@
 
                 Console.WriteLine();
                 ConsoleUtility.PrintTextHighlights("", "[던전 획득 아이템]");
-                for(int i=0;i<monstorDropItems.Count;i++)
+                for (int i = 0; i < monstorDropItems.Count; i++)
                 {
                     monstorDropItems[i].PrintItemStatDesc(true, i + 1);
 
@@ -173,6 +173,13 @@
                     case (int)SelectInventoryMenu.DropItemsMenu:
                         DropItemMenu();
                         break;
+                    case (int)SelectInventoryMenu.WrongCommand:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("잘못된 입력입니다.");
+                        Console.ResetColor();
+                        Console.WriteLine();
+                        Thread.Sleep(500);
+                        break;
                     default:
                         break;
                 }
@@ -206,7 +213,7 @@
                     Console.ResetColor();
                     Console.WriteLine();
                 }
-                
+
                 Console.WriteLine();
 
                 command = ConsoleUtility.PromptMenuChoice(0, monstorDropItems.Count);
@@ -223,7 +230,7 @@
                         Thread.Sleep(500);
                         break;
                     default:
-                        if(isFromBattle)
+                        if (isFromBattle)
                         {
                             if (LimitRecover_MP > 0)
                             {
@@ -247,10 +254,10 @@
             }
         }
 
-        
+
         private static void PortionMenu()
         {
-            while(true)
+            while (true)
             {
                 Console.Clear();
                 ConsoleUtility.ShowTitle("■ 인벤토리 - 회복 아이템 ■");
@@ -263,25 +270,21 @@
 
                     Console.ForegroundColor = ConsoleColor.Green;
 
-                    if (portionItems[i].Name == "소형 체력 포션")
-                        Console.Write($"| {portionCnt[0]}개 보유중");
-
-                    else if (portionItems[i].Name == "대형 체력 포션")
-                        Console.Write($"| {portionCnt[1]}개 보유중");
-
-                    else if (portionItems[i].Name == "소형 마나 포션")
-                        Console.Write($"| {portionCnt[2]}개 보유중");
-
-                    else if (portionItems[i].Name == "대형 마나 포션")
-                        Console.Write($"| {portionCnt[3]}개 보유중");
+                    for (int j = 0; j < portionName.Length; j++)
+                    {
+                        if (portionItems[i].Name == portionName[j])
+                        {
+                            Console.Write($"| {portionCnt[j]}개 보유중");
+                            break;
+                        }
+                    }
 
                     Console.ResetColor();
-
                     Console.WriteLine();
                 }
 
                 Console.WriteLine("\n\n\n0. 나가기\n");
-                
+
 
                 switch (command)
                 {
@@ -325,7 +328,7 @@
             if (portionItems[command - 1].Name == "소형 체력 포션" || portionItems[command - 1].Name == "대형 체력 포션")
             {
                 //회복할 수 있는 기회가 남아있다면 회복 기능을 실행
-                if (LimitRecover_HP > 0 )
+                if (LimitRecover_HP > 0)
                 {
                     useHpPotion(command);
                 }
@@ -356,8 +359,8 @@
         }
         private static void EquipMenu()
         {
-            
-            while(true)
+
+            while (true)
             {
                 Console.Clear();
                 ConsoleUtility.ShowTitle("■ 인벤토리 - 장착 관리 ■");
@@ -400,9 +403,9 @@
         }
         static void useHpPotion(int command)
         {
-            if(GameManager.player.Hp < GameManager.player.Max_Hp)
+            if (GameManager.player.Hp < GameManager.player.Max_Hp)
             {
-                if(isFromBattle)
+                if (isFromBattle)
                     LimitRecover_HP--;
 
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -415,7 +418,7 @@
                 // 현재 커서의 위치 확인
                 int cursorLeft = Console.CursorLeft;
                 int cursorTop = Console.CursorTop;
-                ConsoleUtility.Animation(cursorLeft, cursorTop, prePlayerHP, GameManager.player.Hp);
+                ConsoleUtility.Animation2(cursorLeft, cursorTop, prePlayerHP, GameManager.player.Hp, 11, 50);
 
                 Console.ResetColor();
                 Thread.Sleep(500);
@@ -509,7 +512,6 @@
                     if (portionCnt[idx] <= 0)
                     {
                         portionCnt[idx] = 0;
-                        Console.WriteLine("포션 삭제!!!!!"); Thread.Sleep(500);
                         portionItems.Remove(portionItems[command - 1]);
                     }
                 }
@@ -518,7 +520,7 @@
 
                 int cursorLeft = Console.CursorLeft;
                 int cursorTop = Console.CursorTop;
-                ConsoleUtility.Animation(cursorLeft, cursorTop, prePlayerMP, GameManager.player.Mp);
+                ConsoleUtility.Animation2(cursorLeft, cursorTop, prePlayerMP, GameManager.player.Mp, 11, 50);
 
                 Thread.Sleep(500);
                 Console.ResetColor();
@@ -540,13 +542,13 @@
                 {
                     GameManager.quests[1].isComplete = true;
                 }
-                if (GameManager.quests[2].isAccept == true && GameManager.quests[2].isComplete == false && equipmentItems[command - 1]._type == ItemType.ARMOR)
+                if (GameManager.quests[2].isAccept == true && GameManager.quests[2].isComplete == false && equipmentItems[command - 1]._type == ItemType.WEAPON)
                 {
                     GameManager.quests[2].isComplete = true;
                 }
             }
 
-            if (equipmentItems[command-1].Atk!=0 || equipmentItems[command-1].Def!=0 || equipmentItems[command-1].HP!=0) 
+            if (equipmentItems[command - 1].Atk != 0 || equipmentItems[command - 1].Def != 0 || equipmentItems[command - 1].HP != 0)
             {
                 GameManager.player.Atk += equipmentItems[command - 1].Atk;
                 GameManager.player.Def += equipmentItems[command - 1].Def;
@@ -554,7 +556,7 @@
             }
             for (int i = 0; i < equipmentItems.Count; i++)
             {
-                if (i != (command - 1) && equipmentItems[command - 1]._type == equipmentItems[i]._type)
+                if (i != command - 1 && equipmentItems[command - 1]._type == equipmentItems[i]._type)
                 {
                     if (equipmentItems[i].isEquipped)
                     {

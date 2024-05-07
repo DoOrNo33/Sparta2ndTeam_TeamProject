@@ -1,4 +1,6 @@
-﻿namespace Sparta2ndTeam_TeamProject
+﻿using Sparta2ndTeam_TeamProject.GameFramework;
+
+namespace Sparta2ndTeam_TeamProject.Items
 {
     internal class Store
     {
@@ -14,7 +16,8 @@
                 ConsoleUtility.ShowTitle("■ 상점 ■");
                 Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
 
-                ConsoleUtility.PrintTextHighlights("", $"[보유 골드 : {GameManager.player.Gold} G]\n");
+                ConsoleUtility.PrintTextHighlights("", "[보유 골드]");
+                Console.WriteLine($"{GameManager.player.Gold} G\n");
 
                 ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
 
@@ -22,13 +25,7 @@
 
                 Console.WriteLine("\n\n1. 아이템 구매\n2. 아이템 판매\n0. 나가기\n");
 
-                if (command == (int)SelectStoreMenu.WrongCommand)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("잘못된 입력입니다.");
-                    Console.ResetColor();
-                    Console.WriteLine();
-                }
+
                 command = ConsoleUtility.PromptMenuChoice(0, 2);
 
                 switch (command)
@@ -40,6 +37,13 @@
                         break;
                     case (int)SelectStoreMenu.SalesMenu:
                         SalesMenu();
+                        break;
+                    case (int)SelectStoreMenu.WrongCommand:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("잘못된 입력입니다.");
+                        Console.ResetColor();
+                        Console.WriteLine();
+                        Thread.Sleep(500);
                         break;
                     default:
                         break;
@@ -60,7 +64,8 @@
                 ConsoleUtility.ShowTitle("■ 상점 - 아이템 구매 ■");
                 Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
 
-                ConsoleUtility.PrintTextHighlights("", $"[보유 골드 : {GameManager.player.Gold} G]\n");
+                ConsoleUtility.PrintTextHighlights("", "[보유 골드]");
+                Console.WriteLine($"{GameManager.player.Gold} G\n");
 
                 ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
 
@@ -69,21 +74,22 @@
 
                 Console.WriteLine();
 
+                Console.WriteLine("\n\n\n0. 나가기\n");
+                command = ConsoleUtility.PromptMenuChoice(0, GameManager.items.Count);
 
-
-                if (command == (int)SelectStoreMenu.WrongCommand)
+                if (command == (int)SelectStoreMenu.PreviousPage)
+                {
+                    return;
+                }
+                else if (command == (int)SelectStoreMenu.WrongCommand)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write("잘못된 입력입니다.");
                     Console.ResetColor();
                     Console.WriteLine();
+                    Thread.Sleep(500);
                 }
-
-                Console.WriteLine("\n\n\n0. 나가기\n");
-                command = ConsoleUtility.PromptMenuChoice(0, GameManager.items.Count);
-
-                if (command == (int)SelectStoreMenu.PreviousPage) return;
-                else if (command != (int)SelectStoreMenu.WrongCommand)
+                else
                 {
                     if (!GameManager.items[command - 1].isPurchased)
                     {
@@ -150,6 +156,7 @@
                     }
                 }
 
+
                 if (currentShopState != null)
                 {
                     switch (currentShopState)
@@ -190,7 +197,8 @@
                 ConsoleUtility.ShowTitle("■ 상점 - 아이템 판매 ■");
                 Console.WriteLine("아이템을 판매하여 골드를 획득할 수 있습니다.\n");
 
-                ConsoleUtility.PrintTextHighlights("", $"[보유 골드 : {GameManager.player.Gold} G]\n");
+                ConsoleUtility.PrintTextHighlights("", "[보유 골드]");
+                Console.WriteLine($"{GameManager.player.Gold} G\n");
 
                 ConsoleUtility.PrintTextHighlights("", "[아이템 목록]");
 
@@ -234,7 +242,7 @@
                     }
                     else
                     {
-                        if ((GameManager.items[i].isPurchased))
+                        if (GameManager.items[i].isPurchased)
                             storeItems.Add(GameManager.items[i]);
                     }
                 }
@@ -282,20 +290,21 @@
                 command = ConsoleUtility.PromptMenuChoice(0, storeItems.Count);
 
 
-                if (command == (int)SelectStoreMenu.WrongCommand)
+
+                if (command == (int)SelectStoreMenu.PreviousPage) return;
+                else if (command == (int)SelectStoreMenu.WrongCommand)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("잘못된 입력입니다.");
                     Console.ResetColor();
                     Thread.Sleep(500);
                 }
-                else if (command == (int)SelectStoreMenu.PreviousPage) return;
                 else
                 {
                     foreach (Item item in storeItems)
                     {
                         //판매 관련 작업 
-                        if ((command - 1) == storeItems.IndexOf(item))
+                        if (command - 1 == storeItems.IndexOf(item))
                         {
                             ConsoleUtility.PrintTextHighlights("정말로 ", item.Name, "을(를) 판매하시겠습니까? ('1'입력 시 그대로 진행.) ");
 
@@ -310,15 +319,23 @@
                                         if (item.Name == Inventory.portionName[i])
                                         {
                                             Inventory.portionCnt[i]--;
+                                            storePortionCnt[i]++;
+                                            if (storePortionCnt[i] > 0)
+                                            {
+                                                //아이템을 판매함으로, 상점에 포션이 1개라도 생겼자면 구매 상태를 false로 변경 
+                                                item.isPurchased = false;
+                                            }
+                                            else
+                                            {
+                                                item.isPurchased = true;
+                                            }
 
-                                            //아이템을 모두 팔았을 경우 storeItems 리스트에서 해당 정보를 삭제 
                                             if (Inventory.portionCnt[i] <= 0)
                                             {
                                                 Inventory.portionCnt[i] = 0;
-                                                item.TogglePurchaseStatus();
-
                                                 break;
                                             }
+
                                         }
                                     }
                                 }
