@@ -237,7 +237,7 @@ namespace Sparta2ndTeam_TeamProject.GameFramework
             Console.Clear();
 
             IntroScene intro = new IntroScene();
-            //intro.PlayIntro();
+            intro.PlayIntro();
         }
     }
 }
